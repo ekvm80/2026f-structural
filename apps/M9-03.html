@@ -1,0 +1,487 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>이중적분법 · 구조역학</title>
+<meta name="description" content="M(x)를 두 번 적분해 v(x)를 얻고, 적분상수는 경계조건·연속조건·대칭조건으로 결정합니다. 강의자료의 6단계 절차를 그대로 따르는 것이 핵심입니다.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap">
+<style>
+:root{
+  --paper:#ffffff; --surface:#f4f4f4; --surface-2:#e8e8e8; --surface-3:#e0e0e0;
+  --ink:#161616; --ink-2:#525252; --muted:#6f6f6f;
+  --rule:#e0e0e0; --rule-soft:#f4f4f4;
+  --tension:#da1e28; --compression:#0043ce; --accent:#007d79;
+  --ui:#0f62fe; --ui-hover:#0043ce; --on-ui:#ffffff;
+  --info:#0f62fe; --info-bg:#edf5ff; --warn:#8e6a00; --warn-line:#f1c21b; --warn-bg:#fcf4d6;
+  --ok:#0e6027; --grid:#e0e0e0;
+  --k1:#697077; --k2:#0f62fe; --k3:#007d79; --k4:#8a3ffc; --k5:#d02670;
+  --k1-bg:#dde1e6; --k1-fg:#121619; --k2-bg:#d0e2ff; --k2-fg:#0043ce;
+  --k3-bg:#9ef0f0; --k3-fg:#005d5d; --k4-bg:#e8daff; --k4-fg:#6929c4;
+  --k5-bg:#ffd7e8; --k5-fg:#9f1853;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --paper:#161616; --surface:#262626; --surface-2:#393939; --surface-3:#4d4d4d;
+  --ink:#f4f4f4; --ink-2:#c6c6c6; --muted:#8d8d8d;
+  --rule:#393939; --rule-soft:#2a2a2a;
+  --tension:#ff8389; --compression:#a6c8ff; --accent:#3ddbd9;
+  --ui:#4589ff; --ui-hover:#78a9ff; --on-ui:#ffffff;
+  --info:#4589ff; --info-bg:#1b2331; --warn:#f1c21b; --warn-line:#f1c21b; --warn-bg:#2e2712;
+  --ok:#42be65; --grid:#393939;
+  --k1:#a2a9b0; --k2:#4589ff; --k3:#3ddbd9; --k4:#be95ff; --k5:#ff7eb6;
+  --k1-bg:#4d5358; --k1-fg:#f2f4f8; --k2-bg:#0043ce; --k2-fg:#d0e2ff;
+  --k3-bg:#005d5d; --k3-fg:#9ef0f0; --k4-bg:#6929c4; --k4-fg:#e8daff;
+  --k5-bg:#9f1853; --k5-fg:#ffd7e8;
+} }
+:root[data-theme="dark"]{
+  --paper:#161616; --surface:#262626; --surface-2:#393939; --surface-3:#4d4d4d;
+  --ink:#f4f4f4; --ink-2:#c6c6c6; --muted:#8d8d8d;
+  --rule:#393939; --rule-soft:#2a2a2a;
+  --tension:#ff8389; --compression:#a6c8ff; --accent:#3ddbd9;
+  --ui:#4589ff; --ui-hover:#78a9ff; --on-ui:#ffffff;
+  --info:#4589ff; --info-bg:#1b2331; --warn:#f1c21b; --warn-line:#f1c21b; --warn-bg:#2e2712;
+  --ok:#42be65; --grid:#393939;
+  --k1:#a2a9b0; --k2:#4589ff; --k3:#3ddbd9; --k4:#be95ff; --k5:#ff7eb6;
+  --k1-bg:#4d5358; --k1-fg:#f2f4f8; --k2-bg:#0043ce; --k2-fg:#d0e2ff;
+  --k3-bg:#005d5d; --k3-fg:#9ef0f0; --k4-bg:#6929c4; --k4-fg:#e8daff;
+  --k5-bg:#9f1853; --k5-fg:#ffd7e8;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  font-size:16px; line-height:1.65; font-weight:400; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:980px; margin:0 auto; padding:0 20px 88px}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+/* ── 상단 바 ── */
+.topbar{
+  position:sticky; top:0; z-index:20; background:var(--paper);
+  border-bottom:1px solid var(--rule); margin-bottom:26px;
+}
+.topbar .in{
+  max-width:980px; margin:0 auto; padding:10px 20px;
+  display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+}
+.home{
+  font-family:"IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace; font-size:.76rem; letter-spacing:.06em;
+  text-decoration:none; color:var(--ink-2); border:1px solid var(--rule);
+  padding:5px 11px; white-space:nowrap;
+}
+.home:hover{border-color:var(--accent); color:var(--accent)}
+.crumb{
+  font-family:"IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace; font-size:.72rem; letter-spacing:.1em;
+  color:var(--muted); display:flex; gap:10px; align-items:center; flex:1; min-width:0;
+}
+.crumb b{color:var(--ink-2); font-weight:600}
+/* ── 분류 칩 (구분 · 난이도 · 유형) ── */
+.tier-pill,.lv,.kind{
+  font-family:"IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace;
+  font-size:.68rem; letter-spacing:.05em; padding:2px 7px; white-space:nowrap; line-height:1.5;
+}
+.tier-pill{border:1px solid var(--ink); color:var(--ink); font-weight:600}
+.tier-pill.sel{border-style:dashed; border-color:var(--muted); color:var(--muted); font-weight:400}
+.lv{border:1px solid var(--rule); color:var(--muted)}
+.lv.lv2{border-color:var(--ink-2); color:var(--ink-2)}
+.lv.lv3{border-color:var(--ink); color:var(--ink); font-weight:600}
+.kind{border:1px solid var(--rule); border-left:3px solid var(--k1); color:var(--ink-2); font-weight:500}
+.kind.k1{border-left-color:var(--k1)} .kind.k2{border-left-color:var(--k2)}
+.kind.k3{border-left-color:var(--k3)} .kind.k4{border-left-color:var(--k4)}
+.kind.k5{border-left-color:var(--k5)}
+.tbtn{
+  background:none; border:1px solid var(--rule); color:var(--ink-2); cursor:pointer;
+  font-family:"IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace; font-size:.72rem; padding:5px 10px;
+}
+.tbtn:hover{border-color:var(--accent); color:var(--accent)}
+
+/* ── 표제 ── */
+h1{
+  font-family:"Gothic A1","IBM Plex Sans KR","Apple SD Gothic Neo",sans-serif; font-weight:800;
+  font-size:clamp(1.75rem,5.2vw,2.5rem); line-height:1.2; letter-spacing:-.015em;
+  margin:0 0 8px; text-wrap:balance;
+}
+.en{
+  font-family:"IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace; font-size:.8rem; color:var(--ink-2);
+  letter-spacing:.02em; display:block; margin-bottom:16px; font-weight:500;
+}
+.lede{font-size:1.05rem; color:var(--ink-2); font-weight:400; max-width:64ch; margin:0 0 22px}
+
+.eq{
+  border-left:3px solid var(--accent); background:var(--surface-2);
+  padding:13px 17px; margin:0 0 26px; overflow-x:auto;
+  font-family:"IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace; font-size:1rem; color:var(--ink);
+  letter-spacing:.01em; white-space:nowrap;
+}
+.eq small{display:block; font-family:inherit; font-size:.74rem; color:var(--muted); margin-top:6px; white-space:normal}
+
+/* ── 그림 + 컨트롤 ── */
+.lab{border:1px solid var(--rule); background:var(--surface); margin-bottom:28px}
+.lab-h{
+  display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;
+  padding:9px 14px; border-bottom:1px solid var(--rule-soft); background:var(--surface-2);
+  font-family:"IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace; font-size:.7rem; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--muted);
+}
+.fig{position:relative; width:100%; aspect-ratio:16/9; min-height:230px; background:var(--surface)}
+.fig canvas{position:absolute; inset:0; width:100%; height:100%; display:block; touch-action:none}
+@media (max-width:640px){ .fig{aspect-ratio:5/4; min-height:280px} }
+
+.ctrls{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(215px,1fr));
+  gap:14px 22px; padding:16px 14px; border-top:1px solid var(--rule-soft);
+}
+.ctrl label{
+  display:flex; justify-content:space-between; align-items:baseline; gap:10px;
+  font-size:.84rem; color:var(--ink-2); font-weight:500; margin-bottom:6px;
+}
+.ctrl output{
+  font-family:"IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace; font-size:.78rem; color:var(--ink);
+  font-variant-numeric:tabular-nums; font-weight:600;
+}
+input[type=range]{
+  -webkit-appearance:none; appearance:none; width:100%; height:22px;
+  background:transparent; cursor:pointer; margin:0;
+}
+input[type=range]::-webkit-slider-runnable-track{height:2px; background:var(--rule); border-radius:0}
+input[type=range]::-moz-range-track{height:2px; background:var(--rule)}
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none; width:16px; height:16px; margin-top:-7px;
+  background:var(--accent); border:none; border-radius:50%;
+}
+input[type=range]::-moz-range-thumb{
+  width:16px; height:16px; background:var(--accent); border:none; border-radius:50%;
+}
+.seg{display:flex; flex-wrap:wrap; gap:0; border:1px solid var(--rule)}
+.seg button{
+  flex:1; min-width:74px; background:var(--surface); border:none; cursor:pointer;
+  padding:8px 6px; font-family:"IBM Plex Sans KR",sans-serif; font-size:.8rem;
+  color:var(--ink-2); border-right:1px solid var(--rule);
+}
+.seg button:last-child{border-right:none}
+.seg button[aria-pressed=true]{background:var(--accent); color:var(--paper); font-weight:500}
+.chk{display:flex; align-items:center; gap:8px; font-size:.82rem; color:var(--ink-2); cursor:pointer}
+.chk input{accent-color:var(--accent); width:16px; height:16px}
+
+.readout{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(128px,1fr));
+  gap:1px; background:var(--rule-soft); border-top:1px solid var(--rule-soft);
+}
+.readout div{background:var(--surface); padding:11px 14px}
+.readout .rk{
+  display:block; font-family:"IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace; font-size:.7rem;
+  letter-spacing:.07em; color:var(--muted); margin-bottom:4px;
+}
+.readout .rv{
+  display:block; font-family:"IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace; font-size:1.08rem;
+  font-weight:600; font-variant-numeric:tabular-nums; letter-spacing:-.01em;
+}
+
+/* ── 본문 블록 ── */
+h2{
+  font-family:"Gothic A1","IBM Plex Sans KR","Apple SD Gothic Neo",sans-serif; font-weight:700; font-size:1.2rem;
+  margin:34px 0 12px; padding-top:12px; border-top:1px solid var(--rule); letter-spacing:-.01em;
+}
+p{margin:0 0 12px; color:var(--ink-2); font-weight:400}
+p strong,li strong{color:var(--ink); font-weight:600}
+ul{margin:0 0 12px; padding-left:19px; color:var(--ink-2); font-weight:400}
+li{margin-bottom:6px}
+code,.mono{font-family:"IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace; font-size:.88em; background:var(--surface-2); padding:1px 5px; color:var(--ink)}
+.note{
+  border:1px solid var(--rule); border-left:3px solid var(--warn);
+  padding:14px 16px; margin:0 0 16px; background:var(--surface);
+}
+.note h3{
+  font-family:"IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace; font-size:.7rem; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--warn); margin:0 0 8px; font-weight:600;
+}
+.note p:last-child{margin-bottom:0}
+.why{border-left-color:var(--accent)}
+.why h3{color:var(--accent)}
+
+details.q{border:1px solid var(--rule); padding:0; margin:0 0 12px; background:var(--surface)}
+details.q summary{
+  padding:13px 16px; cursor:pointer; font-size:.93rem; color:var(--ink); font-weight:500;
+  list-style:none; display:flex; gap:10px; align-items:flex-start;
+}
+details.q summary::-webkit-details-marker{display:none}
+details.q summary::before{
+  content:"Q"; font-family:"IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace; font-size:.72rem;
+  color:var(--accent); font-weight:600; padding-top:3px;
+}
+details.q[open] summary{border-bottom:1px solid var(--rule-soft)}
+details.q .a{padding:14px 16px 4px 16px; font-size:.9rem}
+details.q .a p{margin-bottom:10px}
+
+.pager{
+  display:flex; justify-content:space-between; gap:12px; margin-top:44px;
+  padding-top:16px; border-top:1px solid var(--rule); flex-wrap:wrap;
+}
+.pager a{
+  font-family:"IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace; font-size:.75rem; text-decoration:none;
+  color:var(--ink-2); border:1px solid var(--rule); padding:8px 12px; max-width:47%;
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+.pager a:hover{border-color:var(--accent); color:var(--accent)}
+.pager span{opacity:.35; font-family:"IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace; font-size:.75rem; padding:8px 12px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important}}
+
+/* ── IBM Carbon 컴포넌트 ─────────────────────────────── */
+a{color:var(--ui)}
+a:hover{color:var(--ui-hover)}
+:focus-visible{outline:2px solid var(--ui); outline-offset:1px}
+
+/* 태그 — 모서리 0, Carbon tag 색쌍 */
+.tier-pill,.lv,.kind{border-radius:0; padding:3px 9px; font-size:.69rem; letter-spacing:.02em}
+.tier-pill{border:1px solid var(--rule); background:transparent; color:var(--muted); font-weight:400}
+.tier-pill.sel{border:1px solid var(--ui); background:var(--ui); color:var(--on-ui); font-weight:600}
+.lv{border:1px solid var(--muted); background:transparent; color:var(--ink-2); font-weight:500}
+.lv.lv2{border-color:transparent; background:var(--surface-3); color:var(--ink); font-weight:500}
+.lv.lv3{border-color:transparent; background:var(--ink); color:var(--paper); font-weight:600}
+.kind{border:none; border-left:none; font-weight:600;
+  background:var(--k1-bg); color:var(--k1-fg)}
+.kind.k1{background:var(--k1-bg); color:var(--k1-fg)}
+.kind.k2{background:var(--k2-bg); color:var(--k2-fg)}
+.kind.k3{background:var(--k3-bg); color:var(--k3-fg)}
+.kind.k4{background:var(--k4-bg); color:var(--k4-fg)}
+.kind.k5{background:var(--k5-bg); color:var(--k5-fg)}
+
+/* 실험대 — 레이어 대비 */
+.lab{border:1px solid var(--rule); background:var(--surface)}
+.lab-h{background:var(--surface-2); border-bottom:1px solid var(--rule)}
+.fig{background:var(--paper)}
+.ctrls{border-top:1px solid var(--rule); background:var(--surface)}
+.readout{background:var(--rule); border-top:1px solid var(--rule)}
+.readout div{background:var(--paper)}
+
+/* 수식 · 알림 — Carbon inline notification */
+.eq{background:var(--surface); border-left:3px solid var(--ui)}
+.note{background:var(--warn-bg); border:1px solid var(--rule);
+  border-left:3px solid var(--warn-line)}
+.note h3{color:var(--warn)}
+.note.why{background:var(--info-bg); border-left-color:var(--info)}
+.note.why h3{color:var(--info)}
+details.q{background:var(--surface); border:1px solid var(--rule)}
+details.q summary::before{color:var(--ui)}
+code{background:var(--surface-2)}
+
+/* 컨트롤 — Carbon */
+.seg{border:1px solid var(--rule)}
+.seg button{background:var(--paper); color:var(--ink-2); border-right:1px solid var(--rule)}
+.seg button:hover{background:var(--surface-2)}
+.seg button[aria-pressed=true]{background:var(--ui); color:var(--on-ui); font-weight:600}
+input[type=range]::-webkit-slider-runnable-track{height:2px; background:var(--muted)}
+input[type=range]::-moz-range-track{height:2px; background:var(--muted)}
+input[type=range]::-webkit-slider-thumb{background:var(--ui); width:15px; height:15px; margin-top:-6.5px}
+input[type=range]::-moz-range-thumb{background:var(--ui); width:15px; height:15px}
+.chk input{accent-color:var(--ui)}
+.pager a:hover{border-color:var(--ui); color:var(--ui)}
+
+.topbar{background:var(--paper); border-bottom:1px solid var(--rule)}
+.home,.hbtn,.tbtn{border-radius:0; border:1px solid var(--rule); background:transparent}
+.home:hover,.hbtn:hover,.tbtn:hover{border-color:var(--ui); color:var(--ui); background:var(--surface)}
+</style>
+</head>
+<body>
+<div class="topbar"><div class="in">
+  <a class="home" href="../index.html">← 대시보드</a>
+  <div class="crumb"><span>M9 처짐</span><b>M9-03</b><span class="tier-pill">필수</span><span class="lv lv3">심화</span><span class="kind k3">해석</span></div>
+  <button class="tbtn" id="themeBtn" type="button" aria-label="밝기 전환">◐ 밝기</button>
+</div></div>
+
+<div class="wrap">
+<h1>이중적분법</h1>
+<span class="en">Double integration method</span>
+<p class="lede">M(x)를 두 번 적분해 v(x)를 얻고, <strong>적분상수는 경계조건·연속조건·대칭조건</strong>으로 결정합니다. 강의자료의 6단계 절차를 그대로 따르는 것이 핵심입니다.</p>
+<div class="eq">EI v″ = M(x) &nbsp;→&nbsp; EI v′ = ∫M dx + C₁ &nbsp;→&nbsp; EI v = ∫∫M dx + C₁x + C₂</div>
+
+<div class="lab">
+<div class="lab-h"><span>6단계 절차</span><span>단계를 넘겨 가며 따라오세요</span></div>
+<div class="fig"><canvas id="cv"></canvas></div>
+<div class="ctrls"><div class="ctrl"><label for="st">풀이 단계<output id="stv">1 / 6</output></label><input type="range" id="st" min="1" max="6" step="1" value="1"></div><div class="ctrl"><label>예제</label><div class="seg" id="cs"><button type="button" data-v="c" aria-pressed="true">캔틸레버 + 끝단 하중</button><button type="button" data-v="s" aria-pressed="false">단순보 + 등분포</button></div></div><div class="ctrl"><label for="P">하중 크기<output id="Pv">20</output></label><input type="range" id="P" min="5" max="60" step="1" value="20"></div><div class="ctrl"><label for="EI">EI<output id="EIv">12000 kN·m²</output></label><input type="range" id="EI" min="3000" max="40000" step="1000" value="12000"></div></div><div class="readout"><div><span class="rk">현재 단계</span><span class="rv" id="r1">–</span></div><div><span class="rk">경계조건</span><span class="rv" id="r2">–</span></div><div><span class="rk">최대 처짐각</span><span class="rv" id="r3">–</span></div><div><span class="rk">최대 처짐</span><span class="rv" id="r4">–</span></div></div></div>
+<div id="stepbox"></div><h2>적분상수를 정하는 세 가지 조건</h2><ul><li><strong>경계조건 (B/C)</strong> — 지점에서 알고 있는 값. 고정단은 <code>v=0, v′=0</code>, 핀·롤러는 <code>v=0</code>.</li><li><strong>연속조건 (C/C)</strong> — 구간이 나뉠 때 경계에서 v와 v′이 이어져야 함.</li><li><strong>대칭조건</strong> — 대칭 구조·대칭 하중이면 중앙에서 <code>v′=0</code>.</li></ul><div class="note why"><h3>설계에서</h3><p>처짐 공식을 표에서 찾는 대신 <strong>직접 유도하는 경험</strong>이 목적입니다. 조건이 특이한 보(중간 지점, 부분 하중, 단면 변화)를 만나면 표에는 없고 이 방법으로 풀어야 합니다.</p></div>
+<div class="note"><h3>자주 하는 오해</h3><p>구간이 나뉘면 <strong>적분상수가 구간마다 따로</strong> 생깁니다. 구간 2개면 상수 4개이고, 경계조건 2개 + 연속조건 2개로 정확히 맞습니다. 상수 개수와 조건 개수를 먼저 세는 습관이 실수를 막습니다.</p></div>
+<details class="q"><summary>캔틸레버 끝단에 P가 걸릴 때 최대 처짐 공식은?</summary><div class="a"><p><code>δ = PL³/3EI</code>, 최대 처짐각 <code>θ = PL²/2EI</code>. 둘 다 자유단에서 발생합니다.</p><p>단순보 중앙 집중하중은 <code>PL³/48EI</code> — 캔틸레버가 <strong>16배</strong> 더 처집니다.</p></div></details>
+
+
+<nav class="pager"><a href="M9-02.html">← M9-02 모멘트–곡률 관계</a><a href="M9-04.html">M9-04 모멘트면적법 →</a></nav>
+</div>
+
+<script>
+(function(){
+  var K='sm-theme';
+  try{ var t=localStorage.getItem(K); if(t) document.documentElement.setAttribute('data-theme',t); }catch(e){}
+  var b=document.getElementById('themeBtn');
+  b.addEventListener('click',function(){
+    var cur=document.documentElement.getAttribute('data-theme');
+    var sysDark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var next=cur? (cur==='dark'?'light':'dark') : (sysDark?'light':'dark');
+    document.documentElement.setAttribute('data-theme',next);
+    try{ localStorage.setItem(K,next); }catch(e){}
+    document.dispatchEvent(new Event('themechange'));
+  });
+  try{ var v=JSON.parse(localStorage.getItem('sm-seen')||'[]');
+       if(v.indexOf('M9-03')<0){v.push('M9-03'); localStorage.setItem('sm-seen',JSON.stringify(v));} }catch(e){}
+})();
+
+/* ── 공통 런타임 ── */
+function C(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim();}
+function el(id){return document.getElementById(id);}
+function val(id){return parseFloat(el(id).value);}
+function fmt(x,n){return (Math.round(x*Math.pow(10,n))/Math.pow(10,n)).toFixed(n);}
+function set(id,txt){var e=el(id); if(e) e.textContent=txt;}
+function sketch(id,draw){
+  var cv=el(id), ctx=cv.getContext('2d'), W=0,H=0;
+  function render(){ if(!W||!H)return; CURW=W; ctx.save(); ctx.clearRect(0,0,W,H); draw(ctx,W,H); ctx.restore(); }
+  function resize(){
+    var r=cv.getBoundingClientRect(); if(!r.width)return;
+    var d=Math.min(window.devicePixelRatio||1,2);
+    W=r.width; H=r.height; cv.width=Math.round(W*d); cv.height=Math.round(H*d);
+    ctx.setTransform(d,0,0,d,0,0); render();
+  }
+  if(window.ResizeObserver){ new ResizeObserver(resize).observe(cv); } else { window.addEventListener('resize',resize); }
+  document.addEventListener('themechange',render);
+  if(window.matchMedia){ var m=window.matchMedia('(prefers-color-scheme: dark)');
+    (m.addEventListener?m.addEventListener.bind(m,'change'):m.addListener.bind(m))(render); }
+  requestAnimationFrame(resize);
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ resize(); });
+  return {render:render, resize:resize, ctx:function(){return ctx;}};
+}
+function bind(fig,map){
+  Object.keys(map).forEach(function(id){
+    var e=el(id), o=el(id+'v');
+    if(!e)return;
+    var upd=function(){ if(o&&map[id]) o.textContent=map[id](parseFloat(e.value)); fig.render(); };
+    e.addEventListener('input',upd); upd();
+  });
+}
+function segment(id,onpick){
+  var box=el(id); if(!box)return;
+  box.addEventListener('click',function(ev){
+    var t=ev.target.closest('button'); if(!t)return;
+    Array.prototype.forEach.call(box.querySelectorAll('button'),function(b){b.setAttribute('aria-pressed', b===t?'true':'false');});
+    onpick(t.dataset.v);
+  });
+}
+function toggle(id,fig){ var e=el(id); if(e) e.addEventListener('change',function(){fig.render();}); }
+function on(id){ var e=el(id); return e? e.checked : false; }
+
+/* 그리기 헬퍼 */
+function line(c,x1,y1,x2,y2,col,w,dash){
+  c.save(); c.beginPath(); c.setLineDash(dash||[]); c.strokeStyle=col; c.lineWidth=w||1;
+  c.moveTo(x1,y1); c.lineTo(x2,y2); c.stroke(); c.restore();
+}
+var TXT_SCALE=1.25, TXT_MIN=12, CURW=700;   /* 그림 내 글자 전역 배율 */
+function txt(c,s,x,y,col,size,align,weight){
+  var k=Math.min(1, Math.max(0.80, CURW/700));   /* 좁은 캔버스에서는 확대 폭을 줄인다 */
+  var fs=Math.max(TXT_MIN*k,(size||11)*TXT_SCALE*k);
+  c.save(); c.fillStyle=col; c.textAlign=align||'left'; c.textBaseline='middle';
+  c.font=(weight||500)+' '+fs+'px "IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace';
+  c.fillText(s,x,y); c.restore();
+}
+function arrow(c,x1,y1,x2,y2,col,w,head){
+  var a=Math.atan2(y2-y1,x2-x1), h=head||7;
+  line(c,x1,y1,x2,y2,col,w||1.4);
+  c.save(); c.fillStyle=col; c.beginPath();
+  c.moveTo(x2,y2);
+  c.lineTo(x2-h*Math.cos(a-0.42), y2-h*Math.sin(a-0.42));
+  c.lineTo(x2-h*Math.cos(a+0.42), y2-h*Math.sin(a+0.42));
+  c.closePath(); c.fill(); c.restore();
+}
+function hatch(c,x,y,w,col){
+  c.save(); c.strokeStyle=col; c.lineWidth=1; c.globalAlpha=.7;
+  for(var i=0;i<w;i+=9){ c.beginPath(); c.moveTo(x+i,y+11); c.lineTo(x+i+11,y); c.stroke(); }
+  c.restore();
+}
+/* 지점 기호 */
+function supPin(c,x,y,col){
+  c.save(); c.fillStyle=col; c.beginPath(); c.moveTo(x,y); c.lineTo(x-10,y+16); c.lineTo(x+10,y+16); c.closePath(); c.fill();
+  line(c,x-15,y+16,x+15,y+16,col,1.4); hatch(c,x-15,y+16,30,col); c.restore();
+}
+function supRoller(c,x,y,col){
+  c.save(); c.fillStyle=col; c.beginPath(); c.moveTo(x,y); c.lineTo(x-10,y+12); c.lineTo(x+10,y+12); c.closePath(); c.fill();
+  c.beginPath(); c.arc(x-5,y+16,4,0,7); c.fill(); c.beginPath(); c.arc(x+5,y+16,4,0,7); c.fill();
+  line(c,x-15,y+21,x+15,y+21,col,1.4); hatch(c,x-15,y+21,30,col); c.restore();
+}
+function supFixed(c,x,y,col,side){
+  c.save(); side=side||'left';
+  if(side==='left'){ line(c,x,y-24,x,y+24,col,2.4); hatch(c,x-11,y-24,11,col); hatch(c,x-11,y,11,col); }
+  else { line(c,x,y-24,x,y+24,col,2.4); hatch(c,x,y-24,11,col); hatch(c,x,y,11,col); }
+  c.restore();
+}
+
+var CS='c';
+var STEPS={
+ c:[['처짐곡선을 가정한다','고정단에서 수평, 자유단이 아래로 처지는 곡선을 스케치합니다. 부호규약(위 +)을 먼저 정합니다.'],
+    ['휨모멘트를 x의 함수로','자유단에서 x를 재면 M(x) = −P·x. 고정단(x=L)에서 −PL로 최대가 됩니다.'],
+    ['곡률을 M의 함수로','EI v″ = M(x) = −P x'],
+    ['두 번 적분한다','EI v′ = −P x²/2 + C₁ ,  EI v = −P x³/6 + C₁x + C₂'],
+    ['경계조건을 찾는다','고정단 x = L 에서 v = 0 이고 v′ = 0. 조건 2개, 상수 2개 → 결정 가능.'],
+    ['상수를 결정하고 답을 쓴다','C₁ = PL²/2 , C₂ = −PL³/3.  자유단(x=0) 처짐 δ = PL³/3EI, 처짐각 θ = PL²/2EI']],
+ s:[['처짐곡선을 가정한다','양 지점에서 0, 중앙이 최대로 처지는 대칭 곡선입니다.'],
+    ['휨모멘트를 x의 함수로','반력 wL/2에서 M(x) = wLx/2 − wx²/2'],
+    ['곡률을 M의 함수로','EI v″ = wLx/2 − wx²/2'],
+    ['두 번 적분한다','EI v′ = wLx²/4 − wx³/6 + C₁ ,  EI v = wLx³/12 − wx⁴/24 + C₁x + C₂'],
+    ['경계조건을 찾는다','v(0) = 0 → C₂ = 0.  대칭조건 v′(L/2) = 0 → C₁ = −wL³/24'],
+    ['상수를 결정하고 답을 쓴다','중앙 최대 처짐 δ = 5wL⁴/384EI , 지점 처짐각 θ = wL³/24EI']]
+};
+var f=sketch('cv',function(c,W,H){
+  var st=val('st'), P=val('P'), EI=val('EI'), L=6;
+  var ink=C('--ink'), ten=C('--tension'), comp=C('--compression'), mut=C('--muted'), acc=C('--accent');
+  var x0=W*0.14, x1=W*0.86, s=(x1-x0)/L, y=H*0.34;
+  var dmax = CS==='c'? P*Math.pow(L,3)/(3*EI)*1000 : 5*P*Math.pow(L,4)/(384*EI)*1000;
+  var amp=Math.min(H*0.22, dmax*3);
+  if(st>=1){
+    c.save(); c.beginPath(); c.strokeStyle=acc; c.lineWidth=4; c.lineCap='round';
+    for(var i=0;i<=100;i++){
+      var t=i/100, sh;
+      if(CS==='c') sh = (t*t*(3-t))/2;
+      else sh = t*(1-2*t*t+t*t*t)/(5/24);
+      var X=x0+(x1-x0)*t, Y=y+amp*Math.max(0,Math.min(1.2,sh));
+      if(i===0)c.moveTo(X,Y); else c.lineTo(X,Y);
+    }
+    c.stroke(); c.restore();
+    line(c,x0,y,x1,y,mut,1,[5,4]);
+    if(CS==='c'){ supFixed(c,x1,y,ink,'right'); arrow(c,x0,y-52,x0,y-6,comp,2.6,10);
+      txt(c,'P',x0,y-64,comp,12,'center',600); }
+    else { supPin(c,x0,y+3,ink); supRoller(c,x1,y+3,ink);
+      for(i=0;i<=10;i++){ var xx=x0+(x1-x0)*i/10; arrow(c,xx,y-42,xx,y-8,comp,1.2,5); }
+      line(c,x0,y-42,x1,y-42,comp,1.4); txt(c,'w',(x0+x1)/2,y-54,comp,11,'center',600); }
+  }
+  if(st>=5){
+    if(CS==='c'){
+      c.save(); c.fillStyle=ten; c.beginPath(); c.arc(x1,y,7,0,7); c.fill(); c.restore();
+      txt(c,'v = 0, v′ = 0', x1-14, y-34, ten,11,'right',600);
+    } else {
+      c.save(); c.fillStyle=ten; c.beginPath(); c.arc(x0,y,7,0,7); c.fill();
+      c.beginPath(); c.arc(x1,y,7,0,7); c.fill(); c.restore();
+      txt(c,'v = 0', x0, y+40, ten,10.5,'center',600);
+      txt(c,'v = 0', x1, y+40, ten,10.5,'center',600);
+      line(c,(x0+x1)/2,y-60,(x0+x1)/2,y+amp+20,ten,1.4,[4,4]);
+      txt(c,'대칭 → v′ = 0', (x0+x1)/2, y+amp+34, ten,10.5,'center',600);
+    }
+  }
+  if(st>=6){
+    var xd = CS==='c'? x0 : (x0+x1)/2;
+    arrow(c,xd-24,y,xd-24,y+amp,ten,1.8,7);
+    txt(c,'δ = '+fmt(dmax,2)+' mm', xd-30, y+amp/2, ten,11.5,'right',600);
+  }
+  var d=STEPS[CS][st-1];
+  txt(c, st+'. '+d[0], W/2, H*0.80, ink, 14,'center',600);
+  var box=el('stepbox');
+  if(box) box.innerHTML='<div class="note why"><h3>'+st+'단계 · '+d[0]+'</h3><p style="font-family:\'IBM Plex Mono\',monospace;font-size:.92rem;color:var(--ink)">'+d[1]+'</p></div>';
+  set('r1', st+' / 6');
+  set('r2', CS==='c'? 'v(L)=0, v′(L)=0':'v(0)=v(L)=0, 대칭');
+  set('r3', st>=6? (CS==='c'? fmt(P*L*L/(2*EI),5):fmt(P*Math.pow(L,3)/(24*EI),5))+' rad':'–');
+  set('r4', st>=6? fmt(dmax,2)+' mm':'–');
+});
+bind(f,{st:function(v){return v+' / 6';},P:function(v){return fmt(v,0);},EI:function(v){return fmt(v,0)+' kN·m²';}});
+segment('cs',function(v){CS=v; f.render();});
+
+</script>
+</body>
+</html>

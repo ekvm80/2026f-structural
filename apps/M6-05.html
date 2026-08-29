@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>골조의 축력 · 전단력 · 모멘트도 · 구조역학</title>
+<meta name="description" content="보와 기둥이 강접합된 골조에서 각 부재별 내력도를 그리는 방법. 절점에서 모멘트가 어떻게 전달되는지가 핵심입니다.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap">
+<style>
+:root{
+  --paper:#ffffff; --surface:#f4f4f4; --surface-2:#e8e8e8; --surface-3:#e0e0e0;
+  --ink:#161616; --ink-2:#525252; --muted:#6f6f6f;
+  --rule:#e0e0e0; --rule-soft:#f4f4f4;
+  --tension:#da1e28; --compression:#0043ce; --accent:#007d79;
+  --ui:#0f62fe; --ui-hover:#0043ce; --on-ui:#ffffff;
+  --info:#0f62fe; --info-bg:#edf5ff; --warn:#8e6a00; --warn-line:#f1c21b; --warn-bg:#fcf4d6;
+  --ok:#0e6027; --grid:#e0e0e0;
+  --k1:#697077; --k2:#0f62fe; --k3:#007d79; --k4:#8a3ffc; --k5:#d02670;
+  --k1-bg:#dde1e6; --k1-fg:#121619; --k2-bg:#d0e2ff; --k2-fg:#0043ce;
+  --k3-bg:#9ef0f0; --k3-fg:#005d5d; --k4-bg:#e8daff; --k4-fg:#6929c4;
+  --k5-bg:#ffd7e8; --k5-fg:#9f1853;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --paper:#161616; --surface:#262626; --surface-2:#393939; --surface-3:#4d4d4d;
+  --ink:#f4f4f4; --ink-2:#c6c6c6; --muted:#8d8d8d;
+  --rule:#393939; --rule-soft:#2a2a2a;
+  --tension:#ff8389; --compression:#a6c8ff; --accent:#3ddbd9;
+  --ui:#4589ff; --ui-hover:#78a9ff; --on-ui:#ffffff;
+  --info:#4589ff; --info-bg:#1b2331; --warn:#f1c21b; --warn-line:#f1c21b; --warn-bg:#2e2712;
+  --ok:#42be65; --grid:#393939;
+  --k1:#a2a9b0; --k2:#4589ff; --k3:#3ddbd9; --k4:#be95ff; --k5:#ff7eb6;
+  --k1-bg:#4d5358; --k1-fg:#f2f4f8; --k2-bg:#0043ce; --k2-fg:#d0e2ff;
+  --k3-bg:#005d5d; --k3-fg:#9ef0f0; --k4-bg:#6929c4; --k4-fg:#e8daff;
+  --k5-bg:#9f1853; --k5-fg:#ffd7e8;
+} }
+:root[data-theme="dark"]{
+  --paper:#161616; --surface:#262626; --surface-2:#393939; --surface-3:#4d4d4d;
+  --ink:#f4f4f4; --ink-2:#c6c6c6; --muted:#8d8d8d;
+  --rule:#393939; --rule-soft:#2a2a2a;
+  --tension:#ff8389; --compression:#a6c8ff; --accent:#3ddbd9;
+  --ui:#4589ff; --ui-hover:#78a9ff; --on-ui:#ffffff;
+  --info:#4589ff; --info-bg:#1b2331; --warn:#f1c21b; --warn-line:#f1c21b; --warn-bg:#2e2712;
+  --ok:#42be65; --grid:#393939;
+  --k1:#a2a9b0; --k2:#4589ff; --k3:#3ddbd9; --k4:#be95ff; --k5:#ff7eb6;
+  --k1-bg:#4d5358; --k1-fg:#f2f4f8; --k2-bg:#0043ce; --k2-fg:#d0e2ff;
+  --k3-bg:#005d5d; --k3-fg:#9ef0f0; --k4-bg:#6929c4; --k4-fg:#e8daff;
+  --k5-bg:#9f1853; --k5-fg:#ffd7e8;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  font-size:16px; line-height:1.65; font-weight:400; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:980px; margin:0 auto; padding:0 20px 88px}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+/* ── 상단 바 ── */
+.topbar{
+  position:sticky; top:0; z-index:20; background:var(--paper);
+  border-bottom:1px solid var(--rule); margin-bottom:26px;
+}
+.topbar .in{
+  max-width:980px; margin:0 auto; padding:10px 20px;
+  display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+}
+.home{
+  font-family:"IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace; font-size:.76rem; letter-spacing:.06em;
+  text-decoration:none; color:var(--ink-2); border:1px solid var(--rule);
+  padding:5px 11px; white-space:nowrap;
+}
+.home:hover{border-color:var(--accent); color:var(--accent)}
+.crumb{
+  font-family:"IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace; font-size:.72rem; letter-spacing:.1em;
+  color:var(--muted); display:flex; gap:10px; align-items:center; flex:1; min-width:0;
+}
+.crumb b{color:var(--ink-2); font-weight:600}
+/* ── 분류 칩 (구분 · 난이도 · 유형) ── */
+.tier-pill,.lv,.kind{
+  font-family:"IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace;
+  font-size:.68rem; letter-spacing:.05em; padding:2px 7px; white-space:nowrap; line-height:1.5;
+}
+.tier-pill{border:1px solid var(--ink); color:var(--ink); font-weight:600}
+.tier-pill.sel{border-style:dashed; border-color:var(--muted); color:var(--muted); font-weight:400}
+.lv{border:1px solid var(--rule); color:var(--muted)}
+.lv.lv2{border-color:var(--ink-2); color:var(--ink-2)}
+.lv.lv3{border-color:var(--ink); color:var(--ink); font-weight:600}
+.kind{border:1px solid var(--rule); border-left:3px solid var(--k1); color:var(--ink-2); font-weight:500}
+.kind.k1{border-left-color:var(--k1)} .kind.k2{border-left-color:var(--k2)}
+.kind.k3{border-left-color:var(--k3)} .kind.k4{border-left-color:var(--k4)}
+.kind.k5{border-left-color:var(--k5)}
+.tbtn{
+  background:none; border:1px solid var(--rule); color:var(--ink-2); cursor:pointer;
+  font-family:"IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace; font-size:.72rem; padding:5px 10px;
+}
+.tbtn:hover{border-color:var(--accent); color:var(--accent)}
+
+/* ── 표제 ── */
+h1{
+  font-family:"Gothic A1","IBM Plex Sans KR","Apple SD Gothic Neo",sans-serif; font-weight:800;
+  font-size:clamp(1.75rem,5.2vw,2.5rem); line-height:1.2; letter-spacing:-.015em;
+  margin:0 0 8px; text-wrap:balance;
+}
+.en{
+  font-family:"IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace; font-size:.8rem; color:var(--ink-2);
+  letter-spacing:.02em; display:block; margin-bottom:16px; font-weight:500;
+}
+.lede{font-size:1.05rem; color:var(--ink-2); font-weight:400; max-width:64ch; margin:0 0 22px}
+
+.eq{
+  border-left:3px solid var(--accent); background:var(--surface-2);
+  padding:13px 17px; margin:0 0 26px; overflow-x:auto;
+  font-family:"IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace; font-size:1rem; color:var(--ink);
+  letter-spacing:.01em; white-space:nowrap;
+}
+.eq small{display:block; font-family:inherit; font-size:.74rem; color:var(--muted); margin-top:6px; white-space:normal}
+
+/* ── 그림 + 컨트롤 ── */
+.lab{border:1px solid var(--rule); background:var(--surface); margin-bottom:28px}
+.lab-h{
+  display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;
+  padding:9px 14px; border-bottom:1px solid var(--rule-soft); background:var(--surface-2);
+  font-family:"IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace; font-size:.7rem; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--muted);
+}
+.fig{position:relative; width:100%; aspect-ratio:16/9; min-height:230px; background:var(--surface)}
+.fig canvas{position:absolute; inset:0; width:100%; height:100%; display:block; touch-action:none}
+@media (max-width:640px){ .fig{aspect-ratio:5/4; min-height:280px} }
+
+.ctrls{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(215px,1fr));
+  gap:14px 22px; padding:16px 14px; border-top:1px solid var(--rule-soft);
+}
+.ctrl label{
+  display:flex; justify-content:space-between; align-items:baseline; gap:10px;
+  font-size:.84rem; color:var(--ink-2); font-weight:500; margin-bottom:6px;
+}
+.ctrl output{
+  font-family:"IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace; font-size:.78rem; color:var(--ink);
+  font-variant-numeric:tabular-nums; font-weight:600;
+}
+input[type=range]{
+  -webkit-appearance:none; appearance:none; width:100%; height:22px;
+  background:transparent; cursor:pointer; margin:0;
+}
+input[type=range]::-webkit-slider-runnable-track{height:2px; background:var(--rule); border-radius:0}
+input[type=range]::-moz-range-track{height:2px; background:var(--rule)}
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none; width:16px; height:16px; margin-top:-7px;
+  background:var(--accent); border:none; border-radius:50%;
+}
+input[type=range]::-moz-range-thumb{
+  width:16px; height:16px; background:var(--accent); border:none; border-radius:50%;
+}
+.seg{display:flex; flex-wrap:wrap; gap:0; border:1px solid var(--rule)}
+.seg button{
+  flex:1; min-width:74px; background:var(--surface); border:none; cursor:pointer;
+  padding:8px 6px; font-family:"IBM Plex Sans KR",sans-serif; font-size:.8rem;
+  color:var(--ink-2); border-right:1px solid var(--rule);
+}
+.seg button:last-child{border-right:none}
+.seg button[aria-pressed=true]{background:var(--accent); color:var(--paper); font-weight:500}
+.chk{display:flex; align-items:center; gap:8px; font-size:.82rem; color:var(--ink-2); cursor:pointer}
+.chk input{accent-color:var(--accent); width:16px; height:16px}
+
+.readout{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(128px,1fr));
+  gap:1px; background:var(--rule-soft); border-top:1px solid var(--rule-soft);
+}
+.readout div{background:var(--surface); padding:11px 14px}
+.readout .rk{
+  display:block; font-family:"IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace; font-size:.7rem;
+  letter-spacing:.07em; color:var(--muted); margin-bottom:4px;
+}
+.readout .rv{
+  display:block; font-family:"IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace; font-size:1.08rem;
+  font-weight:600; font-variant-numeric:tabular-nums; letter-spacing:-.01em;
+}
+
+/* ── 본문 블록 ── */
+h2{
+  font-family:"Gothic A1","IBM Plex Sans KR","Apple SD Gothic Neo",sans-serif; font-weight:700; font-size:1.2rem;
+  margin:34px 0 12px; padding-top:12px; border-top:1px solid var(--rule); letter-spacing:-.01em;
+}
+p{margin:0 0 12px; color:var(--ink-2); font-weight:400}
+p strong,li strong{color:var(--ink); font-weight:600}
+ul{margin:0 0 12px; padding-left:19px; color:var(--ink-2); font-weight:400}
+li{margin-bottom:6px}
+code,.mono{font-family:"IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace; font-size:.88em; background:var(--surface-2); padding:1px 5px; color:var(--ink)}
+.note{
+  border:1px solid var(--rule); border-left:3px solid var(--warn);
+  padding:14px 16px; margin:0 0 16px; background:var(--surface);
+}
+.note h3{
+  font-family:"IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace; font-size:.7rem; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--warn); margin:0 0 8px; font-weight:600;
+}
+.note p:last-child{margin-bottom:0}
+.why{border-left-color:var(--accent)}
+.why h3{color:var(--accent)}
+
+details.q{border:1px solid var(--rule); padding:0; margin:0 0 12px; background:var(--surface)}
+details.q summary{
+  padding:13px 16px; cursor:pointer; font-size:.93rem; color:var(--ink); font-weight:500;
+  list-style:none; display:flex; gap:10px; align-items:flex-start;
+}
+details.q summary::-webkit-details-marker{display:none}
+details.q summary::before{
+  content:"Q"; font-family:"IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace; font-size:.72rem;
+  color:var(--accent); font-weight:600; padding-top:3px;
+}
+details.q[open] summary{border-bottom:1px solid var(--rule-soft)}
+details.q .a{padding:14px 16px 4px 16px; font-size:.9rem}
+details.q .a p{margin-bottom:10px}
+
+.pager{
+  display:flex; justify-content:space-between; gap:12px; margin-top:44px;
+  padding-top:16px; border-top:1px solid var(--rule); flex-wrap:wrap;
+}
+.pager a{
+  font-family:"IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace; font-size:.75rem; text-decoration:none;
+  color:var(--ink-2); border:1px solid var(--rule); padding:8px 12px; max-width:47%;
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+.pager a:hover{border-color:var(--accent); color:var(--accent)}
+.pager span{opacity:.35; font-family:"IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace; font-size:.75rem; padding:8px 12px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important}}
+
+/* ── IBM Carbon 컴포넌트 ─────────────────────────────── */
+a{color:var(--ui)}
+a:hover{color:var(--ui-hover)}
+:focus-visible{outline:2px solid var(--ui); outline-offset:1px}
+
+/* 태그 — 모서리 0, Carbon tag 색쌍 */
+.tier-pill,.lv,.kind{border-radius:0; padding:3px 9px; font-size:.69rem; letter-spacing:.02em}
+.tier-pill{border:1px solid var(--rule); background:transparent; color:var(--muted); font-weight:400}
+.tier-pill.sel{border:1px solid var(--ui); background:var(--ui); color:var(--on-ui); font-weight:600}
+.lv{border:1px solid var(--muted); background:transparent; color:var(--ink-2); font-weight:500}
+.lv.lv2{border-color:transparent; background:var(--surface-3); color:var(--ink); font-weight:500}
+.lv.lv3{border-color:transparent; background:var(--ink); color:var(--paper); font-weight:600}
+.kind{border:none; border-left:none; font-weight:600;
+  background:var(--k1-bg); color:var(--k1-fg)}
+.kind.k1{background:var(--k1-bg); color:var(--k1-fg)}
+.kind.k2{background:var(--k2-bg); color:var(--k2-fg)}
+.kind.k3{background:var(--k3-bg); color:var(--k3-fg)}
+.kind.k4{background:var(--k4-bg); color:var(--k4-fg)}
+.kind.k5{background:var(--k5-bg); color:var(--k5-fg)}
+
+/* 실험대 — 레이어 대비 */
+.lab{border:1px solid var(--rule); background:var(--surface)}
+.lab-h{background:var(--surface-2); border-bottom:1px solid var(--rule)}
+.fig{background:var(--paper)}
+.ctrls{border-top:1px solid var(--rule); background:var(--surface)}
+.readout{background:var(--rule); border-top:1px solid var(--rule)}
+.readout div{background:var(--paper)}
+
+/* 수식 · 알림 — Carbon inline notification */
+.eq{background:var(--surface); border-left:3px solid var(--ui)}
+.note{background:var(--warn-bg); border:1px solid var(--rule);
+  border-left:3px solid var(--warn-line)}
+.note h3{color:var(--warn)}
+.note.why{background:var(--info-bg); border-left-color:var(--info)}
+.note.why h3{color:var(--info)}
+details.q{background:var(--surface); border:1px solid var(--rule)}
+details.q summary::before{color:var(--ui)}
+code{background:var(--surface-2)}
+
+/* 컨트롤 — Carbon */
+.seg{border:1px solid var(--rule)}
+.seg button{background:var(--paper); color:var(--ink-2); border-right:1px solid var(--rule)}
+.seg button:hover{background:var(--surface-2)}
+.seg button[aria-pressed=true]{background:var(--ui); color:var(--on-ui); font-weight:600}
+input[type=range]::-webkit-slider-runnable-track{height:2px; background:var(--muted)}
+input[type=range]::-moz-range-track{height:2px; background:var(--muted)}
+input[type=range]::-webkit-slider-thumb{background:var(--ui); width:15px; height:15px; margin-top:-6.5px}
+input[type=range]::-moz-range-thumb{background:var(--ui); width:15px; height:15px}
+.chk input{accent-color:var(--ui)}
+.pager a:hover{border-color:var(--ui); color:var(--ui)}
+
+.topbar{background:var(--paper); border-bottom:1px solid var(--rule)}
+.home,.hbtn,.tbtn{border-radius:0; border:1px solid var(--rule); background:transparent}
+.home:hover,.hbtn:hover,.tbtn:hover{border-color:var(--ui); color:var(--ui); background:var(--surface)}
+</style>
+</head>
+<body>
+<div class="topbar"><div class="in">
+  <a class="home" href="../index.html">← 대시보드</a>
+  <div class="crumb"><span>M6 보의 내력</span><b>M6-05</b><span class="tier-pill">필수</span><span class="lv lv3">심화</span><span class="kind k3">해석</span></div>
+  <button class="tbtn" id="themeBtn" type="button" aria-label="밝기 전환">◐ 밝기</button>
+</div></div>
+
+<div class="wrap">
+<h1>골조의 축력 · 전단력 · 모멘트도</h1>
+<span class="en">Axial force, V and M for frames</span>
+<p class="lede">보와 기둥이 강접합된 골조에서 각 부재별 내력도를 그리는 방법. <strong>절점에서 모멘트가 어떻게 전달되는지</strong>가 핵심입니다.</p>
+
+
+<div class="lab">
+<div class="lab-h"><span>문형 골조 (portal frame)</span><span>수직·수평 하중을 바꿔 보세요</span></div>
+<div class="fig"><canvas id="cv"></canvas></div>
+<div class="ctrls"><div class="ctrl"><label for="wv">보 등분포하중 w<output id="wvv">12 kN/m</output></label><input type="range" id="wv" min="0" max="25" step="0.5" value="12"></div><div class="ctrl"><label for="Ph">수평 하중 (풍·지진) P<output id="Phv">20 kN</output></label><input type="range" id="Ph" min="0" max="80" step="2" value="20"></div><div class="ctrl"><label for="hh">층고 h<output id="hhv">4 m</output></label><input type="range" id="hh" min="2.5" max="6" step="0.1" value="4"></div><div class="ctrl"><label>표시</label><div class="seg" id="dg"><button type="button" data-v="M" aria-pressed="true">모멘트도</button><button type="button" data-v="V" aria-pressed="false">전단력도</button><button type="button" data-v="N" aria-pressed="false">축력도</button></div></div></div><div class="readout"><div><span class="rk">기둥 축력</span><span class="rv" id="r1">–</span></div><div><span class="rk">절점 모멘트</span><span class="rv" id="r2">–</span></div><div><span class="rk">보 중앙 모멘트</span><span class="rv" id="r3">–</span></div><div><span class="rk">밑면 모멘트</span><span class="rv" id="r4">–</span></div></div></div>
+<h2>골조가 보와 다른 점</h2><ul><li><strong>기둥에도 모멘트가 생깁니다.</strong> 강접합 절점이 보의 단부 모멘트를 기둥으로 전달합니다 — 보-기둥부재.</li><li><strong>보에도 축력이 생깁니다.</strong> 수평 하중이 걸리면 보가 기둥 사이를 잇는 타이 역할을 합니다.</li><li>수평 하중에서는 모멘트도가 <strong>역대칭</strong>이 되어 절점 위아래로 부호가 뒤집힙니다.</li></ul><div class="note why"><h3>설계에서</h3><p><strong>지진 시 기둥–보 접합부가 급소인 이유가 이것입니다.</strong> 수평 하중 P를 올려 보세요 — 절점 모멘트가 급격히 커집니다. 그 모멘트를 접합부가 전달하지 못하면 골조는 힌지가 되어 무너집니다.</p><p>내진 설계의 원칙인 <strong>“강기둥–약보(strong column, weak beam)”</strong>도 이 그림에서 나옵니다 — 항복이 보에서 먼저 일어나야 기둥이 살아남습니다.</p></div>
+<div class="note"><h3>자주 하는 오해</h3><p>“기둥은 축력만 받는다”는 트러스적 직관은 <strong>라멘조에서 완전히 틀립니다.</strong> 라멘조 기둥은 축력과 휨을 동시에 받으며, 그래서 단순한 <code>σ = P/A</code>로 설계할 수 없습니다.</p></div>
+<details class="q"><summary>수평 하중만 걸릴 때 기둥 밑면 모멘트의 방향은 양쪽이 같은가?</summary><div class="a"><p><strong>같습니다.</strong> 두 기둥 모두 같은 방향으로 휘기 때문입니다. 다만 축력은 반대 — 한쪽은 인장, 다른 쪽은 압축이 됩니다(전도 모멘트에 저항).</p><p>고층 건물에서 이 축력차가 누적되면 외곽 기둥의 인장이 심각해집니다.</p></div></details>
+
+
+<nav class="pager"><a href="M6-04.html">← M6-04 SFD · BMD 작도</a><a href="M7-01.html">M7-01 순수휨과 곡률 →</a></nav>
+</div>
+
+<script>
+(function(){
+  var K='sm-theme';
+  try{ var t=localStorage.getItem(K); if(t) document.documentElement.setAttribute('data-theme',t); }catch(e){}
+  var b=document.getElementById('themeBtn');
+  b.addEventListener('click',function(){
+    var cur=document.documentElement.getAttribute('data-theme');
+    var sysDark=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var next=cur? (cur==='dark'?'light':'dark') : (sysDark?'light':'dark');
+    document.documentElement.setAttribute('data-theme',next);
+    try{ localStorage.setItem(K,next); }catch(e){}
+    document.dispatchEvent(new Event('themechange'));
+  });
+  try{ var v=JSON.parse(localStorage.getItem('sm-seen')||'[]');
+       if(v.indexOf('M6-05')<0){v.push('M6-05'); localStorage.setItem('sm-seen',JSON.stringify(v));} }catch(e){}
+})();
+
+/* ── 공통 런타임 ── */
+function C(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim();}
+function el(id){return document.getElementById(id);}
+function val(id){return parseFloat(el(id).value);}
+function fmt(x,n){return (Math.round(x*Math.pow(10,n))/Math.pow(10,n)).toFixed(n);}
+function set(id,txt){var e=el(id); if(e) e.textContent=txt;}
+function sketch(id,draw){
+  var cv=el(id), ctx=cv.getContext('2d'), W=0,H=0;
+  function render(){ if(!W||!H)return; CURW=W; ctx.save(); ctx.clearRect(0,0,W,H); draw(ctx,W,H); ctx.restore(); }
+  function resize(){
+    var r=cv.getBoundingClientRect(); if(!r.width)return;
+    var d=Math.min(window.devicePixelRatio||1,2);
+    W=r.width; H=r.height; cv.width=Math.round(W*d); cv.height=Math.round(H*d);
+    ctx.setTransform(d,0,0,d,0,0); render();
+  }
+  if(window.ResizeObserver){ new ResizeObserver(resize).observe(cv); } else { window.addEventListener('resize',resize); }
+  document.addEventListener('themechange',render);
+  if(window.matchMedia){ var m=window.matchMedia('(prefers-color-scheme: dark)');
+    (m.addEventListener?m.addEventListener.bind(m,'change'):m.addListener.bind(m))(render); }
+  requestAnimationFrame(resize);
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ resize(); });
+  return {render:render, resize:resize, ctx:function(){return ctx;}};
+}
+function bind(fig,map){
+  Object.keys(map).forEach(function(id){
+    var e=el(id), o=el(id+'v');
+    if(!e)return;
+    var upd=function(){ if(o&&map[id]) o.textContent=map[id](parseFloat(e.value)); fig.render(); };
+    e.addEventListener('input',upd); upd();
+  });
+}
+function segment(id,onpick){
+  var box=el(id); if(!box)return;
+  box.addEventListener('click',function(ev){
+    var t=ev.target.closest('button'); if(!t)return;
+    Array.prototype.forEach.call(box.querySelectorAll('button'),function(b){b.setAttribute('aria-pressed', b===t?'true':'false');});
+    onpick(t.dataset.v);
+  });
+}
+function toggle(id,fig){ var e=el(id); if(e) e.addEventListener('change',function(){fig.render();}); }
+function on(id){ var e=el(id); return e? e.checked : false; }
+
+/* 그리기 헬퍼 */
+function line(c,x1,y1,x2,y2,col,w,dash){
+  c.save(); c.beginPath(); c.setLineDash(dash||[]); c.strokeStyle=col; c.lineWidth=w||1;
+  c.moveTo(x1,y1); c.lineTo(x2,y2); c.stroke(); c.restore();
+}
+var TXT_SCALE=1.25, TXT_MIN=12, CURW=700;   /* 그림 내 글자 전역 배율 */
+function txt(c,s,x,y,col,size,align,weight){
+  var k=Math.min(1, Math.max(0.80, CURW/700));   /* 좁은 캔버스에서는 확대 폭을 줄인다 */
+  var fs=Math.max(TXT_MIN*k,(size||11)*TXT_SCALE*k);
+  c.save(); c.fillStyle=col; c.textAlign=align||'left'; c.textBaseline='middle';
+  c.font=(weight||500)+' '+fs+'px "IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace';
+  c.fillText(s,x,y); c.restore();
+}
+function arrow(c,x1,y1,x2,y2,col,w,head){
+  var a=Math.atan2(y2-y1,x2-x1), h=head||7;
+  line(c,x1,y1,x2,y2,col,w||1.4);
+  c.save(); c.fillStyle=col; c.beginPath();
+  c.moveTo(x2,y2);
+  c.lineTo(x2-h*Math.cos(a-0.42), y2-h*Math.sin(a-0.42));
+  c.lineTo(x2-h*Math.cos(a+0.42), y2-h*Math.sin(a+0.42));
+  c.closePath(); c.fill(); c.restore();
+}
+function hatch(c,x,y,w,col){
+  c.save(); c.strokeStyle=col; c.lineWidth=1; c.globalAlpha=.7;
+  for(var i=0;i<w;i+=9){ c.beginPath(); c.moveTo(x+i,y+11); c.lineTo(x+i+11,y); c.stroke(); }
+  c.restore();
+}
+/* 지점 기호 */
+function supPin(c,x,y,col){
+  c.save(); c.fillStyle=col; c.beginPath(); c.moveTo(x,y); c.lineTo(x-10,y+16); c.lineTo(x+10,y+16); c.closePath(); c.fill();
+  line(c,x-15,y+16,x+15,y+16,col,1.4); hatch(c,x-15,y+16,30,col); c.restore();
+}
+function supRoller(c,x,y,col){
+  c.save(); c.fillStyle=col; c.beginPath(); c.moveTo(x,y); c.lineTo(x-10,y+12); c.lineTo(x+10,y+12); c.closePath(); c.fill();
+  c.beginPath(); c.arc(x-5,y+16,4,0,7); c.fill(); c.beginPath(); c.arc(x+5,y+16,4,0,7); c.fill();
+  line(c,x-15,y+21,x+15,y+21,col,1.4); hatch(c,x-15,y+21,30,col); c.restore();
+}
+function supFixed(c,x,y,col,side){
+  c.save(); side=side||'left';
+  if(side==='left'){ line(c,x,y-24,x,y+24,col,2.4); hatch(c,x-11,y-24,11,col); hatch(c,x-11,y,11,col); }
+  else { line(c,x,y-24,x,y+24,col,2.4); hatch(c,x,y-24,11,col); hatch(c,x,y,11,col); }
+  c.restore();
+}
+
+var DG='M';
+var f=sketch('cv',function(c,W,H){
+  var w=val('wv'), P=val('Ph'), h=val('hh'), L=8;
+  // 문형 골조 근사 (양단 고정 기둥, 강접합) — 대칭 수직하중 + 반대칭 수평하중 중첩
+  var I=1, k=(I/L)/(I/h);
+  var Mj_v = w*L*L/12 * (1/(1+ 2*k*0+2))*1.0;          // 절점 모멘트 근사
+  Mj_v = w*L*L/12 / (1 + 2*(h/L));                      // 강성비 반영 근사
+  var Mmid_v = w*L*L/8 - Mj_v;
+  var Mcol_v = Mj_v;
+  var Mj_h = P*h/4, Mb_h = P*h/4;                       // 반곡점법(포털법)
+  var Nax_v = w*L/2, Nax_h = Mj_h*2/L;
+  var ink=C('--ink'), ten=C('--tension'), comp=C('--compression'), mut=C('--muted'), acc=C('--accent');
+  var s=Math.min((W*0.42)/L, (H*0.40)/h);
+  var cx=W*0.34, yb=H*0.82, yt=yb-h*s, xl=cx-L*s/2, xr=cx+L*s/2;
+  line(c,xl,yb,xl,yt,ink,6); line(c,xr,yb,xr,yt,ink,6); line(c,xl,yt,xr,yt,ink,6);
+  supFixed(c,xl,yb,ink,'left'); supFixed(c,xr,yb,ink,'left');
+  hatch(c,xl-24,yb,48,mut); hatch(c,xr-24,yb,48,mut);
+  if(w>0){ for(var i=0;i<=9;i++){ var xx=xl+(xr-xl)*i/9; arrow(c,xx,yt-30,xx,yt-6,mut,1.2,5); }
+    line(c,xl,yt-30,xr,yt-30,mut,1.4); txt(c,'w = '+fmt(w,1),cx,yt-42,mut,10,'center',600); }
+  if(P>0){ arrow(c,xl-64,yt,xl-8,yt,comp,2.6,10); txt(c,'P = '+fmt(P,0)+' kN',xl-68,yt-14,comp,11,'right',600); }
+  // 내력도
+  var gx=W*0.66, gs=Math.min((W*0.28)/L,(H*0.34)/h);
+  var gxl=gx-L*gs/2, gxr=gx+L*gs/2, gyb=H*0.78, gyt=gyb-h*gs;
+  line(c,gxl,gyb,gxl,gyt,mut,1.4); line(c,gxr,gyb,gxr,gyt,mut,1.4); line(c,gxl,gyt,gxr,gyt,mut,1.4);
+  var lab='', v1=0,v2=0,v3=0,v4=0;
+  if(DG==='M'){
+    var Mj=Mj_v+Mj_h, Mmid=Mmid_v, Mbase=Mcol_v+Mb_h;
+    var sc=34/Math.max(Mj,Mmid,Mbase,1);
+    c.save(); c.strokeStyle=comp; c.lineWidth=2; c.beginPath();
+    c.moveTo(gxl,gyt-Mj*sc);
+    for(i=0;i<=30;i++){ var t=i/30, xx2=gxl+(gxr-gxl)*t;
+      var mm=-Mj+(Mmid+Mj)*4*t*(1-t); c.lineTo(xx2, gyt - mm*sc); }
+    c.stroke(); c.restore();
+    line(c,gxl,gyt-Mj*sc,gxl,gyb+Mbase*sc*0,comp,0);
+    c.save(); c.strokeStyle=comp; c.lineWidth=2;
+    c.beginPath(); c.moveTo(gxl-Mj*sc,gyt); c.lineTo(gxl+Mbase*sc,gyb); c.stroke();
+    c.beginPath(); c.moveTo(gxr+Mj*sc,gyt); c.lineTo(gxr+Mbase*sc,gyb); c.stroke(); c.restore();
+    lab='모멘트도 M'; v1=Nax_v; v2=Mj; v3=Mmid; v4=Mbase;
+  } else if(DG==='V'){
+    var Vb=w*L/2, Vc=P/2+ 2*Mj_v/h;
+    var sc2=30/Math.max(Vb,Vc,1);
+    c.save(); c.strokeStyle=acc; c.lineWidth=2;
+    c.beginPath(); c.moveTo(gxl,gyt-Vb*sc2); c.lineTo(gxr,gyt+Vb*sc2); c.stroke();
+    c.beginPath(); c.moveTo(gxl-Vc*sc2,gyt); c.lineTo(gxl-Vc*sc2,gyb); c.stroke();
+    c.beginPath(); c.moveTo(gxr-Vc*sc2,gyt); c.lineTo(gxr-Vc*sc2,gyb); c.stroke(); c.restore();
+    lab='전단력도 V'; v1=Nax_v; v2=Vc; v3=Vb; v4=Vc;
+  } else {
+    var Nl=Nax_v+Nax_h, Nr=Nax_v-Nax_h, sc3=26/Math.max(Nl,Math.abs(Nr),1);
+    c.save(); c.strokeStyle=ten; c.lineWidth=2;
+    c.beginPath(); c.moveTo(gxl-Nl*sc3,gyt); c.lineTo(gxl-Nl*sc3,gyb); c.stroke();
+    c.strokeStyle=comp; c.beginPath(); c.moveTo(gxr+Nr*sc3,gyt); c.lineTo(gxr+Nr*sc3,gyb); c.stroke(); c.restore();
+    lab='축력도 N'; v1=Nl; v2=Nr; v3=P/2; v4=Nax_h;
+  }
+  txt(c, lab, gx, gyt-58, ink, 12,'center',600);
+  txt(c,'문형 골조 (portal frame)', cx, H*0.12, mut, 11,'center');
+  set('r1',fmt(Nax_v+Nax_h,1)+' / '+fmt(Nax_v-Nax_h,1)+' kN');
+  set('r2',fmt(Mj_v+Mj_h,1)+' kN·m'); set('r3',fmt(Mmid_v,1)+' kN·m');
+  set('r4',fmt(Mcol_v+Mb_h,1)+' kN·m');
+});
+bind(f,{wv:function(v){return fmt(v,1)+' kN/m';},Ph:function(v){return fmt(v,0)+' kN';},hh:function(v){return fmt(v,1)+' m';}});
+segment('dg',function(v){DG=v; f.render();});
+
+</script>
+</body>
+</html>

@@ -1,0 +1,1199 @@
+<title>구조역학 개념 지도</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --paper:#ffffff; --surface:#f4f4f4; --surface-2:#e8e8e8; --surface-3:#e0e0e0;
+  --ink:#161616; --ink-2:#525252; --muted:#6f6f6f;
+  --rule:#e0e0e0; --rule-soft:#f4f4f4;
+  --tension:#da1e28; --compression:#0043ce; --accent:#007d79;
+  --ui:#0f62fe; --ui-hover:#0043ce; --on-ui:#ffffff;
+  --info:#0f62fe; --info-bg:#edf5ff; --warn:#8e6a00; --warn-line:#f1c21b; --warn-bg:#fcf4d6;
+  --ok:#0e6027; --grid:#e0e0e0;
+  --k1:#697077; --k2:#0f62fe; --k3:#007d79; --k4:#8a3ffc; --k5:#d02670;
+  --k1-bg:#dde1e6; --k1-fg:#121619; --k2-bg:#d0e2ff; --k2-fg:#0043ce;
+  --k3-bg:#9ef0f0; --k3-fg:#005d5d; --k4-bg:#e8daff; --k4-fg:#6929c4;
+  --k5-bg:#ffd7e8; --k5-fg:#9f1853;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --paper:#161616; --surface:#262626; --surface-2:#393939; --surface-3:#4d4d4d;
+  --ink:#f4f4f4; --ink-2:#c6c6c6; --muted:#8d8d8d;
+  --rule:#393939; --rule-soft:#2a2a2a;
+  --tension:#ff8389; --compression:#a6c8ff; --accent:#3ddbd9;
+  --ui:#4589ff; --ui-hover:#78a9ff; --on-ui:#ffffff;
+  --info:#4589ff; --info-bg:#1b2331; --warn:#f1c21b; --warn-line:#f1c21b; --warn-bg:#2e2712;
+  --ok:#42be65; --grid:#393939;
+  --k1:#a2a9b0; --k2:#4589ff; --k3:#3ddbd9; --k4:#be95ff; --k5:#ff7eb6;
+  --k1-bg:#4d5358; --k1-fg:#f2f4f8; --k2-bg:#0043ce; --k2-fg:#d0e2ff;
+  --k3-bg:#005d5d; --k3-fg:#9ef0f0; --k4-bg:#6929c4; --k4-fg:#e8daff;
+  --k5-bg:#9f1853; --k5-fg:#ffd7e8;
+} }
+:root[data-theme="dark"]{
+  --paper:#161616; --surface:#262626; --surface-2:#393939; --surface-3:#4d4d4d;
+  --ink:#f4f4f4; --ink-2:#c6c6c6; --muted:#8d8d8d;
+  --rule:#393939; --rule-soft:#2a2a2a;
+  --tension:#ff8389; --compression:#a6c8ff; --accent:#3ddbd9;
+  --ui:#4589ff; --ui-hover:#78a9ff; --on-ui:#ffffff;
+  --info:#4589ff; --info-bg:#1b2331; --warn:#f1c21b; --warn-line:#f1c21b; --warn-bg:#2e2712;
+  --ok:#42be65; --grid:#393939;
+  --k1:#a2a9b0; --k2:#4589ff; --k3:#3ddbd9; --k4:#be95ff; --k5:#ff7eb6;
+  --k1-bg:#4d5358; --k1-fg:#f2f4f8; --k2-bg:#0043ce; --k2-fg:#d0e2ff;
+  --k3-bg:#005d5d; --k3-fg:#9ef0f0; --k4-bg:#6929c4; --k4-fg:#e8daff;
+  --k5-bg:#9f1853; --k5-fg:#ffd7e8;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  font-weight:400; font-size:16px; line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+.sheet{max-width:1200px; margin:0 auto; padding:0 28px 96px}
+
+/* ── 표제부 ───────────────────────────── */
+.masthead{padding:56px 0 36px; border-bottom:2px solid var(--ink)}
+.eyebrow{
+  font-family:"IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace; font-size:.72rem;
+  letter-spacing:.16em; text-transform:uppercase; color:var(--muted);
+  display:flex; flex-wrap:wrap; gap:6px 16px; margin-bottom:22px;
+}
+h1{
+  font-family:"Gothic A1","IBM Plex Sans KR","Apple SD Gothic Neo",sans-serif; font-weight:800;
+  font-size:clamp(2.3rem,6vw,3.9rem); line-height:1.1; letter-spacing:-.02em;
+  margin:0 0 18px; text-wrap:balance;
+}
+.deck{font-size:1.06rem; color:var(--ink-2); max-width:62ch; font-weight:400; margin:0}
+.deck b{font-weight:600; color:var(--ink)}
+
+.hero{
+  display:grid; grid-template-columns:1.15fr .85fr; gap:48px; align-items:end;
+  margin-top:38px;
+}
+.diagram{width:100%; height:auto}
+.diagram-cap{
+  font-family:"IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace; font-size:.7rem; color:var(--muted);
+  letter-spacing:.08em; margin-top:8px;
+}
+
+.tally{
+  display:grid; grid-template-columns:repeat(2,1fr); gap:1px;
+  background:var(--rule); border:1px solid var(--rule); margin-top:34px;
+}
+.tally div{background:var(--paper); padding:16px 18px}
+.tally .n{
+  font-family:"IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace; font-size:1.85rem; font-weight:600;
+  line-height:1; letter-spacing:-.02em; font-variant-numeric:tabular-nums;
+}
+.tally .l{font-size:.78rem; color:var(--muted); margin-top:7px; line-height:1.4}
+
+/* ── 본문 레이아웃 ─────────────────────── */
+.body-grid{display:grid; grid-template-columns:172px minmax(0,1fr); gap:56px; margin-top:56px}
+nav.rail{position:sticky; top:24px; align-self:start; font-size:.82rem}
+nav.rail .rail-t{
+  font-family:"IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace; font-size:.68rem; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--muted); padding-bottom:9px;
+  border-bottom:1px solid var(--rule); margin-bottom:11px;
+}
+nav.rail a{
+  display:grid; grid-template-columns:26px 1fr; gap:8px; align-items:baseline;
+  color:var(--ink-2); text-decoration:none; padding:5px 0; line-height:1.35;
+}
+nav.rail a span{font-family:"IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace; font-size:.72rem; color:var(--muted)}
+nav.rail a:hover{color:var(--accent)}
+nav.rail a:hover span{color:var(--accent)}
+nav.rail a:focus-visible{outline:2px solid var(--accent); outline-offset:3px}
+
+/* ── 범례 ─────────────────────────────── */
+.legend{
+  border:1px solid var(--rule); padding:18px 20px; margin-bottom:44px;
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:16px 28px;
+}
+.lg{display:grid; grid-template-columns:34px 1fr; gap:12px; align-items:start}
+.lg .k{padding-top:9px}
+.lg .rule-a{border-top:2px solid var(--ink)}
+.lg .rule-b{border-top:2px dashed var(--muted)}
+.lg p{margin:0; font-size:.8rem; color:var(--ink-2); line-height:1.45}
+.lg strong{display:block; font-size:.82rem; color:var(--ink); font-weight:600}
+
+/* ── 모듈 ─────────────────────────────── */
+section.module{margin-bottom:64px; scroll-margin-top:20px}
+.mod-head{border-top:2px solid var(--ink); padding-top:14px; margin-bottom:6px}
+.mod-code{
+  font-family:"IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace; font-size:.74rem; letter-spacing:.12em;
+  color:var(--muted); display:flex; justify-content:space-between; gap:16px;
+}
+h2{
+  font-family:"Gothic A1","IBM Plex Sans KR","Apple SD Gothic Neo",sans-serif; font-weight:700;
+  font-size:1.62rem; letter-spacing:-.01em; margin:9px 0 8px; text-wrap:balance;
+}
+.mod-note{font-size:.9rem; color:var(--ink-2); font-weight:400; margin:0 0 4px; max-width:70ch}
+
+/* ── 개념 행 ───────────────────────────── */
+.item{
+  display:grid; grid-template-columns:96px minmax(0,1fr) 172px; gap:24px;
+  padding:20px 0; border-bottom:1px solid var(--rule-soft);
+}
+.item:last-child{border-bottom:1px solid var(--rule)}
+.mark .bar{width:34px; margin-bottom:9px}
+.mark .bar.a{border-top:2px solid var(--ink)}
+.mark .bar.b{border-top:2px dashed var(--muted)}
+.mark .id{
+  font-family:"IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace; font-size:.76rem; font-weight:600;
+  letter-spacing:.03em; color:var(--ink-2); font-variant-numeric:tabular-nums;
+}
+.mark .tier{font-family:"IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace; font-size:.7rem; color:var(--ink-2); margin-top:3px; font-weight:500}
+
+.name{
+  font-family:"Gothic A1","IBM Plex Sans KR","Apple SD Gothic Neo",sans-serif; font-weight:700; font-size:1.08rem;
+  line-height:1.4; margin:0 0 3px;
+}
+.en{
+  font-family:"IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace; font-size:.73rem; color:var(--muted);
+  letter-spacing:.02em; display:block; margin-bottom:9px;
+}
+.def{margin:0 0 8px; font-size:.93rem; color:var(--ink-2); font-weight:400; max-width:64ch}
+.def code{
+  font-family:"IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace; font-size:.86em; background:var(--surface-2);
+  padding:1px 5px; color:var(--ink);
+}
+.why{margin:0; font-size:.88rem; color:var(--ink-2); font-weight:400; max-width:64ch}
+.why .tag{
+  font-family:"IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace; font-size:.68rem; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--accent); font-weight:600; margin-right:8px;
+}
+.pre{
+  font-family:"IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace; font-size:.7rem; color:var(--muted);
+  margin:9px 0 0; letter-spacing:.02em;
+}
+.forms{display:flex; flex-wrap:wrap; gap:6px; align-content:start}
+.chip{
+  font-family:"IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace; font-size:.68rem; letter-spacing:.04em;
+  border:1px solid var(--rule); color:var(--ink-2); padding:3px 8px; white-space:nowrap;
+}
+.chip.hot{border-color:var(--accent); color:var(--accent)}
+
+/* ── 운영 가이드 ───────────────────────── */
+.guide{border-top:2px solid var(--ink); padding-top:14px; margin-top:80px}
+.guide h2{margin-top:9px}
+.g-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:1px; background:var(--rule); border:1px solid var(--rule); margin:26px 0 40px}
+.g-grid article{background:var(--paper); padding:20px}
+.g-grid h3{
+  font-family:"IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace; font-size:.72rem; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--accent); margin:0 0 10px; font-weight:600;
+}
+.g-grid p{margin:0 0 9px; font-size:.88rem; color:var(--ink-2); font-weight:400}
+.g-grid ul{margin:0; padding-left:17px; font-size:.88rem; color:var(--ink-2); font-weight:400}
+.g-grid li{margin-bottom:5px}
+.g-grid strong{color:var(--ink); font-weight:600}
+
+.tbl-wrap{overflow-x:auto; margin-bottom:40px}
+table{border-collapse:collapse; width:100%; min-width:640px; font-size:.88rem}
+th,td{text-align:left; padding:12px 14px; border-bottom:1px solid var(--rule-soft); vertical-align:top}
+th{
+  font-family:"IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace; font-size:.7rem; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--muted); font-weight:600;
+  border-bottom:1px solid var(--rule); white-space:nowrap;
+}
+td:first-child{font-weight:500; color:var(--ink); white-space:nowrap}
+td.num{
+  font-family:"IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace; font-variant-numeric:tabular-nums;
+  white-space:nowrap; color:var(--ink);
+}
+tbody tr:last-child td{border-bottom:1px solid var(--rule)}
+
+footer{
+  margin-top:72px; padding-top:18px; border-top:1px solid var(--rule);
+  font-family:"IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace; font-size:.72rem; color:var(--muted);
+  display:flex; flex-wrap:wrap; gap:8px 24px; justify-content:space-between;
+}
+
+@media (max-width:1000px){
+  .body-grid{grid-template-columns:1fr; gap:0}
+  nav.rail{position:static; margin-bottom:44px}
+  nav.rail a{display:inline-grid; margin-right:18px}
+  .hero{grid-template-columns:1fr; gap:34px}
+}
+@media (max-width:640px){
+  .sheet{padding:0 18px 72px}
+  .item{grid-template-columns:1fr; gap:12px}
+  .mark{display:flex; align-items:center; gap:12px}
+  .mark .bar{margin-bottom:0}
+  .mark .tier{margin-top:0}
+  .tally{grid-template-columns:1fr}
+}
+
+.cmeta{display:flex; gap:6px; flex-wrap:wrap; margin:-4px 0 10px}
+.lv,.kind{font-family:"IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace;
+  font-size:.66rem; letter-spacing:.05em; padding:2px 7px; white-space:nowrap; line-height:1.5}
+.lv{border:1px solid var(--rule); color:var(--muted)}
+.lv.lv2{border-color:var(--ink-2); color:var(--ink-2)}
+.lv.lv3{border-color:var(--ink); color:var(--ink); font-weight:600}
+.kind{border:1px solid var(--rule); border-left:3px solid var(--k1); color:var(--ink-2); font-weight:500}
+.kind.k1{border-left-color:var(--k1)} .kind.k2{border-left-color:var(--k2)}
+.kind.k3{border-left-color:var(--k3)} .kind.k4{border-left-color:var(--k4)}
+.kind.k5{border-left-color:var(--k5)}
+
+/* ── IBM Carbon 컴포넌트 ─────────────────────────────── */
+a{color:var(--ui)}
+a:hover{color:var(--ui-hover)}
+:focus-visible{outline:2px solid var(--ui); outline-offset:1px}
+
+/* 태그 — 모서리 0, Carbon tag 색쌍 */
+.tier-pill,.lv,.kind{border-radius:0; padding:3px 9px; font-size:.69rem; letter-spacing:.02em}
+.tier-pill{border:1px solid var(--rule); background:transparent; color:var(--muted); font-weight:400}
+.tier-pill.sel{border:1px solid var(--ui); background:var(--ui); color:var(--on-ui); font-weight:600}
+.lv{border:1px solid var(--muted); background:transparent; color:var(--ink-2); font-weight:500}
+.lv.lv2{border-color:transparent; background:var(--surface-3); color:var(--ink); font-weight:500}
+.lv.lv3{border-color:transparent; background:var(--ink); color:var(--paper); font-weight:600}
+.kind{border:none; border-left:none; font-weight:600;
+  background:var(--k1-bg); color:var(--k1-fg)}
+.kind.k1{background:var(--k1-bg); color:var(--k1-fg)}
+.kind.k2{background:var(--k2-bg); color:var(--k2-fg)}
+.kind.k3{background:var(--k3-bg); color:var(--k3-fg)}
+.kind.k4{background:var(--k4-bg); color:var(--k4-fg)}
+.kind.k5{background:var(--k5-bg); color:var(--k5-fg)}
+
+/* 실험대 — 레이어 대비 */
+.lab{border:1px solid var(--rule); background:var(--surface)}
+.lab-h{background:var(--surface-2); border-bottom:1px solid var(--rule)}
+.fig{background:var(--paper)}
+.ctrls{border-top:1px solid var(--rule); background:var(--surface)}
+.readout{background:var(--rule); border-top:1px solid var(--rule)}
+.readout div{background:var(--paper)}
+
+/* 수식 · 알림 — Carbon inline notification */
+.eq{background:var(--surface); border-left:3px solid var(--ui)}
+.note{background:var(--warn-bg); border:1px solid var(--rule);
+  border-left:3px solid var(--warn-line)}
+.note h3{color:var(--warn)}
+.note.why{background:var(--info-bg); border-left-color:var(--info)}
+.note.why h3{color:var(--info)}
+details.q{background:var(--surface); border:1px solid var(--rule)}
+details.q summary::before{color:var(--ui)}
+code{background:var(--surface-2)}
+
+/* 컨트롤 — Carbon */
+.seg{border:1px solid var(--rule)}
+.seg button{background:var(--paper); color:var(--ink-2); border-right:1px solid var(--rule)}
+.seg button:hover{background:var(--surface-2)}
+.seg button[aria-pressed=true]{background:var(--ui); color:var(--on-ui); font-weight:600}
+input[type=range]::-webkit-slider-runnable-track{height:2px; background:var(--muted)}
+input[type=range]::-moz-range-track{height:2px; background:var(--muted)}
+input[type=range]::-webkit-slider-thumb{background:var(--ui); width:15px; height:15px; margin-top:-6.5px}
+input[type=range]::-moz-range-thumb{background:var(--ui); width:15px; height:15px}
+.chk input{accent-color:var(--ui)}
+.pager a:hover{border-color:var(--ui); color:var(--ui)}
+
+.item{border-left:3px solid transparent; padding-left:14px}
+.mark .bar.a{border-top:2px solid var(--ui)}
+.mark .bar.b{border-top:2px dashed var(--muted)}
+.eq{border-left:3px solid var(--ui)}
+.tally div{background:var(--paper)}
+.g-grid article{background:var(--paper)}
+.g-grid h3{color:var(--ui)}
+.why h3{color:var(--info)}
+.labjump{font-family:"IBM Plex Mono","IBM Plex Sans KR",ui-monospace,monospace;
+  font-size:.72rem; letter-spacing:.04em; text-transform:none; text-decoration:none;
+  color:var(--ui); border:1px solid var(--ui); padding:3px 10px}
+.labjump:hover{background:var(--ui); color:var(--paper)}
+</style>
+
+<div class="sheet">
+
+<header class="masthead">
+  <div class="eyebrow">
+    <span>전남대학교 건축학부</span><span>구조역학 · Structural Analysis</span><span>2026-2</span><span>담당 이방연</span>
+    <a class="labjump" href="https://ekvm80.github.io/2026f-structural/">개념 실험실 열기 →</a>
+  </div>
+  <h1>구조역학 개념 지도</h1>
+  <p class="deck">강의자료 12개 파일에서 추출한 <b>61개 개념</b>. 건축설계 전공 학생이 이 과목을 마쳤을 때 반드시 손에 남아야 하는 것만 남기고, 학생 1인 1개 배정이 가능하도록 쪼갰습니다. 각 개념은 <b>구분(필수 55 / 선택 6)</b>, <b>난이도(기초·표준·심화)</b>, <b>유형(개념·계산·해석·설계·실험)</b>으로 분류했습니다.</p>
+
+  <div class="hero">
+    <div>
+      <svg class="diagram" viewBox="0 0 560 250" role="img" aria-label="하중이 슬래브에서 보, 기둥, 기초를 거쳐 지반으로 전달되는 경로 다이어그램">
+        <g stroke="currentColor" fill="none" stroke-width="1.1" opacity=".55">
+          <line x1="70" y1="14" x2="70" y2="38"/><line x1="70" y1="38" x2="66" y2="31"/><line x1="70" y1="38" x2="74" y2="31"/>
+          <line x1="150" y1="14" x2="150" y2="38"/><line x1="150" y1="38" x2="146" y2="31"/><line x1="150" y1="38" x2="154" y2="31"/>
+          <line x1="230" y1="14" x2="230" y2="38"/><line x1="230" y1="38" x2="226" y2="31"/><line x1="230" y1="38" x2="234" y2="31"/>
+          <line x1="310" y1="14" x2="310" y2="38"/><line x1="310" y1="38" x2="306" y2="31"/><line x1="310" y1="38" x2="314" y2="31"/>
+          <line x1="390" y1="14" x2="390" y2="38"/><line x1="390" y1="38" x2="386" y2="31"/><line x1="390" y1="38" x2="394" y2="31"/>
+          <line x1="470" y1="14" x2="470" y2="38"/><line x1="470" y1="38" x2="466" y2="31"/><line x1="470" y1="38" x2="474" y2="31"/>
+          <line x1="60" y1="14" x2="480" y2="14"/>
+        </g>
+        <path d="M60 52 H480" stroke="currentColor" stroke-width="7" fill="none" opacity=".92"/>
+        <path d="M60 62 Q270 96 480 62" stroke="var(--tension)" stroke-width="1.6" fill="none" stroke-dasharray="5 4"/>
+        <text x="270" y="112" text-anchor="middle" fill="var(--tension)" font-family="IBM Plex Mono, IBM Plex Sans KR, sans-serif" font-size="13" letter-spacing=".08em">휨 · 하연 인장</text>
+        <rect x="82" y="52" width="13" height="132" fill="var(--compression)" opacity=".9"/>
+        <rect x="445" y="52" width="13" height="132" fill="var(--compression)" opacity=".9"/>
+        <text x="118" y="126" fill="var(--compression)" font-family="IBM Plex Mono, IBM Plex Sans KR, sans-serif" font-size="13" letter-spacing=".08em">압축</text>
+        <text x="368" y="126" fill="var(--compression)" font-family="IBM Plex Mono, IBM Plex Sans KR, sans-serif" font-size="13" letter-spacing=".08em">압축</text>
+        <path d="M62 184 H115 L104 208 H73 Z" fill="currentColor" opacity=".82"/>
+        <path d="M425 184 H478 L467 208 H436 Z" fill="currentColor" opacity=".82"/>
+        <line x1="30" y1="208" x2="530" y2="208" stroke="currentColor" stroke-width="1.6"/>
+        <g stroke="currentColor" stroke-width="1" opacity=".4">
+          <line x1="36" y1="222" x2="48" y2="208"/><line x1="60" y1="222" x2="72" y2="208"/><line x1="84" y1="222" x2="96" y2="208"/>
+          <line x1="108" y1="222" x2="120" y2="208"/><line x1="132" y1="222" x2="144" y2="208"/><line x1="156" y1="222" x2="168" y2="208"/>
+          <line x1="180" y1="222" x2="192" y2="208"/><line x1="204" y1="222" x2="216" y2="208"/><line x1="228" y1="222" x2="240" y2="208"/>
+          <line x1="252" y1="222" x2="264" y2="208"/><line x1="276" y1="222" x2="288" y2="208"/><line x1="300" y1="222" x2="312" y2="208"/>
+          <line x1="324" y1="222" x2="336" y2="208"/><line x1="348" y1="222" x2="360" y2="208"/><line x1="372" y1="222" x2="384" y2="208"/>
+          <line x1="396" y1="222" x2="408" y2="208"/><line x1="420" y1="222" x2="432" y2="208"/><line x1="444" y1="222" x2="456" y2="208"/>
+          <line x1="468" y1="222" x2="480" y2="208"/><line x1="492" y1="222" x2="504" y2="208"/><line x1="516" y1="222" x2="528" y2="208"/>
+        </g>
+        <text x="30" y="245" fill="currentColor" opacity=".55" font-family="IBM Plex Mono, IBM Plex Sans KR, sans-serif" font-size="12.5" letter-spacing=".08em">지반</text>
+        <text x="497" y="46" text-anchor="end" fill="currentColor" opacity=".55" font-family="IBM Plex Mono, IBM Plex Sans KR, sans-serif" font-size="12.5" letter-spacing=".08em">하중</text>
+      </svg>
+      <p class="diagram-cap">이 과목 전체가 답하는 한 가지 질문 — 하중은 어떤 길로 흘러 지반에 닿는가</p>
+    </div>
+
+    <div class="tally">
+      <div><div class="n">61</div><div class="l">추출된 필수 개념</div></div>
+      <div><div class="n">9</div><div class="l">개념 모듈</div></div>
+      <div><div class="n">55</div><div class="l">필수 개념</div></div>
+      <div><div class="n">6</div><div class="l">선택 개념</div></div>
+    </div>
+  </div>
+</header>
+
+<div class="body-grid">
+
+<nav class="rail" aria-label="모듈 목차">
+  <div class="rail-t">모듈</div>
+  <a href="#m1"><span>M1</span>구조와 역학의 큰 그림</a>
+  <a href="#m2"><span>M2</span>힘 · 모멘트 · 평형</a>
+  <a href="#m3"><span>M3</span>트러스와 골조</a>
+  <a href="#m4"><span>M4</span>응력과 변형률</a>
+  <a href="#m5"><span>M5</span>축하중 부재</a>
+  <a href="#m6"><span>M6</span>보의 내력</a>
+  <a href="#m7"><span>M7</span>보의 응력</a>
+  <a href="#m8"><span>M8</span>응력 · 변형률 해석</a>
+  <a href="#m9"><span>M9</span>처짐</a>
+  <a href="#guide"><span>—</span>프로젝트 운영 가이드</a>
+</nav>
+
+<main>
+
+<div class="legend">
+  <div class="lg"><div class="k"><div class="rule-a"></div></div><p><strong>필수 · 55개</strong>이 개념을 모르면 다음 과목(철근콘크리트·철골설계)이 막힙니다.</p></div>
+  <div class="lg"><div class="k"><div class="rule-b"></div></div><p><strong>선택 · 6개</strong>중요하지만 필수 개념에 의존적이거나 심화. 여력이 되는 학생·팀에 배정.</p></div>
+  <div class="lg"><div class="k" style="padding-top:6px"><span class="chip hot">추천</span></div><p><strong>난이도 · 유형</strong>기초/표준/심화 3단계와 개념·계산·해석·설계·실험 5유형을 각 항목에 표시.</p></div>
+  <div class="lg"><div class="k" style="padding-top:6px"><span style="color:var(--tension);font-family:'IBM Plex Mono',monospace;font-size:.8rem">인장</span></div><p><strong>색 규약</strong>본문 전체에서 <span style="color:var(--tension)">적색=인장</span>, <span style="color:var(--compression)">청색=압축</span>. 구조도면의 관습을 그대로 씁니다.</p></div>
+</div>
+
+<!-- M1 -->
+<section class="module" id="m1">
+  <div class="mod-head"><div class="mod-code"><span>MODULE 01</span><span>7 개념 · 필수 7 / 선택 0</span></div>
+  <h2>구조와 역학의 큰 그림</h2>
+  <p class="mod-note">계산에 들어가기 전에 잡아야 할 프레임. 설계 스튜디오에서 구조를 “나중에 구조과가 봐주는 것”이 아니라 형태를 결정하는 조건으로 다루게 만드는 개념들입니다.</p></div>
+
+  <div class="item">
+    <div class="mark"><div class="bar a"></div><div class="id">M1-01</div><div class="tier">필수</div></div>
+    <div>
+      <p class="name">하중의 흐름과 구조체 · 구조부재</p><span class="en">Load path / structural system &amp; members</span><div class="cmeta"><span class="lv lv1">기초</span><span class="kind k1">개념</span></div>
+      <p class="def">하중이 슬래브 → 보 → 기둥 → 기초 → 지반으로 전달되는 경로. 그 경로를 이루는 부재를 힘의 종류로 분류합니다 — 인장부재, 압축부재, 휨부재, 보-기둥부재, 연결부재.</p>
+      <p class="why"><span class="tag">설계</span>평면에서 기둥을 하나 지울 때 무슨 일이 벌어지는지 즉시 판단하게 하는 감각. 스튜디오에서 가장 자주 쓰이는 단 하나의 개념.</p>
+    </div>
+    <div class="forms"><span class="chip hot">애니메이션</span><span class="chip">인터랙티브</span></div>
+  </div>
+
+  <div class="item">
+    <div class="mark"><div class="bar a"></div><div class="id">M1-02</div><div class="tier">필수</div></div>
+    <div>
+      <p class="name">해석과 설계는 다른 작업이다</p><span class="en">Analysis vs. Design</span><div class="cmeta"><span class="lv lv1">기초</span><span class="kind k1">개념</span></div>
+      <p class="def">해석 = 주어진 구조물의 반력·응력·처짐을 구하는 것. 설계 = 그 힘을 알았을 때 재료와 단면 크기를 결정하는 것. 강의자료의 7단계 설계 프로세스(문제정의 → 대지조사 → 대안조사 → 전개 → 하중산정 → 해석 → 요소·상세설계).</p>
+      <p class="why"><span class="tag">설계</span>학생이 “구조계산”이라 뭉뚱그려 부르는 것의 실체를 분해해 줍니다. 자기 졸업설계에서 어느 단계에 서 있는지 알게 됨.</p>
+    </div>
+    <div class="forms"><span class="chip hot">다이어그램 영상</span></div>
+  </div>
+
+  <div class="item">
+    <div class="mark"><div class="bar a"></div><div class="id">M1-03</div><div class="tier">필수</div></div>
+    <div>
+      <p class="name">역학의 3대 조건</p><span class="en">Equilibrium · Compatibility · Constitutive law</span><div class="cmeta"><span class="lv lv2">표준</span><span class="kind k1">개념</span></div>
+      <p class="def">모든 구조 문제는 세 개의 식으로 풀린다 — 힘의 평형, 변형의 적합, 힘–변위 관계(<code>σ=Eε</code>). 정정 구조는 평형만으로, 부정정 구조는 셋이 모두 필요합니다.</p>
+      <p class="why"><span class="tag">설계</span>이 과목 전체의 목차. 한 학기 동안 배우는 모든 풀이법이 이 세 칸 중 어디에 들어가는지를 학생이 스스로 배치할 수 있어야 합니다.</p>
+    </div>
+    <div class="forms"><span class="chip hot">개념 영상</span><span class="chip">인터랙티브</span></div>
+  </div>
+
+  <div class="item">
+    <div class="mark"><div class="bar a"></div><div class="id">M1-04</div><div class="tier">필수</div></div>
+    <div>
+      <p class="name">강체와 변형체</p><span class="en">Rigid body vs. deformable body</span><div class="cmeta"><span class="lv lv1">기초</span><span class="kind k1">개념</span></div>
+      <p class="def">정역학은 물체를 변형하지 않는 것으로 보고 반력만 구합니다. 재료역학은 변형을 허용해 응력·처짐까지 봅니다. 다이빙보드 예제에서 “반력”까지가 정역학, “파괴하중·처짐·최적 형상”이 재료역학·구조역학.</p>
+      <p class="why"><span class="tag">설계</span>세 과목(정역학·재료역학·구조역학)의 경계를 정리해 커리큘럼 안에서 길을 잃지 않게 합니다.</p>
+      <p class="pre">선수 M1-03</p>
+    </div>
+    <div class="forms"><span class="chip">영상</span><span class="chip">비교 인터랙티브</span></div>
+  </div>
+
+  <div class="item">
+    <div class="mark"><div class="bar a"></div><div class="id">M1-05</div><div class="tier">필수</div></div>
+    <div>
+      <p class="name">하중의 종류와 산정</p><span class="en">Dead, live, wind and seismic loads</span><div class="cmeta"><span class="lv lv1">기초</span><span class="kind k2">계산</span></div>
+      <p class="def">고정하중(자중), 활하중(사용하중), 풍하중, 지진하중. 크기는 설계자가 정하는 것이 아니라 건축구조기준(KBC)에 명시되어 있다는 점.</p>
+      <p class="why"><span class="tag">설계</span>“이 정도면 되겠지”가 아니라 용도별 활하중 표에서 숫자가 나온다는 사실. 용도 변경이 곧 구조 재검토인 이유.</p>
+    </div>
+    <div class="forms"><span class="chip hot">계산기 앱</span><span class="chip">영상</span></div>
+  </div>
+
+  <div class="item">
+    <div class="mark"><div class="bar a"></div><div class="id">M1-06</div><div class="tier">필수</div></div>
+    <div>
+      <p class="name">안전율과 세 가지 설계법</p><span class="en">Factor of safety · ASD, Strength, LSD</span><div class="cmeta"><span class="lv lv2">표준</span><span class="kind k4">설계</span></div>
+      <p class="def">안전율 = 파괴하중 / 작용하중. 재료마다 다릅니다 — 강재 약 1.5, 콘크리트 2~3, 벽돌 5.5. 허용응력설계법 / (극한)강도설계법 / 한계상태설계법의 차이와, 각각이 전제하는 선형·비선형 거동.</p>
+      <p class="why"><span class="tag">설계</span>재료·하중·해석 모두에 불확실성이 있다는 공학의 기본 태도. 왜 벽돌의 안전율이 강재의 세 배가 넘는지 설명할 수 있어야 합니다.</p>
+      <p class="pre">선수 M4-01</p>
+    </div>
+    <div class="forms"><span class="chip hot">비교 시뮬레이터</span><span class="chip">영상</span></div>
+  </div>
+
+  <div class="item">
+    <div class="mark"><div class="bar a"></div><div class="id">M1-07</div><div class="tier">필수</div></div>
+    <div>
+      <p class="name">단위 · 차원 · 접두어</p><span class="en">SI units, dimensions, prefixes</span><div class="cmeta"><span class="lv lv1">기초</span><span class="kind k2">계산</span></div>
+      <p class="def">기본 차원 [M][L][T]와 모든 물리량의 유도. N, kN, MPa(=N/mm²), GPa의 관계와 유효숫자 처리. 미국 단위계(psi, ksi)와의 환산.</p>
+      <p class="why"><span class="tag">설계</span>시험과 실무에서 가장 흔한 실점 원인. 24 MPa과 24 GPa을 혼동하면 1000배가 틀립니다.</p>
+    </div>
+    <div class="forms"><span class="chip hot">단위 변환 앱</span><span class="chip">퀴즈</span></div>
+  </div>
+</section>
+
+<!-- M2 -->
+<section class="module" id="m2">
+  <div class="mod-head"><div class="mod-code"><span>MODULE 02</span><span>11 개념 · 필수 11 / 선택 0</span></div>
+  <h2>힘 · 모멘트 · 평형</h2>
+  <p class="mod-note">정역학의 본체. 실제 접합부를 기호로 바꾸고, 그 기호에서 반력을 뽑아내는 절차 전체가 여기 들어 있습니다.</p></div>
+
+  <div class="item">
+    <div class="mark"><div class="bar a"></div><div class="id">M2-01</div><div class="tier">필수</div></div>
+    <div>
+      <p class="name">스칼라와 벡터, 힘의 합성과 분해</p><span class="en">Scalars, vectors, triangle &amp; parallelogram rule</span><div class="cmeta"><span class="lv lv1">기초</span><span class="kind k2">계산</span></div>
+      <p class="def">크기만 있는 양과 크기·방향을 가진 양의 구분. 삼각형 법칙과 평행사변형 법칙, 벡터의 뺄셈, 단위벡터. 힘 하나를 서로 직교하는 두 성분으로 쪼개는 조작.</p>
+      <p class="why"><span class="tag">설계</span>경사 부재·경사 케이블이 수직·수평으로 얼마씩 힘을 넘기는지 계산하는 출발점.</p>
+    </div>
+    <div class="forms"><span class="chip hot">드래그 인터랙티브</span><span class="chip">영상</span></div>
+  </div>
+
+  <div class="item">
+    <div class="mark"><div class="bar a"></div><div class="id">M2-02</div><div class="tier">필수</div></div>
+    <div>
+      <p class="name">직교좌표 성분과 단위벡터</p><span class="en">Cartesian components, i · j · k</span><div class="cmeta"><span class="lv lv2">표준</span><span class="kind k2">계산</span></div>
+      <p class="def">2차원 <code>U = Uₓi + U_yj</code>, 3차원 <code>U = Uₓi + U_yj + U_zk</code>와 크기 계산. 위치벡터로 부재 방향을 표현하는 법.</p>
+      <p class="why"><span class="tag">설계</span>3차원 트러스·케이블 구조를 손으로 다루기 위한 표기 체계.</p>
+      <p class="pre">선수 M2-01</p>
+    </div>
+    <div class="forms"><span class="chip">3D 뷰어</span><span class="chip">영상</span></div>
+  </div>
+
+  <div class="item">
+    <div class="mark"><div class="bar a"></div><div class="id">M2-03</div><div class="tier">필수</div></div>
+    <div>
+      <p class="name">힘의 분류와 작용선</p><span class="en">External/internal, body/surface, concurrent/parallel forces</span><div class="cmeta"><span class="lv lv1">기초</span><span class="kind k1">개념</span></div>
+      <p class="def">외력과 내력, 체적력(중력)과 표면력(접촉력), 동점력계와 평행력계, 그리고 작용선의 개념.</p>
+      <p class="why"><span class="tag">설계</span>“내력”이라는 단어를 정확히 쓰게 만드는 어휘 정리. 이후 모든 단원의 용어 기반.</p>
+    </div>
+    <div class="forms"><span class="chip">영상</span><span class="chip">분류 퀴즈</span></div>
+  </div>
+
+  <div class="item">
+    <div class="mark"><div class="bar a"></div><div class="id">M2-04</div><div class="tier">필수</div></div>
+    <div>
+      <p class="name">모멘트</p><span class="en">Moment, M = F · d</span><div class="cmeta"><span class="lv lv1">기초</span><span class="kind k2">계산</span></div>
+      <p class="def">힘이 축을 중심으로 물체를 회전시키려는 경향. 크기는 힘 × 수직거리, 부호는 반시계 +. 3차원에서는 <code>M = r × F</code>.</p>
+      <p class="why"><span class="tag">설계</span>선반을 벽에서 멀리 뺄수록 지지부가 급격히 불리해지는 이유. 캔틸레버 내밀기와 타워크레인 평형추가 같은 식으로 설명됩니다.</p>
+      <p class="pre">선수 M2-01</p>
+    </div>
+    <div class="forms"><span class="chip hot">인터랙티브</span><span class="chip">실물 실험 영상</span></div>
+  </div>
+
+  <div class="item">
+    <div class="mark"><div class="bar a"></div><div class="id">M2-05</div><div class="tier">필수</div></div>
+    <div>
+      <p class="name">우력(짝힘)과 등가우력</p><span class="en">Couple &amp; equivalent couples</span><div class="cmeta"><span class="lv lv2">표준</span><span class="kind k1">개념</span></div>
+      <p class="def">크기가 같고 방향이 반대이며 작용선이 다른 두 힘. 힘의 합은 0인데 회전은 일어나고, 물체의 어느 점에 대해서도 같은 모멘트를 줍니다. <code>F·d</code>가 같으면 등가.</p>
+      <p class="why"><span class="tag">설계</span>“알짜힘 없이 회전만 전달”이라는 상태가 존재한다는 것 — 강접합부와 순수휨을 이해하는 전제.</p>
+      <p class="pre">선수 M2-04</p>
+    </div>
+    <div class="forms"><span class="chip hot">인터랙티브</span><span class="chip">영상</span></div>
+  </div>
+
+  <div class="item">
+    <div class="mark"><div class="bar a"></div><div class="id">M2-06</div><div class="tier">필수</div></div>
+    <div>
+      <p class="name">합력과 등가 힘–우력계</p><span class="en">Resultant, R·d = M_O</span><div class="cmeta"><span class="lv lv2">표준</span><span class="kind k2">계산</span></div>
+      <p class="def">여러 힘과 우력이 걸린 계를 크기 <code>R = ΣF</code>인 힘 하나와 모멘트 하나로 치환하는 조작.</p>
+      <p class="why"><span class="tag">설계</span>복잡한 하중 분포를 손으로 다룰 수 있는 크기로 줄이는 기술. 등분포하중의 합력 위치가 여기서 나옵니다.</p>
+      <p class="pre">선수 M2-04</p>
+    </div>
+    <div class="forms"><span class="chip">인터랙티브</span><span class="chip">영상</span></div>
+  </div>
+
+  <div class="item">
+    <div class="mark"><div class="bar a"></div><div class="id">M2-07</div><div class="tier">필수</div></div>
+    <div>
+      <p class="name">벡터의 내적과 외적</p><span class="en">Dot product &amp; cross product</span><div class="cmeta"><span class="lv lv3">심화</span><span class="kind k2">계산</span></div>
+      <p class="def"><code>P·Q = PQ cosθ</code>는 한 방향으로의 성분, <code>P×Q</code>는 크기 <code>PQ sinθ</code>에 평면에 수직인 방향. 3차원 모멘트 계산의 도구.</p>
+      <p class="why"><span class="tag">설계</span>3차원 구조 해석과 구조해석 프로그램 내부에서 실제로 돌아가는 연산.</p>
+      <p class="pre">선수 M2-02</p>
+    </div>
+    <div class="forms"><span class="chip">3D 시각화</span></div>
+  </div>
+
+  <div class="item">
+    <div class="mark"><div class="bar a"></div><div class="id">M2-08</div><div class="tier">필수</div></div>
+    <div>
+      <p class="name">지점의 종류</p><span class="en">Pin, roller and fixed supports</span><div class="cmeta"><span class="lv lv1">기초</span><span class="kind k1">개념</span></div>
+      <p class="def">핀지지 — 힘 2성분, 우력 없음(회전 허용). 롤러지지 — 표면 법선 방향 힘 1성분. 고정지지 — 힘 2성분 + 우력. 교량 받침이 롤러인 이유는 열팽창·수축 허용.</p>
+      <p class="why"><span class="tag">설계</span>실제 접합 디테일을 어떤 기호로 이상화할지 판단하는 능력. 도면의 접합 상세와 해석 모델을 잇는 유일한 다리.</p>
+    </div>
+    <div class="forms"><span class="chip hot">실물↔기호 매칭 앱</span><span class="chip">사진 영상</span></div>
+  </div>
+
+  <div class="item">
+    <div class="mark"><div class="bar a"></div><div class="id">M2-09</div><div class="tier">필수</div></div>
+    <div>
+      <p class="name">자유물체도</p><span class="en">Free-body diagram (FBD)</span><div class="cmeta"><span class="lv lv1">기초</span><span class="kind k3">해석</span></div>
+      <p class="def">물체를 지지부에서 떼어내고, 지지부가 주던 힘·우력을 반력으로 그려 넣는 절차. 구조 문제 풀이의 첫 단계이자 가장 자주 틀리는 단계.</p>
+      <p class="why"><span class="tag">설계</span>이것을 못 그리면 뒤의 모든 계산이 무의미합니다. 강의 전반에 걸쳐 반복 출제되는 기본기.</p>
+      <p class="pre">선수 M2-08</p>
+    </div>
+    <div class="forms"><span class="chip hot">단계별 연습 앱</span><span class="chip">영상</span></div>
+  </div>
+
+  <div class="item">
+    <div class="mark"><div class="bar a"></div><div class="id">M2-10</div><div class="tier">필수</div></div>
+    <div>
+      <p class="name">평형방정식과 반력 계산</p><span class="en">ΣFx = 0, ΣFy = 0, ΣM = 0</span><div class="cmeta"><span class="lv lv1">기초</span><span class="kind k3">해석</span></div>
+      <p class="def">2차원에서 독립한 평형식은 정확히 3개, 3차원에서는 6개. 다른 점에서 모멘트를 잡아도 독립식이 늘지 않는다는 사실이 핵심.</p>
+      <p class="why"><span class="tag">설계</span>“식이 3개뿐”이라는 제약이 다음 개념(정정·부정정)의 판별 기준이 됩니다.</p>
+      <p class="pre">선수 M2-09</p>
+    </div>
+    <div class="forms"><span class="chip hot">풀이 시뮬레이터</span><span class="chip">영상</span></div>
+  </div>
+
+  <div class="item">
+    <div class="mark"><div class="bar a"></div><div class="id">M2-11</div><div class="tier">필수</div></div>
+    <div>
+      <p class="name">정정 · 부정정 · 부적정 지지</p><span class="en">Determinate, indeterminate, improper supports</span><div class="cmeta"><span class="lv lv2">표준</span><span class="kind k1">개념</span></div>
+      <p class="def">미지반력 수 = 독립 평형식 수 → 정정. 미지수가 더 많으면 부정정(잉여 지지). 반력이 모두 평행하거나 한 점에서 만나면 부적정 — 하중이 걸리면 움직이거나 회전해서 애초에 평형을 못 이룹니다.</p>
+      <p class="why"><span class="tag">설계</span>구조가 성립하는가를 계산 전에 판별하는 능력. 롤러 두 개짜리 보가 왜 구조물이 아닌지 즉답할 수 있어야 합니다.</p>
+      <p class="pre">선수 M2-10</p>
+    </div>
+    <div class="forms"><span class="chip hot">판별 게임</span><span class="chip">애니메이션</span></div>
+  </div>
+</section>
+
+<!-- M3 -->
+<section class="module" id="m3">
+  <div class="mod-head"><div class="mod-code"><span>MODULE 03</span><span>6 개념 · 필수 4 / 선택 2</span></div>
+  <h2>트러스와 골조</h2>
+  <p class="mod-note">건축에서 가장 눈에 보이는 구조. 부재 하나하나가 인장인지 압축인지를 손으로 판정하는 두 가지 표준 기법을 다룹니다.</p></div>
+
+  <div class="item">
+    <div class="mark"><div class="bar a"></div><div class="id">M3-01</div><div class="tier">필수</div></div>
+    <div>
+      <p class="name">트러스의 정의와 세 가지 가정</p><span class="en">Truss: two-force members, joint loads, self-weight neglected</span><div class="cmeta"><span class="lv lv1">기초</span><span class="kind k1">개념</span></div>
+      <p class="def">막대를 핀으로 결합해 삼각형을 만든 구조. 모든 부재는 이력부재(축력만 받음), 하중은 조인트에만 걸리고, 부재 자중은 무시한다는 가정 위에서만 성립합니다.</p>
+      <p class="why"><span class="tag">설계</span>왜 삼각형인가, 그리고 왜 부재 중간에 하중을 걸면 안 되는가. 지붕트러스·교량트러스 형식(하우식·프랫식)의 차이도 여기서.</p>
+      <p class="pre">선수 M2-11</p>
+    </div>
+    <div class="forms"><span class="chip hot">인터랙티브</span><span class="chip">모형 실험 영상</span></div>
+  </div>
+
+  <div class="item">
+    <div class="mark"><div class="bar a"></div><div class="id">M3-02</div><div class="tier">필수</div></div>
+    <div>
+      <p class="name">격점법</p><span class="en">Method of joints</span><div class="cmeta"><span class="lv lv2">표준</span><span class="kind k3">해석</span></div>
+      <p class="def">조인트를 하나씩 떼어 <code>ΣFx = 0</code>, <code>ΣFy = 0</code>을 적용. 부호로 인장·압축이 갈립니다 — <span style="color:var(--tension)">인장은 조인트 바깥쪽</span>, <span style="color:var(--compression)">압축은 조인트를 향함</span>.</p>
+      <p class="why"><span class="tag">설계</span>트러스 전체의 인장·압축 분포를 얻는 표준 절차. 어느 부재를 가늘게 하고 어느 부재를 굵게 할지가 여기서 결정됩니다.</p>
+      <p class="pre">선수 M3-01</p>
+    </div>
+    <div class="forms"><span class="chip hot">단계별 풀이 앱</span><span class="chip">영상</span></div>
+  </div>
+
+  <div class="item">
+    <div class="mark"><div class="bar a"></div><div class="id">M3-03</div><div class="tier">필수</div></div>
+    <div>
+      <p class="name">단면법</p><span class="en">Method of sections</span><div class="cmeta"><span class="lv lv2">표준</span><span class="kind k3">해석</span></div>
+      <p class="def">트러스를 잘라 분할부에 평형을 적용. 2차원 분할부에는 독립식이 3개뿐이므로 미지력이 3개 이하가 되도록 절단선을 고릅니다.</p>
+      <p class="why"><span class="tag">설계</span>가운데 부재 하나의 힘만 필요할 때 격점법을 전부 돌리지 않는 지름길. 절단선을 고르는 판단력이 핵심.</p>
+      <p class="pre">선수 M3-02</p>
+    </div>
+    <div class="forms"><span class="chip hot">절단선 선택 인터랙티브</span></div>
+  </div>
+
+  <div class="item">
+    <div class="mark"><div class="bar a"></div><div class="id">M3-04</div><div class="tier">필수</div></div>
+    <div>
+      <p class="name">영부재</p><span class="en">Zero-force members</span><div class="cmeta"><span class="lv lv2">표준</span><span class="kind k3">해석</span></div>
+      <p class="def">하중 없는 조인트에서 세 가지 규칙 — 동일선상이 아닌 두 부재는 둘 다 0, 동일선상 두 부재는 힘이 같음, 세 부재 중 둘이 동일선상이면 나머지가 0.</p>
+      <p class="why"><span class="tag">설계</span>계산량을 크게 줄이는 요령이자, “힘을 안 받는 부재가 왜 거기 있나”(좌굴 방지·시공 안정)를 묻게 만드는 질문.</p>
+      <p class="pre">선수 M3-02</p>
+    </div>
+    <div class="forms"><span class="chip">퀴즈 앱</span><span class="chip">영상</span></div>
+  </div>
+
+  <div class="item">
+    <div class="mark"><div class="bar b"></div><div class="id">M3-05</div><div class="tier">선택</div></div>
+    <div>
+      <p class="name">프레임과 기계의 해석</p><span class="en">Frames &amp; machines</span><div class="cmeta"><span class="lv lv3">심화</span><span class="kind k3">해석</span></div>
+      <p class="def">트러스와 달리 부재 중간에 하중이 걸리고 다력부재가 섞인 구조. 전체 FBD로 일부 반력을 구한 뒤 부재별로 분해해 나머지를 구합니다.</p>
+      <p class="why"><span class="tag">설계</span>실제 건축 골조(라멘)에 가장 가까운 모델. 트러스 기법이 그대로 통하지 않는 이유를 알게 됩니다.</p>
+      <p class="pre">선수 M3-03</p>
+    </div>
+    <div class="forms"><span class="chip">단계별 앱</span><span class="chip">영상</span></div>
+  </div>
+
+  <div class="item">
+    <div class="mark"><div class="bar b"></div><div class="id">M3-06</div><div class="tier">선택</div></div>
+    <div>
+      <p class="name">입체트러스</p><span class="en">Space truss</span><div class="cmeta"><span class="lv lv3">심화</span><span class="kind k3">해석</span></div>
+      <p class="def">볼–소켓 조인트로 사면체를 구성한 3차원 트러스. 조인트법·단면법을 3차원 평형식(6개)으로 확장.</p>
+      <p class="why"><span class="tag">설계</span>스페이스 프레임 지붕, 대공간 구조의 원리. 2차원 직관이 어디까지 통하는지 확인하게 됩니다.</p>
+      <p class="pre">선수 M3-02, M2-02</p>
+    </div>
+    <div class="forms"><span class="chip hot">3D 인터랙티브</span></div>
+  </div>
+</section>
+
+<!-- M4 -->
+<section class="module" id="m4">
+  <div class="mod-head"><div class="mod-code"><span>MODULE 04</span><span>10 개념 · 필수 9 / 선택 1</span></div>
+  <h2>응력과 변형률</h2>
+  <p class="mod-note">재료역학의 핵심 어휘. 여기서 “힘”이 “재료가 견딜 수 있는가”라는 질문으로 바뀝니다.</p></div>
+
+  <div class="item">
+    <div class="mark"><div class="bar a"></div><div class="id">M4-01</div><div class="tier">필수</div></div>
+    <div>
+      <p class="name">수직응력</p><span class="en">Normal stress, σ = P / A</span><div class="cmeta"><span class="lv lv1">기초</span><span class="kind k2">계산</span></div>
+      <p class="def">단위 면적당 내력. 단위는 MPa(N/mm²). 같은 힘이라도 단면이 작으면 응력이 커진다 — 재료역학에서 가장 근본적인 개념.</p>
+      <p class="why"><span class="tag">설계</span>기둥 단면을 키운다는 결정의 의미가 정확히 무엇인지. 하중이 아니라 응력이 파괴를 결정합니다.</p>
+    </div>
+    <div class="forms"><span class="chip hot">인터랙티브</span><span class="chip">실험 영상</span></div>
+  </div>
+
+  <div class="item">
+    <div class="mark"><div class="bar a"></div><div class="id">M4-02</div><div class="tier">필수</div></div>
+    <div>
+      <p class="name">수직변형률</p><span class="en">Normal strain, ε = δ / L</span><div class="cmeta"><span class="lv lv1">기초</span><span class="kind k2">계산</span></div>
+      <p class="def">원래 길이 대비 늘어난 비율. 무차원(mm/mm)이며 보통 아주 작은 값이라 με 단위를 씁니다.</p>
+      <p class="why"><span class="tag">설계</span>변형은 절대 길이가 아니라 비율로 이야기해야 재료를 비교할 수 있다는 사고 전환.</p>
+      <p class="pre">선수 M4-01</p>
+    </div>
+    <div class="forms"><span class="chip hot">인터랙티브</span><span class="chip">영상</span></div>
+  </div>
+
+  <div class="item">
+    <div class="mark"><div class="bar a"></div><div class="id">M4-03</div><div class="tier">필수</div></div>
+    <div>
+      <p class="name">응력–변형률 선도</p><span class="en">σ–ε curve, yield / ultimate / fracture</span><div class="cmeta"><span class="lv lv2">표준</span><span class="kind k5">실험</span></div>
+      <p class="def">인장시험이 그리는 곡선. 비례한도, 항복강도 σ_y, 극한강도 σ_u, 파단강도 σ_f, 오프셋 항복점, 그리고 연성재료와 취성재료의 형태 차이.</p>
+      <p class="why"><span class="tag">설계</span>강재는 항복 후에도 버티고 콘크리트는 바로 깨지는 이유. 지진설계에서 연성이 왜 생명인지가 이 그래프 한 장에 있습니다.</p>
+      <p class="pre">선수 M4-02</p>
+    </div>
+    <div class="forms"><span class="chip hot">실험 영상</span><span class="chip">인터랙티브 그래프</span></div>
+  </div>
+
+  <div class="item">
+    <div class="mark"><div class="bar a"></div><div class="id">M4-04</div><div class="tier">필수</div></div>
+    <div>
+      <p class="name">탄성과 소성</p><span class="en">Elasticity &amp; plasticity</span><div class="cmeta"><span class="lv lv2">표준</span><span class="kind k5">실험</span></div>
+      <p class="def">하중을 제거했을 때 원래대로 돌아오면 탄성, 잔류변형이 남으면 비탄성. 탄성한도를 넘어선 영역에서의 거동이 소성.</p>
+      <p class="why"><span class="tag">설계</span>지진 후 “겉보기엔 서 있는데 못 쓰는 건물”의 정체. 잔류변형이 사용성 판정의 기준입니다.</p>
+      <p class="pre">선수 M4-03</p>
+    </div>
+    <div class="forms"><span class="chip">인터랙티브 그래프</span><span class="chip">영상</span></div>
+  </div>
+
+  <div class="item">
+    <div class="mark"><div class="bar a"></div><div class="id">M4-05</div><div class="tier">필수</div></div>
+    <div>
+      <p class="name">후크의 법칙과 탄성계수</p><span class="en">Hooke's law, σ = Eε</span><div class="cmeta"><span class="lv lv1">기초</span><span class="kind k1">개념</span></div>
+      <p class="def">탄성 영역에서 응력과 변형률은 비례하고, 그 기울기가 탄성계수 E(강성). 강도(strength)와 강성(stiffness)은 전혀 다른 물성입니다.</p>
+      <p class="why"><span class="tag">설계</span>“덜 처지게” 하려면 강도가 아니라 E와 단면을 건드려야 합니다. 처짐 문제와 파괴 문제는 서로 다른 물성이 지배한다는 점.</p>
+      <p class="pre">선수 M4-03</p>
+    </div>
+    <div class="forms"><span class="chip hot">재료 비교 앱</span><span class="chip">영상</span></div>
+  </div>
+
+  <div class="item">
+    <div class="mark"><div class="bar a"></div><div class="id">M4-06</div><div class="tier">필수</div></div>
+    <div>
+      <p class="name">포아송비</p><span class="en">Poisson's ratio, ν</span><div class="cmeta"><span class="lv lv2">표준</span><span class="kind k5">실험</span></div>
+      <p class="def">축방향으로 늘어날 때 횡방향으로 줄어드는 비율. 콘크리트 약 0.2, 강재 약 0.3.</p>
+      <p class="why"><span class="tag">설계</span>횡구속(나선철근·강관충전 기둥)이 왜 콘크리트를 강하게 만드는지의 출발점.</p>
+      <p class="pre">선수 M4-05</p>
+    </div>
+    <div class="forms"><span class="chip">3D 애니메이션</span></div>
+  </div>
+
+  <div class="item">
+    <div class="mark"><div class="bar a"></div><div class="id">M4-07</div><div class="tier">필수</div></div>
+    <div>
+      <p class="name">전단응력과 단전단 · 복전단</p><span class="en">Shear stress, τ = P / A, single &amp; double shear</span><div class="cmeta"><span class="lv lv2">표준</span><span class="kind k2">계산</span></div>
+      <p class="def">부재를 미끄러뜨리려는 힘이 만드는 응력. 볼트가 한 면에서 잘리면 단전단(<code>τ = P/A</code>), 두 면이면 복전단(<code>τ = P/2A</code>).</p>
+      <p class="why"><span class="tag">설계</span>접합부 볼트 개수를 결정하는 계산. 부재가 아니라 접합부에서 무너지는 사고의 원리.</p>
+      <p class="pre">선수 M4-01</p>
+    </div>
+    <div class="forms"><span class="chip hot">접합부 인터랙티브</span><span class="chip">파괴 영상</span></div>
+  </div>
+
+  <div class="item">
+    <div class="mark"><div class="bar a"></div><div class="id">M4-08</div><div class="tier">필수</div></div>
+    <div>
+      <p class="name">전단변형률과 전단탄성계수</p><span class="en">Shear strain γ, modulus G, τ = Gγ</span><div class="cmeta"><span class="lv lv2">표준</span><span class="kind k5">실험</span></div>
+      <p class="def">직각이 얼마나 틀어졌는가(rad)로 정의되는 변형률과, 전단에서의 후크의 법칙. 전단응력·변형률의 부호규약.</p>
+      <p class="why"><span class="tag">설계</span>탄성받침·면진장치가 수평으로 크게 밀리면서도 견디는 원리.</p>
+      <p class="pre">선수 M4-07</p>
+    </div>
+    <div class="forms"><span class="chip">애니메이션</span><span class="chip">인터랙티브</span></div>
+  </div>
+
+  <div class="item">
+    <div class="mark"><div class="bar b"></div><div class="id">M4-09</div><div class="tier">선택</div></div>
+    <div>
+      <p class="name">지압응력</p><span class="en">Bearing stress</span><div class="cmeta"><span class="lv lv2">표준</span><span class="kind k4">설계</span></div>
+      <p class="def">하중이 한 부재에서 다른 부재로 전달될 때 접촉면에 직각으로 생기는 응력. 볼트가 구멍 벽을 밀어내는 힘.</p>
+      <p class="why"><span class="tag">설계</span>볼트 자체는 멀쩡한데 판재의 구멍이 찢어지는 파괴 모드. 연단거리 규정의 근거.</p>
+      <p class="pre">선수 M4-07</p>
+    </div>
+    <div class="forms"><span class="chip">파괴모드 영상</span></div>
+  </div>
+
+  <div class="item">
+    <div class="mark"><div class="bar a"></div><div class="id">M4-10</div><div class="tier">필수</div></div>
+    <div>
+      <p class="name">허용응력 · 허용하중과 단면 설계</p><span class="en">Allowable stress &amp; load, A_req = P / σ_allow</span><div class="cmeta"><span class="lv lv2">표준</span><span class="kind k4">설계</span></div>
+      <p class="def">극한강도를 안전율로 나눈 허용응력으로 필요 단면적을 역산하는 절차. 축하중과 직접전단에 대한 부재 설계의 완결된 한 사이클.</p>
+      <p class="why"><span class="tag">설계</span>학생이 처음으로 “설계”를 해 보는 지점 — 힘이 주어졌을 때 부재 크기를 스스로 정합니다.</p>
+      <p class="pre">선수 M1-06, M4-01</p>
+    </div>
+    <div class="forms"><span class="chip hot">설계 계산기 앱</span><span class="chip">영상</span></div>
+  </div>
+</section>
+
+<!-- M5 -->
+<section class="module" id="m5">
+  <div class="mod-head"><div class="mod-code"><span>MODULE 05</span><span>5 개념 · 필수 5 / 선택 0</span></div>
+  <h2>축하중 부재</h2>
+  <p class="mod-note">기둥, 트러스 부재, 케이블, 인장 타이. 힘–변형 관계를 실제로 계산해 보는 첫 단원이자 부정정 문제를 처음 만나는 곳입니다.</p></div>
+
+  <div class="item">
+    <div class="mark"><div class="bar a"></div><div class="id">M5-01</div><div class="tier">필수</div></div>
+    <div>
+      <p class="name">축부재의 신장량과 강성</p><span class="en">δ = PL / EA, stiffness EA/L</span><div class="cmeta"><span class="lv lv1">기초</span><span class="kind k2">계산</span></div>
+      <p class="def">응력·변형률·후크의 법칙을 합치면 나오는 결론. 부재 강성은 <code>EA/L</code>, 유연도는 그 역수 <code>L/EA</code>.</p>
+      <p class="why"><span class="tag">설계</span>재료(E)·단면(A)·길이(L) 중 무엇을 바꿔야 얼마나 덜 늘어나는지 정량적으로 판단하는 첫 도구.</p>
+      <p class="pre">선수 M4-05</p>
+    </div>
+    <div class="forms"><span class="chip hot">슬라이더 인터랙티브</span><span class="chip">영상</span></div>
+  </div>
+
+  <div class="item">
+    <div class="mark"><div class="bar a"></div><div class="id">M5-02</div><div class="tier">필수</div></div>
+    <div>
+      <p class="name">불균일 조건에서의 변형</p><span class="en">Nonuniform conditions, Σ and ∫</span><div class="cmeta"><span class="lv lv2">표준</span><span class="kind k2">계산</span></div>
+      <p class="def">단면이나 축력이 구간마다 달라지면 구간별로 더하고, 연속적으로 변하면 적분합니다. 자중을 받는 긴 기둥이 대표 사례.</p>
+      <p class="why"><span class="tag">설계</span>초고층 기둥의 축소량(column shortening)이 왜 층마다 다른가. 시공 단계별 레벨 보정의 근거.</p>
+      <p class="pre">선수 M5-01</p>
+    </div>
+    <div class="forms"><span class="chip">인터랙티브</span><span class="chip">영상</span></div>
+  </div>
+
+  <div class="item">
+    <div class="mark"><div class="bar a"></div><div class="id">M5-03</div><div class="tier">필수</div></div>
+    <div>
+      <p class="name">부정정 축부재의 해석</p><span class="en">Statically indeterminate axial members</span><div class="cmeta"><span class="lv lv3">심화</span><span class="kind k3">해석</span></div>
+      <p class="def">미지수 2개, 평형식 1개인 상황에서 적합조건(변형이 경계조건과 맞아야 함)과 <code>σ=Eε</code>를 더해 식을 하나 더 만드는 절차. 유연도법과 강성법.</p>
+      <p class="why"><span class="tag">설계</span>M1-03의 3대 조건이 실제로 함께 쓰이는 첫 사례. 부정정 구조 해석 전체의 축소판입니다.</p>
+      <p class="pre">선수 M5-01, M2-11</p>
+    </div>
+    <div class="forms"><span class="chip hot">단계별 풀이 앱</span><span class="chip">영상</span></div>
+  </div>
+
+  <div class="item">
+    <div class="mark"><div class="bar a"></div><div class="id">M5-04</div><div class="tier">필수</div></div>
+    <div>
+      <p class="name">온도변화와 열응력</p><span class="en">Thermal effects, δ_T = α(ΔT)L</span><div class="cmeta"><span class="lv lv2">표준</span><span class="kind k2">계산</span></div>
+      <p class="def">자유롭게 늘어날 수 있으면 변형만 생기고 응력은 0. 구속되면 변형이 막히면서 응력이 생깁니다. 하중 없이도 부재가 파괴될 수 있다는 사실.</p>
+      <p class="why"><span class="tag">설계</span>신축이음(expansion joint)을 어디에, 몇 미터 간격으로 둘지 결정하는 근거. 롤러 받침이 존재하는 이유와 직결.</p>
+      <p class="pre">선수 M5-03</p>
+    </div>
+    <div class="forms"><span class="chip hot">현장 사진 영상</span><span class="chip">시뮬레이터</span></div>
+  </div>
+
+  <div class="item">
+    <div class="mark"><div class="bar a"></div><div class="id">M5-05</div><div class="tier">필수</div></div>
+    <div>
+      <p class="name">경사단면의 응력</p><span class="en">Stresses on inclined sections</span><div class="cmeta"><span class="lv lv3">심화</span><span class="kind k2">계산</span></div>
+      <p class="def">순수 축인장 상태에서도 45° 경사면에서는 전단응력이 최대(<code>τ_max = σ/2</code>)가 됩니다.</p>
+      <p class="why"><span class="tag">설계</span>인장을 걸었는데 파괴면이 비스듬히 나오는 이유. 응력이 “면의 방향에 따라 달라지는 양”이라는 M8의 예고편.</p>
+      <p class="pre">선수 M4-07</p>
+    </div>
+    <div class="forms"><span class="chip">각도 인터랙티브</span><span class="chip">파괴 영상</span></div>
+  </div>
+</section>
+
+<!-- M6 -->
+<section class="module" id="m6">
+  <div class="mod-head"><div class="mod-code"><span>MODULE 06</span><span>5 개념 · 필수 5 / 선택 0</span></div>
+  <h2>보의 내력</h2>
+  <p class="mod-note">건축에서 가장 흔한 부재의 속을 들여다보는 단원. SFD·BMD는 이 과목에서 학생이 반드시 손으로 그릴 수 있어야 하는 결과물입니다.</p></div>
+
+  <div class="item">
+    <div class="mark"><div class="bar a"></div><div class="id">M6-01</div><div class="tier">필수</div></div>
+    <div>
+      <p class="name">보의 종류 · 하중 · 반력</p><span class="en">Types of beams, loads and reactions</span><div class="cmeta"><span class="lv lv1">기초</span><span class="kind k3">해석</span></div>
+      <p class="def">단순보, 캔틸레버보, 내민보와 지점 조합. 집중하중, 등분포·변분포하중, 모멘트하중의 구분과 각각의 반력 계산.</p>
+      <p class="why"><span class="tag">설계</span>같은 스팬·같은 하중이라도 지지 방식에 따라 모멘트가 완전히 달라집니다. 평면 계획이 곧 구조 조건인 이유.</p>
+      <p class="pre">선수 M2-10</p>
+    </div>
+    <div class="forms"><span class="chip hot">비교 인터랙티브</span><span class="chip">영상</span></div>
+  </div>
+
+  <div class="item">
+    <div class="mark"><div class="bar a"></div><div class="id">M6-02</div><div class="tier">필수</div></div>
+    <div>
+      <p class="name">전단력과 휨모멘트, 그리고 부호규약</p><span class="en">Shear force V, bending moment M, sign convention</span><div class="cmeta"><span class="lv lv2">표준</span><span class="kind k3">해석</span></div>
+      <p class="def">보를 임의의 위치에서 잘랐을 때 단면에 작용하는 내력. 정(+)의 모멘트는 상연을 압축시키는 방향 — 부호규약이 흔들리면 이후 모든 그림이 무너집니다.</p>
+      <p class="why"><span class="tag">설계</span>보 어디가 <span style="color:var(--tension)">인장</span>이고 어디가 <span style="color:var(--compression)">압축</span>인지가 정해지고, 철근을 어느 쪽에 넣을지가 결정됩니다.</p>
+      <p class="pre">선수 M6-01</p>
+    </div>
+    <div class="forms"><span class="chip hot">단면 슬라이스 인터랙티브</span><span class="chip">영상</span></div>
+  </div>
+
+  <div class="item">
+    <div class="mark"><div class="bar a"></div><div class="id">M6-03</div><div class="tier">필수</div></div>
+    <div>
+      <p class="name">하중 · 전단력 · 휨모멘트의 관계</p><span class="en">dV/dx = −w, dM/dx = V</span><div class="cmeta"><span class="lv lv2">표준</span><span class="kind k3">해석</span></div>
+      <p class="def">하중을 적분하면 전단력, 전단력을 적분하면 휨모멘트. 전단력이 0이 되는 곳에서 휨모멘트가 최대가 된다는 사실이 실용적 핵심.</p>
+      <p class="why"><span class="tag">설계</span>SFD·BMD를 하나하나 계산하지 않고 그림의 기울기와 면적으로 그리게 해 주는 규칙.</p>
+      <p class="pre">선수 M6-02</p>
+    </div>
+    <div class="forms"><span class="chip hot">연동 그래프 앱</span><span class="chip">영상</span></div>
+  </div>
+
+  <div class="item">
+    <div class="mark"><div class="bar a"></div><div class="id">M6-04</div><div class="tier">필수</div></div>
+    <div>
+      <p class="name">SFD · BMD 작도</p><span class="en">Shear-force &amp; bending-moment diagrams</span><div class="cmeta"><span class="lv lv2">표준</span><span class="kind k3">해석</span></div>
+      <p class="def">보 전 길이에 걸친 V(x)와 M(x)를 그림으로 그리는 절차. 하중 유형별 곡선 차수(등분포하중 → V는 1차, M은 2차)를 몸에 익히는 것.</p>
+      <p class="why"><span class="tag">설계</span>이 과목의 대표 결과물. 최대모멘트 위치와 크기가 곧 보 춤과 철근량입니다.</p>
+      <p class="pre">선수 M6-03</p>
+    </div>
+    <div class="forms"><span class="chip hot">실시간 작도 앱</span><span class="chip">영상</span></div>
+  </div>
+
+  <div class="item">
+    <div class="mark"><div class="bar a"></div><div class="id">M6-05</div><div class="tier">필수</div></div>
+    <div>
+      <p class="name">골조의 축력 · 전단력 · 모멘트도</p><span class="en">Axial force, V and M for frames</span><div class="cmeta"><span class="lv lv3">심화</span><span class="kind k3">해석</span></div>
+      <p class="def">보와 기둥이 강접합된 골조에서 각 부재별 내력도를 그리는 방법. 절점에서 모멘트가 어떻게 분배·전달되는지.</p>
+      <p class="why"><span class="tag">설계</span>실제 라멘조 건물의 내력 분포. 기둥–보 접합부가 왜 지진설계의 급소인지 보입니다.</p>
+      <p class="pre">선수 M6-04</p>
+    </div>
+    <div class="forms"><span class="chip hot">골조 인터랙티브</span><span class="chip">영상</span></div>
+  </div>
+</section>
+
+<!-- M7 -->
+<section class="module" id="m7">
+  <div class="mod-head"><div class="mod-code"><span>MODULE 07</span><span>6 개념 · 필수 6 / 선택 0</span></div>
+  <h2>보의 응력</h2>
+  <p class="mod-note">여섯 개 모두 필수. 건축설계 전공생이 “보의 춤을 왜 키우는가”에 답하려면 이 여섯 개가 모두 필요합니다.</p></div>
+
+  <div class="item">
+    <div class="mark"><div class="bar a"></div><div class="id">M7-01</div><div class="tier">필수</div></div>
+    <div>
+      <p class="name">순수휨과 곡률</p><span class="en">Pure &amp; nonuniform bending, curvature κ = 1/ρ</span><div class="cmeta"><span class="lv lv2">표준</span><span class="kind k1">개념</span></div>
+      <p class="def">전단력 없이 일정한 모멘트만 받는 구간이 순수휨. 곡률은 보가 얼마나 급하게 휘었는지의 척도이며 곡률반경의 역수입니다.</p>
+      <p class="why"><span class="tag">설계</span>휨 거동을 “처짐”이 아니라 “곡률”이라는 국소량으로 보는 시각 전환. M9의 처짐 계산이 전부 여기서 출발합니다.</p>
+      <p class="pre">선수 M6-02</p>
+    </div>
+    <div class="forms"><span class="chip hot">애니메이션</span><span class="chip">인터랙티브</span></div>
+  </div>
+
+  <div class="item">
+    <div class="mark"><div class="bar a"></div><div class="id">M7-02</div><div class="tier">필수</div></div>
+    <div>
+      <p class="name">보의 종방향 변형률과 중립축</p><span class="en">Longitudinal strains, neutral axis</span><div class="cmeta"><span class="lv lv2">표준</span><span class="kind k1">개념</span></div>
+      <p class="def">평면 유지 가정 아래 변형률은 중립축으로부터의 거리 y에 선형 비례합니다 — <span style="color:var(--compression)">위는 압축</span>, <span style="color:var(--tension)">아래는 인장</span>, 중립축에서 0.</p>
+      <p class="why"><span class="tag">설계</span>철근콘크리트 보에서 철근이 왜 아래쪽에 몰려 있는지, 캔틸레버에서는 왜 위쪽인지에 대한 완전한 답.</p>
+      <p class="pre">선수 M7-01</p>
+    </div>
+    <div class="forms"><span class="chip hot">단면 인터랙티브</span><span class="chip">실험 영상</span></div>
+  </div>
+
+  <div class="item">
+    <div class="mark"><div class="bar a"></div><div class="id">M7-03</div><div class="tier">필수</div></div>
+    <div>
+      <p class="name">도심 · 단면2차모멘트 · 단면계수</p><span class="en">Centroid, moment of inertia I, section modulus S, first moment Q</span><div class="cmeta"><span class="lv lv2">표준</span><span class="kind k2">계산</span></div>
+      <p class="def">단면의 기하학적 성질. 직사각형은 <code>I = bh³/12</code> — 춤 h가 세제곱으로 들어갑니다. <code>S = I/c</code>, 그리고 전단응력 계산에 쓰이는 단면1차모멘트 Q.</p>
+      <p class="why"><span class="tag">설계</span>같은 재료량으로 왜 I형강이 강한가. 보를 눕히면 왜 급격히 약해지는가. 단면 형상 선택의 정량적 근거.</p>
+      <p class="pre">선수 M7-02</p>
+    </div>
+    <div class="forms"><span class="chip hot">단면 비교 앱</span><span class="chip">영상</span></div>
+  </div>
+
+  <div class="item">
+    <div class="mark"><div class="bar a"></div><div class="id">M7-04</div><div class="tier">필수</div></div>
+    <div>
+      <p class="name">휨응력 공식</p><span class="en">Flexure formula, σ = My / I</span><div class="cmeta"><span class="lv lv2">표준</span><span class="kind k2">계산</span></div>
+      <p class="def">휨모멘트가 단면 안에서 응력으로 바뀌는 식. 최대 휨응력은 최외단에서 <code>σ_max = M/S</code>.</p>
+      <p class="why"><span class="tag">설계</span>M6의 BMD와 M7의 단면 성질이 만나 “이 보가 버티는가”라는 판정으로 이어지는 지점. 재료역학의 결론.</p>
+      <p class="pre">선수 M7-03</p>
+    </div>
+    <div class="forms"><span class="chip hot">응력분포 시각화</span><span class="chip">영상</span></div>
+  </div>
+
+  <div class="item">
+    <div class="mark"><div class="bar a"></div><div class="id">M7-05</div><div class="tier">필수</div></div>
+    <div>
+      <p class="name">휨에 대한 보의 설계</p><span class="en">Design of beams for bending, S_req = M_max / σ_allow</span><div class="cmeta"><span class="lv lv3">심화</span><span class="kind k4">설계</span></div>
+      <p class="def">최대모멘트와 허용응력에서 필요 단면계수를 구하고, 자중까지 포함해 단면을 확정하는 절차. 경제적 단면 형상의 선택.</p>
+      <p class="why"><span class="tag">설계</span>스팬이 주어졌을 때 보 춤을 스스로 정할 수 있게 됩니다 — 설계 스튜디오에서 즉시 쓰이는 능력.</p>
+      <p class="pre">선수 M7-04, M4-10</p>
+    </div>
+    <div class="forms"><span class="chip hot">보 설계 앱</span><span class="chip">영상</span></div>
+  </div>
+
+  <div class="item">
+    <div class="mark"><div class="bar a"></div><div class="id">M7-06</div><div class="tier">필수</div></div>
+    <div>
+      <p class="name">보의 전단응력</p><span class="en">Shear stress in beams, τ = VQ / Ib</span><div class="cmeta"><span class="lv lv3">심화</span><span class="kind k2">계산</span></div>
+      <p class="def">휨을 받는 보 안에서 전단응력은 중립축에서 최대, 최외단에서 0 — 휨응력과 정확히 반대 분포입니다.</p>
+      <p class="why"><span class="tag">설계</span>목재 보에 수평 균열이 생기는 이유, I형강에서 웨브가 하는 일, RC 보에 스터럽을 넣는 이유.</p>
+      <p class="pre">선수 M7-04</p>
+    </div>
+    <div class="forms"><span class="chip hot">분포 비교 시각화</span><span class="chip">파괴 영상</span></div>
+  </div>
+</section>
+
+<!-- M8 -->
+<section class="module" id="m8">
+  <div class="mod-head"><div class="mod-code"><span>MODULE 08</span><span>5 개념 · 필수 4 / 선택 1</span></div>
+  <h2>응력 · 변형률 해석</h2>
+  <p class="mod-note">“응력은 면의 방향에 따라 달라진다”는 사실을 정면으로 다루는 단원. 균열 방향을 설명할 수 있게 됩니다.</p></div>
+
+  <div class="item">
+    <div class="mark"><div class="bar a"></div><div class="id">M8-01</div><div class="tier">필수</div></div>
+    <div>
+      <p class="name">평면응력과 응력요소</p><span class="en">Plane stress, stress element</span><div class="cmeta"><span class="lv lv2">표준</span><span class="kind k1">개념</span></div>
+      <p class="def">한 점의 응력 상태를 σx, σy, τxy 세 성분을 가진 미소 사각형으로 표현하는 방법. 응력은 스칼라도 벡터도 아니라는 사실.</p>
+      <p class="why"><span class="tag">설계</span>“이 점의 응력”이라는 말이 숫자 하나가 아니라 상태라는 것 — 유한요소 해석 결과를 읽는 데 필수.</p>
+      <p class="pre">선수 M7-06</p>
+    </div>
+    <div class="forms"><span class="chip hot">회전 인터랙티브</span><span class="chip">영상</span></div>
+  </div>
+
+  <div class="item">
+    <div class="mark"><div class="bar a"></div><div class="id">M8-02</div><div class="tier">필수</div></div>
+    <div>
+      <p class="name">응력의 변환식</p><span class="en">Transformation equations</span><div class="cmeta"><span class="lv lv3">심화</span><span class="kind k2">계산</span></div>
+      <p class="def">좌표축을 θ만큼 돌렸을 때 응력 성분이 어떻게 바뀌는지를 주는 식. 같은 점, 같은 상태, 다른 표현.</p>
+      <p class="why"><span class="tag">설계</span>주응력과 모어원의 유도 근거. 공식이 하늘에서 떨어진 게 아님을 보여 줍니다.</p>
+      <p class="pre">선수 M8-01</p>
+    </div>
+    <div class="forms"><span class="chip">유도 애니메이션</span></div>
+  </div>
+
+  <div class="item">
+    <div class="mark"><div class="bar a"></div><div class="id">M8-03</div><div class="tier">필수</div></div>
+    <div>
+      <p class="name">주응력과 최대전단응력</p><span class="en">Principal stresses &amp; maximum shear stress</span><div class="cmeta"><span class="lv lv3">심화</span><span class="kind k3">해석</span></div>
+      <p class="def">전단응력이 0이 되는 면에서의 수직응력이 주응력이고, 그때가 수직응력의 최대·최소. 최대전단응력면은 주응력면에서 45° 돌아간 곳.</p>
+      <p class="why"><span class="tag">설계</span>콘크리트 균열이 왜 그 방향으로 나는가 — 주인장응력에 수직으로 갈라지기 때문. 보 단부의 사인장 균열이 이것으로 설명됩니다.</p>
+      <p class="pre">선수 M8-01</p>
+    </div>
+    <div class="forms"><span class="chip hot">균열 사진 + 시각화</span><span class="chip">영상</span></div>
+  </div>
+
+  <div class="item">
+    <div class="mark"><div class="bar a"></div><div class="id">M8-04</div><div class="tier">필수</div></div>
+    <div>
+      <p class="name">모어원</p><span class="en">Mohr's circle</span><div class="cmeta"><span class="lv lv3">심화</span><span class="kind k3">해석</span></div>
+      <p class="def">응력 변환을 원 하나로 그려 내는 도해법. 공식을 외우지 않고 주응력·최대전단응력·임의 각도의 응력을 읽어 냅니다.</p>
+      <p class="why"><span class="tag">설계</span>강의 목표에 “식이 아니라 모어원으로 풀 것”이 명시된 항목. 시각적 사고에 강한 설계 전공생에게 가장 잘 맞는 도구.</p>
+      <p class="pre">선수 M8-03</p>
+    </div>
+    <div class="forms"><span class="chip hot">인터랙티브 모어원</span><span class="chip">영상</span></div>
+  </div>
+
+  <div class="item">
+    <div class="mark"><div class="bar b"></div><div class="id">M8-05</div><div class="tier">선택</div></div>
+    <div>
+      <p class="name">평면변형률과 3축응력</p><span class="en">Plane strain, Hooke's law for plane stress, triaxial stress</span><div class="cmeta"><span class="lv lv3">심화</span><span class="kind k1">개념</span></div>
+      <p class="def">평면응력과 평면변형률의 구분, 2·3차원으로 확장된 후크의 법칙, 3축응력 상태와 체적변형.</p>
+      <p class="why"><span class="tag">설계</span>댐·옹벽·두꺼운 슬래브처럼 평면응력 가정이 성립하지 않는 경우. 해석 모델 선택의 근거.</p>
+      <p class="pre">선수 M8-01, M4-06</p>
+    </div>
+    <div class="forms"><span class="chip">비교 시각화</span></div>
+  </div>
+</section>
+
+<!-- M9 -->
+<section class="module" id="m9">
+  <div class="mod-head"><div class="mod-code"><span>MODULE 09</span><span>6 개념 · 필수 4 / 선택 2</span></div>
+  <h2>처짐</h2>
+  <p class="mod-note">구조역학 파트. 강도는 만족하는데 처짐 때문에 탈락하는 설계가 실무에서 훨씬 흔합니다 — 사용성의 세계.</p></div>
+
+  <div class="item">
+    <div class="mark"><div class="bar a"></div><div class="id">M9-01</div><div class="tier">필수</div></div>
+    <div>
+      <p class="name">처짐곡선과 사용성</p><span class="en">Deflection curve, slope, serviceability</span><div class="cmeta"><span class="lv lv2">표준</span><span class="kind k4">설계</span></div>
+      <p class="def">하중·온도·시공오차·부동침하가 만드는 처짐과, 지점 조건에 맞는 탄성곡선을 손으로 스케치하는 능력. 처짐을 제한하는 이유는 강도가 아니라 균열 방지와 사용성.</p>
+      <p class="why"><span class="tag">설계</span>안 무너지는데 왜 문이 안 닫히고 천장이 갈라지는가. L/360 같은 규정이 나오는 자리.</p>
+      <p class="pre">선수 M6-04</p>
+    </div>
+    <div class="forms"><span class="chip hot">스케치 연습 앱</span><span class="chip">현장 영상</span></div>
+  </div>
+
+  <div class="item">
+    <div class="mark"><div class="bar a"></div><div class="id">M9-02</div><div class="tier">필수</div></div>
+    <div>
+      <p class="name">모멘트–곡률 관계</p><span class="en">EI v″ = M, elastic beam theory</span><div class="cmeta"><span class="lv lv2">표준</span><span class="kind k1">개념</span></div>
+      <p class="def">보의 곡률이 <code>M/EI</code>와 같다는 관계. 여기서 하중–전단–모멘트–처짐각–처짐이 미분·적분으로 한 줄에 꿰집니다 — <code>EIv‴=V</code>, <code>EIv⁗=−w</code>.</p>
+      <p class="why"><span class="tag">설계</span>EI가 “휨강성”이라는 하나의 설계 변수로 등장하는 순간. 재료와 단면을 하나로 묶어 처짐을 통제합니다.</p>
+      <p class="pre">선수 M7-01, M6-03</p>
+    </div>
+    <div class="forms"><span class="chip hot">연동 그래프 앱</span><span class="chip">영상</span></div>
+  </div>
+
+  <div class="item">
+    <div class="mark"><div class="bar a"></div><div class="id">M9-03</div><div class="tier">필수</div></div>
+    <div>
+      <p class="name">이중적분법</p><span class="en">Double integration method</span><div class="cmeta"><span class="lv lv3">심화</span><span class="kind k3">해석</span></div>
+      <p class="def">M(x)를 두 번 적분해 v(x)를 얻고, 적분상수는 경계조건·연속조건·대칭조건으로 결정합니다. 강의자료의 6단계 절차를 그대로 따르는 것이 핵심.</p>
+      <p class="why"><span class="tag">설계</span>처짐을 표에서 찾는 대신 직접 유도하는 경험. 조건이 특이한 보를 만나도 대응할 수 있게 됩니다.</p>
+      <p class="pre">선수 M9-02</p>
+    </div>
+    <div class="forms"><span class="chip hot">단계별 풀이 앱</span><span class="chip">영상</span></div>
+  </div>
+
+  <div class="item">
+    <div class="mark"><div class="bar b"></div><div class="id">M9-04</div><div class="tier">선택</div></div>
+    <div>
+      <p class="name">모멘트면적법</p><span class="en">Moment-area method</span><div class="cmeta"><span class="lv lv3">심화</span><span class="kind k3">해석</span></div>
+      <p class="def">M/EI 선도의 면적과 도심 위치로 처짐각과 처짐을 구하는 기하학적 방법. 두 개의 정리.</p>
+      <p class="why"><span class="tag">설계</span>적분 없이 BMD 그림만으로 처짐을 얻는 시각적 기법. 도면에 강한 학생에게 유리한 접근.</p>
+      <p class="pre">선수 M9-03</p>
+    </div>
+    <div class="forms"><span class="chip hot">면적 인터랙티브</span><span class="chip">영상</span></div>
+  </div>
+
+  <div class="item">
+    <div class="mark"><div class="bar a"></div><div class="id">M9-05</div><div class="tier">필수</div></div>
+    <div>
+      <p class="name">공액보법</p><span class="en">Conjugate-beam method</span><div class="cmeta"><span class="lv lv3">심화</span><span class="kind k3">해석</span></div>
+      <p class="def">M/EI를 가상의 하중으로 얹은 “공액보”를 만들면, 그 보의 전단력이 처짐각이고 휨모멘트가 처짐이 됩니다. 지점 조건도 함께 치환.</p>
+      <p class="why"><span class="tag">설계</span>이미 익힌 SFD·BMD 기술을 그대로 재사용해 처짐을 구하는 우아한 치환. 개념 전이의 좋은 사례.</p>
+      <p class="pre">선수 M9-04</p>
+    </div>
+    <div class="forms"><span class="chip hot">치환 애니메이션</span><span class="chip">영상</span></div>
+  </div>
+
+  <div class="item">
+    <div class="mark"><div class="bar b"></div><div class="id">M9-06</div><div class="tier">선택</div></div>
+    <div>
+      <p class="name">에너지법 — 가상일과 카스티야노 정리</p><span class="en">Virtual work &amp; Castigliano's theorem</span><div class="cmeta"><span class="lv lv3">심화</span><span class="kind k3">해석</span></div>
+      <p class="def">힘의 평형 대신 에너지 보존으로 처짐을 구하는 접근. 트러스·골조처럼 기하가 복잡한 구조에서 특히 강력합니다.</p>
+      <p class="why"><span class="tag">설계</span>상용 구조해석 프로그램의 내부 원리에 가장 가까운 방법. 3·4학년 구조 과목으로 넘어가는 다리.</p>
+      <p class="pre">선수 M9-03</p>
+    </div>
+    <div class="forms"><span class="chip">개념 영상</span><span class="chip">인터랙티브</span></div>
+  </div>
+</section>
+
+<!-- GUIDE -->
+<section class="guide" id="guide">
+  <div class="mod-code"><span>APPENDIX</span><span>40명 프로젝트 운영</span></div>
+  <h2>프로젝트 운영 가이드</h2>
+  <p class="mod-note">개념 목록을 그대로 40명 배정과 평가로 옮기기 위한 최소 설계안입니다. 그대로 쓰거나, 항목만 골라 쓰셔도 됩니다.</p>
+
+  <div class="g-grid">
+    <article>
+      <h3>배정</h3>
+      <p><strong>필수 55개 + 선택 6개 = 61개.</strong> 수강생 40명에게 중복 없이 배정하면 학기말에 과목 전체를 덮는 콘텐츠 세트가 완성됩니다.</p>
+      <ul>
+        <li><strong>난이도로 배분</strong> — 기초 17 / 표준 28 / 심화 16. 심화는 여력 있는 학생에게</li>
+        <li><strong>유형으로 균형</strong> — 영상이 어울리는 개념·실험(19개)과 앱이 어울리는 계산·해석·설계(42개)를 섞어 배정</li>
+        <li>40명 배정 후 남는 21개는 예비·재수강·팀 확장 주제로 사용</li>
+        <li>2인 1팀 운영 시 필수 1개 + 연결된 선택/심화 1개를 묶어 20팀</li>
+      </ul>
+    </article>
+    <article>
+      <h3>선수 관계 활용</h3>
+      <p>각 개념의 <strong>선수 표시</strong>와 <strong>난이도</strong>는 그대로 발표 순서입니다. 기초 → 표준 → 심화 순으로 배열하면 학기 흐름과 맞습니다.<br> 선수 개념 담당자가 먼저 발표하도록 배열하면 학기 전체가 하나의 강의 시퀀스가 됩니다.</p>
+      <p>자기 개념의 선수 항목 담당자와 <strong>용어·기호를 맞추는 것</strong>을 필수 요건으로 두면 결과물의 일관성이 크게 올라갑니다.</p>
+    </article>
+    <article>
+      <h3>공통 요건</h3>
+      <ul>
+        <li><strong>분량</strong> 영상 3~5분 / 앱은 3분 내 조작 가능</li>
+        <li><strong>개념은 하나만</strong> — 욕심내면 전부 얕아집니다</li>
+        <li><strong>오개념 1개</strong>를 명시적으로 짚고 반박할 것</li>
+        <li><strong>검산 예제 1개</strong> — 교재 연습문제에서 발췌</li>
+        <li><strong>건축 사례 1개</strong> — 실제 건물·부재 사진 또는 답사</li>
+        <li>참고자료·이미지 출처 표기</li>
+      </ul>
+    </article>
+    <article>
+      <h3>산출물 형식</h3>
+      <p>각 개념 옆의 칩이 권장 형식이고, 진한 칩이 1순위입니다.</p>
+      <ul>
+        <li><strong>영상</strong> — 개념의 성립 배경, 실물 파괴·거동, 현장 사례</li>
+        <li><strong>인터랙티브 · 시뮬레이터</strong> — 변수를 바꿔야 감이 오는 것(단면, 스팬, 각도, 하중)</li>
+        <li><strong>게임 · 퀴즈</strong> — 판별과 부호규약처럼 반복이 필요한 것</li>
+        <li><strong>3D · AR</strong> — 공간적 이해가 필요한 것(입체트러스, 응력요소)</li>
+      </ul>
+    </article>
+  </div>
+
+  <div class="tbl-wrap">
+    <table>
+      <caption class="mod-note" style="text-align:left;margin-bottom:12px">평가 루브릭 (안) — 총 100점</caption>
+      <thead>
+        <tr><th>항목</th><th class="num">배점</th><th>확인 사항</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>개념 정확성</td><td class="num">30</td><td>정의·수식·부호규약에 오류가 없는가. 가정과 적용 범위를 밝혔는가</td></tr>
+        <tr><td>설계적 연결</td><td class="num">25</td><td>건축설계 판단과 어떻게 이어지는지를 구체적 사례로 보였는가</td></tr>
+        <tr><td>전달력</td><td class="num">20</td><td>대상(같은 학년 동기)이 3~5분 안에 이해할 수 있는가. 오개념을 짚었는가</td></tr>
+        <tr><td>완성도</td><td class="num">15</td><td>영상·앱이 끝까지 동작하는가. 표기·단위·출처가 정리되었는가</td></tr>
+        <tr><td>검산 예제</td><td class="num">10</td><td>교재 문제 1개를 실제로 풀어 결과가 맞는가</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tbl-wrap">
+    <table>
+      <caption class="mod-note" style="text-align:left;margin-bottom:12px">모듈별 배분 — 구분과 난이도</caption>
+      <thead>
+        <tr><th>모듈</th><th>주차</th><th class="num">필수</th><th class="num">선택</th><th class="num">기초</th><th class="num">표준</th><th class="num">심화</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>M1 구조와 역학의 큰 그림</td><td>1~2주</td><td class="num">7</td><td class="num">0</td><td class="num">5</td><td class="num">2</td><td class="num">0</td></tr>
+        <tr><td>M2 힘 · 모멘트 · 평형</td><td>2~3주</td><td class="num">11</td><td class="num">0</td><td class="num">6</td><td class="num">4</td><td class="num">1</td></tr>
+        <tr><td>M3 트러스와 골조</td><td>4~5주</td><td class="num">4</td><td class="num">2</td><td class="num">1</td><td class="num">3</td><td class="num">2</td></tr>
+        <tr><td>M4 응력과 변형률</td><td>6주</td><td class="num">9</td><td class="num">1</td><td class="num">3</td><td class="num">7</td><td class="num">0</td></tr>
+        <tr><td>M5 축하중 부재</td><td>7주</td><td class="num">5</td><td class="num">0</td><td class="num">1</td><td class="num">2</td><td class="num">2</td></tr>
+        <tr><td>M6 보의 내력</td><td>9주</td><td class="num">5</td><td class="num">0</td><td class="num">1</td><td class="num">3</td><td class="num">1</td></tr>
+        <tr><td>M7 보의 응력</td><td>10~11주</td><td class="num">6</td><td class="num">0</td><td class="num">0</td><td class="num">4</td><td class="num">2</td></tr>
+        <tr><td>M8 응력 · 변형률 해석</td><td>12주</td><td class="num">4</td><td class="num">1</td><td class="num">0</td><td class="num">1</td><td class="num">4</td></tr>
+        <tr><td>M9 처짐</td><td>13~14주</td><td class="num">4</td><td class="num">2</td><td class="num">0</td><td class="num">2</td><td class="num">4</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<footer>
+  <span>출처 — 구조역학 강의자료 12개 파일 (Syllabus, Introduction, Vector &amp; Force System, Mechanics, 부재, MoM Chap.1·2·4·5·7, Deflections, Summary)</span>
+  <span>교재 — Gere, Mechanics of Materials / Hibbeler, Structural Analysis</span>
+</footer>
+
+</main>
+</div>
+</div>

@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>구조역학 개념 실험실</title>
+<meta name="description" content="구조역학 61개 필수 개념을 손으로 만져 보는 인터랙티브 앱 모음">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap">
+<style>
+:root{
+  --paper:#ffffff; --surface:#f4f4f4; --surface-2:#e8e8e8; --surface-3:#e0e0e0;
+  --ink:#161616; --ink-2:#525252; --muted:#6f6f6f;
+  --rule:#e0e0e0; --rule-soft:#f4f4f4;
+  --tension:#da1e28; --compression:#0043ce; --accent:#007d79;
+  --ui:#0f62fe; --ui-hover:#0043ce; --on-ui:#ffffff;
+  --info:#0f62fe; --info-bg:#edf5ff; --warn:#8e6a00; --warn-line:#f1c21b; --warn-bg:#fcf4d6;
+  --ok:#0e6027; --grid:#e0e0e0;
+  --k1:#697077; --k2:#0f62fe; --k3:#007d79; --k4:#8a3ffc; --k5:#d02670;
+  --k1-bg:#dde1e6; --k1-fg:#121619; --k2-bg:#d0e2ff; --k2-fg:#0043ce;
+  --k3-bg:#9ef0f0; --k3-fg:#005d5d; --k4-bg:#e8daff; --k4-fg:#6929c4;
+  --k5-bg:#ffd7e8; --k5-fg:#9f1853;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --paper:#161616; --surface:#262626; --surface-2:#393939; --surface-3:#4d4d4d;
+  --ink:#f4f4f4; --ink-2:#c6c6c6; --muted:#8d8d8d;
+  --rule:#393939; --rule-soft:#2a2a2a;
+  --tension:#ff8389; --compression:#a6c8ff; --accent:#3ddbd9;
+  --ui:#4589ff; --ui-hover:#78a9ff; --on-ui:#ffffff;
+  --info:#4589ff; --info-bg:#1b2331; --warn:#f1c21b; --warn-line:#f1c21b; --warn-bg:#2e2712;
+  --ok:#42be65; --grid:#393939;
+  --k1:#a2a9b0; --k2:#4589ff; --k3:#3ddbd9; --k4:#be95ff; --k5:#ff7eb6;
+  --k1-bg:#4d5358; --k1-fg:#f2f4f8; --k2-bg:#0043ce; --k2-fg:#d0e2ff;
+  --k3-bg:#005d5d; --k3-fg:#9ef0f0; --k4-bg:#6929c4; --k4-fg:#e8daff;
+  --k5-bg:#9f1853; --k5-fg:#ffd7e8;
+} }
+:root[data-theme="dark"]{
+  --paper:#161616; --surface:#262626; --surface-2:#393939; --surface-3:#4d4d4d;
+  --ink:#f4f4f4; --ink-2:#c6c6c6; --muted:#8d8d8d;
+  --rule:#393939; --rule-soft:#2a2a2a;
+  --tension:#ff8389; --compression:#a6c8ff; --accent:#3ddbd9;
+  --ui:#4589ff; --ui-hover:#78a9ff; --on-ui:#ffffff;
+  --info:#4589ff; --info-bg:#1b2331; --warn:#f1c21b; --warn-line:#f1c21b; --warn-bg:#2e2712;
+  --ok:#42be65; --grid:#393939;
+  --k1:#a2a9b0; --k2:#4589ff; --k3:#3ddbd9; --k4:#be95ff; --k5:#ff7eb6;
+  --k1-bg:#4d5358; --k1-fg:#f2f4f8; --k2-bg:#0043ce; --k2-fg:#d0e2ff;
+  --k3-bg:#005d5d; --k3-fg:#9ef0f0; --k4-bg:#6929c4; --k4-fg:#e8daff;
+  --k5-bg:#9f1853; --k5-fg:#ffd7e8;
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased;}
+.wrap{max-width:1180px; margin:0 auto; padding:0 22px 96px}
+:focus-visible{outline:2px solid var(--accent); outline-offset:3px}
+
+header{padding:48px 0 26px; border-bottom:2px solid var(--ink)}
+.eyebrow{font-family:"IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace; font-size:.71rem; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--muted); display:flex; flex-wrap:wrap; gap:6px 16px; margin-bottom:18px}
+h1{font-family:"Gothic A1","IBM Plex Sans KR","Apple SD Gothic Neo",sans-serif; font-weight:800;
+  font-size:clamp(2.1rem,5.6vw,3.4rem); line-height:1.12; letter-spacing:-.02em; margin:0 0 14px; text-wrap:balance}
+.deck{font-size:1.02rem; color:var(--ink-2); font-weight:400; max-width:62ch; margin:0}
+.deck b{color:var(--ink); font-weight:600}
+.hbar{display:flex; justify-content:space-between; align-items:flex-end; gap:24px; flex-wrap:wrap; margin-top:26px}
+.tbtn{background:none; border:1px solid var(--rule); color:var(--ink-2); cursor:pointer;
+  font-family:"IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace; font-size:.74rem; padding:7px 12px}
+.tbtn:hover{border-color:var(--accent); color:var(--accent)}
+.prog{font-family:"IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace; font-size:.76rem; color:var(--muted); display:flex; align-items:center; gap:12px}
+.bar{width:150px; height:4px; background:var(--rule); position:relative}
+.bar i{position:absolute; inset:0 auto 0 0; background:var(--accent); width:0}
+
+.tools{position:sticky; top:0; z-index:10; background:var(--paper);
+  padding:14px 0 12px; border-bottom:1px solid var(--rule); margin-bottom:8px;
+  display:flex; flex-wrap:wrap; gap:10px 14px; align-items:center}
+#q{flex:1 1 240px; min-width:200px}
+.filters.row2 button{font-size:.71rem; padding:7px 10px}
+#q{width:100%; background:var(--surface); border:1px solid var(--rule); color:var(--ink);
+  padding:10px 13px; font-family:inherit; font-size:.9rem}
+#q::placeholder{color:var(--muted)}
+.filters{display:flex; gap:0; border:1px solid var(--rule); flex-wrap:wrap}
+.filters button{background:var(--surface); border:none; border-right:1px solid var(--rule); cursor:pointer;
+  padding:9px 13px; font-family:"IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace; font-size:.74rem; color:var(--ink-2)}
+.filters button:last-child{border-right:none}
+.filters button[aria-pressed=true]{background:var(--accent); color:var(--paper); font-weight:600}
+
+section.mod{margin-top:40px}
+.mod-h{border-top:2px solid var(--ink); padding-top:12px; margin-bottom:14px;
+  display:flex; justify-content:space-between; align-items:baseline; gap:16px; flex-wrap:wrap}
+.mod-h h2{font-family:"Gothic A1","IBM Plex Sans KR","Apple SD Gothic Neo",sans-serif; font-weight:700; font-size:1.4rem; margin:0; letter-spacing:-.01em}
+.mod-h span{font-family:"IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace; font-size:.72rem; letter-spacing:.1em; color:var(--muted)}
+.grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(232px,1fr)); gap:1px; background:var(--rule)}
+a.card{display:block; background:var(--paper); padding:13px 14px 14px; text-decoration:none; color:inherit}
+a.card:hover{background:var(--surface-2)}
+a.card .r{display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:7px}
+a.card .id{font-family:"IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace; font-size:.72rem; font-weight:600; color:var(--ink-2); letter-spacing:.03em}
+a.card h3{font-family:"Gothic A1","IBM Plex Sans KR","Apple SD Gothic Neo",sans-serif;
+  font-weight:700; font-size:.97rem; line-height:1.36; margin:0 0 3px; word-break:keep-all}
+a.card .en{font-family:"IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace; font-size:.68rem; color:var(--muted); font-weight:400;
+  display:block; margin-bottom:9px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+a.card .meta{display:flex; gap:5px; flex-wrap:wrap}
+a.card.seen .id::after{content:" ✓"; color:var(--accent)}
+.empty{padding:44px 0; color:var(--muted); font-size:.9rem}
+footer{margin-top:70px; padding-top:16px; border-top:1px solid var(--rule);
+  font-family:"IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace; font-size:.71rem; color:var(--muted);
+  display:flex; flex-wrap:wrap; gap:8px 22px; justify-content:space-between}
+@media (max-width:640px){ .tools{grid-template-columns:1fr} }
+/* ── 분류 칩 (구분 · 난이도 · 유형) ── */
+.tier-pill,.lv,.kind{
+  font-family:"IBM Plex Mono","IBM Plex Sans KR","Apple SD Gothic Neo",ui-monospace,monospace;
+  font-size:.68rem; letter-spacing:.05em; padding:2px 7px; white-space:nowrap; line-height:1.5;
+}
+.tier-pill{border:1px solid var(--ink); color:var(--ink); font-weight:600}
+.tier-pill.sel{border-style:dashed; border-color:var(--muted); color:var(--muted); font-weight:400}
+.lv{border:1px solid var(--rule); color:var(--muted)}
+.lv.lv2{border-color:var(--ink-2); color:var(--ink-2)}
+.lv.lv3{border-color:var(--ink); color:var(--ink); font-weight:600}
+.kind{border:1px solid var(--rule); border-left:3px solid var(--k1); color:var(--ink-2); font-weight:500}
+.kind.k1{border-left-color:var(--k1)} .kind.k2{border-left-color:var(--k2)}
+.kind.k3{border-left-color:var(--k3)} .kind.k4{border-left-color:var(--k4)}
+.kind.k5{border-left-color:var(--k5)}
+
+
+/* ── IBM Carbon 컴포넌트 ─────────────────────────────── */
+a{color:var(--ui)}
+a:hover{color:var(--ui-hover)}
+:focus-visible{outline:2px solid var(--ui); outline-offset:1px}
+
+/* 태그 — 모서리 0, Carbon tag 색쌍 */
+.tier-pill,.lv,.kind{border-radius:0; padding:3px 9px; font-size:.69rem; letter-spacing:.02em}
+.tier-pill{border:1px solid var(--rule); background:transparent; color:var(--muted); font-weight:400}
+.tier-pill.sel{border:1px solid var(--ui); background:var(--ui); color:var(--on-ui); font-weight:600}
+.lv{border:1px solid var(--muted); background:transparent; color:var(--ink-2); font-weight:500}
+.lv.lv2{border-color:transparent; background:var(--surface-3); color:var(--ink); font-weight:500}
+.lv.lv3{border-color:transparent; background:var(--ink); color:var(--paper); font-weight:600}
+.kind{border:none; border-left:none; font-weight:600;
+  background:var(--k1-bg); color:var(--k1-fg)}
+.kind.k1{background:var(--k1-bg); color:var(--k1-fg)}
+.kind.k2{background:var(--k2-bg); color:var(--k2-fg)}
+.kind.k3{background:var(--k3-bg); color:var(--k3-fg)}
+.kind.k4{background:var(--k4-bg); color:var(--k4-fg)}
+.kind.k5{background:var(--k5-bg); color:var(--k5-fg)}
+
+/* 실험대 — 레이어 대비 */
+.lab{border:1px solid var(--rule); background:var(--surface)}
+.lab-h{background:var(--surface-2); border-bottom:1px solid var(--rule)}
+.fig{background:var(--paper)}
+.ctrls{border-top:1px solid var(--rule); background:var(--surface)}
+.readout{background:var(--rule); border-top:1px solid var(--rule)}
+.readout div{background:var(--paper)}
+
+/* 수식 · 알림 — Carbon inline notification */
+.eq{background:var(--surface); border-left:3px solid var(--ui)}
+.note{background:var(--warn-bg); border:1px solid var(--rule);
+  border-left:3px solid var(--warn-line)}
+.note h3{color:var(--warn)}
+.note.why{background:var(--info-bg); border-left-color:var(--info)}
+.note.why h3{color:var(--info)}
+details.q{background:var(--surface); border:1px solid var(--rule)}
+details.q summary::before{color:var(--ui)}
+code{background:var(--surface-2)}
+
+/* 컨트롤 — Carbon */
+.seg{border:1px solid var(--rule)}
+.seg button{background:var(--paper); color:var(--ink-2); border-right:1px solid var(--rule)}
+.seg button:hover{background:var(--surface-2)}
+.seg button[aria-pressed=true]{background:var(--ui); color:var(--on-ui); font-weight:600}
+input[type=range]::-webkit-slider-runnable-track{height:2px; background:var(--muted)}
+input[type=range]::-moz-range-track{height:2px; background:var(--muted)}
+input[type=range]::-webkit-slider-thumb{background:var(--ui); width:15px; height:15px; margin-top:-6.5px}
+input[type=range]::-moz-range-thumb{background:var(--ui); width:15px; height:15px}
+.chk input{accent-color:var(--ui)}
+.pager a:hover{border-color:var(--ui); color:var(--ui)}
+
+.topbar{background:var(--paper); border-bottom:1px solid var(--rule)}
+.home,.hbtn,.tbtn{border-radius:0; border:1px solid var(--rule); background:transparent}
+.home:hover,.hbtn:hover,.tbtn:hover{border-color:var(--ui); color:var(--ui); background:var(--surface)}
+
+/* ── 대시보드 (Carbon) ── */
+#q{background:var(--surface); border:none; border-bottom:1px solid var(--muted);
+  border-radius:0; color:var(--ink); padding:11px 13px}
+#q:focus{outline:2px solid var(--ui); outline-offset:-2px; border-bottom-color:transparent}
+.filters{border:1px solid var(--rule)}
+.filters button{background:var(--paper); color:var(--ink-2); border-right:1px solid var(--rule)}
+.filters button:hover{background:var(--surface-2)}
+.filters button[aria-pressed=true]{background:var(--ui); color:var(--on-ui); font-weight:600}
+.grid{background:var(--rule)}
+a.card{background:var(--paper); border-left:3px solid transparent}
+a.card:hover{background:var(--surface)}
+a.card.t-k1{border-left-color:var(--k1)} a.card.t-k2{border-left-color:var(--k2)}
+a.card.t-k3{border-left-color:var(--k3)} a.card.t-k4{border-left-color:var(--k4)}
+a.card.t-k5{border-left-color:var(--k5)}
+a.card.seen .id::after{color:var(--ui)}
+.bar{background:var(--rule)} .bar i{background:var(--ui)}
+.mod-h{border-top:2px solid var(--ink)}
+.navlink{text-decoration:none; display:inline-block}
+.navlink:hover{border-color:var(--ui); color:var(--ui); background:var(--surface)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="eyebrow"><span>전남대학교 건축학부</span><span>구조역학 · Structural Analysis</span><span>2026-2</span></div>
+  <h1>구조역학 개념 실험실</h1>
+  <p class="deck">61개 필수 개념을 <b>하나씩 만져 보는 인터랙티브 앱</b>. 슬라이더를 움직이면 그림과 숫자가 같이 바뀝니다 — 공식을 외우기 전에 손으로 감을 잡는 것이 목적입니다. 카드를 눌러 시작하세요.</p>
+  <div class="hbar">
+    <div class="prog"><span>열어 본 개념</span><span class="bar"><i id="pbar"></i></span><span id="pnum">0 / 61</span>
+      <button class="tbtn" id="reset" type="button">초기화</button>
+      <a class="tbtn navlink" href="map.html">개념 지도 · 배정 가이드 →</a></div>
+    <button class="tbtn" id="themeBtn" type="button">◐ 밝기</button>
+  </div>
+</header>
+
+<div class="tools">
+  <input id="q" type="search" placeholder="개념 · 영문명 검색 (예: 모멘트, stress, 처짐)" autocomplete="off">
+  <div class="filters" id="tier">
+    <button type="button" data-v="all" aria-pressed="true">전체 61</button>
+    <button type="button" data-v="필수" aria-pressed="false">필수 55</button>
+    <button type="button" data-v="선택" aria-pressed="false">선택 6</button>
+  </div>
+  <div class="filters row2" id="lvf">
+    <button type="button" data-v="all" aria-pressed="true">난이도 전체</button>
+    <button type="button" data-v="1" aria-pressed="false">기초 17</button>
+    <button type="button" data-v="2" aria-pressed="false">표준 28</button>
+    <button type="button" data-v="3" aria-pressed="false">심화 16</button>
+  </div>
+  <div class="filters row2" id="kif">
+    <button type="button" data-v="all" aria-pressed="true">유형 전체</button>
+    <button type="button" data-v="개념" aria-pressed="false">개념 15</button>
+    <button type="button" data-v="계산" aria-pressed="false">계산 18</button>
+    <button type="button" data-v="해석" aria-pressed="false">해석 19</button>
+    <button type="button" data-v="설계" aria-pressed="false">설계 5</button>
+    <button type="button" data-v="실험" aria-pressed="false">실험 4</button>
+  </div>
+</div>
+
+<main id="list"></main>
+
+<footer>
+  <span>강의자료 12개 파일에서 추출 · 담당 이방연</span>
+  <span>교재 — Gere, Mechanics of Materials / Hibbeler, Structural Analysis</span>
+</footer>
+</div>
+
+<script>
+var DATA=[{"id": "M1-01", "t": "하중의 흐름과 구조체 · 구조부재", "e": "Load path / structural system & members", "k": "필수", "v": 1, "y": "개념", "d": "하중은 슬래브 → 보 → 기둥 → 기초 → 지반의 한 방향으로만 흐릅니다. 층수를 늘려 보면 왜 아래층 기둥이 굵어져야 하는지가 한눈에 보입니다."}, {"id": "M1-02", "t": "해석과 설계는 다른 작업이다", "e": "Analysis vs. Design", "k": "필수", "v": 1, "y": "개념", "d": "“구조계산”이라 뭉뚱그려 부르는 것은 사실 두 개의 다른 작업입니다. 7단계 설계 프로세스에서 해석은 6단계 하나뿐이고, 나머지는 전부 설계입니다."}, {"id": "M1-03", "t": "역학의 3대 조건", "e": "Equilibrium · Compatibility · Constitutive law", "k": "필수", "v": 2, "y": "개념", "d": "모든 구조 문제는 세 개의 식으로 풀립니다. 강봉 두 개가 강체 판을 함께 떠받치는 이 문제에서, 평형만으로는 답이 안 나오고 나머지 두 조건이 필요합니다."}, {"id": "M1-04", "t": "강체와 변형체", "e": "Rigid body vs. deformable body", "k": "필수", "v": 1, "y": "개념", "d": "같은 다이빙보드를 정역학은 “안 휘는 막대”로, 재료역학은 “휘는 막대”로 봅니다. 무엇을 물을 수 있는지가 달라집니다."}, {"id": "M1-05", "t": "하중의 종류와 산정", "e": "Dead, live, wind and seismic loads", "k": "필수", "v": 1, "y": "계산", "d": "하중의 크기는 설계자가 “이 정도면 되겠지”로 정하지 않습니다. 용도별로 건축구조기준(KBC)에 숫자가 박혀 있고, 설계자는 그걸 찾아 쓰는 사람입니다."}, {"id": "M1-06", "t": "안전율과 세 가지 설계법", "e": "Factor of safety · ASD, Strength, LSD", "k": "필수", "v": 2, "y": "설계", "d": "안전율은 “불안해서 넉넉히 잡는 것”이 아니라, 재료·하중·해석 세 곳의 불확실성을 정량화한 값입니다. 그래서 재료마다 다릅니다."}, {"id": "M1-07", "t": "단위 · 차원 · 접두어", "e": "SI units, dimensions, prefixes", "k": "필수", "v": 1, "y": "계산", "d": "24 MPa과 24 GPa을 헷갈리면 1000배가 틀립니다. 구조 계산에서 가장 흔한 실점 원인이자, 답이 상식적인지 검토하는 첫 번째 도구입니다."}, {"id": "M2-01", "t": "스칼라와 벡터, 힘의 합성과 분해", "e": "Scalars, vectors, triangle & parallelogram rule", "k": "필수", "v": 1, "y": "계산", "d": "힘은 크기만으로 부족하고 방향이 있어야 하는 양입니다. 두 힘을 합치는 두 가지 작도법 — 삼각형 법칙과 평행사변형 법칙 — 이 같은 답을 준다는 것을 눈으로 확인하세요."}, {"id": "M2-02", "t": "직교좌표 성분과 단위벡터", "e": "Cartesian components, i · j · k", "k": "필수", "v": 2, "y": "계산", "d": "벡터를 x·y·z 방향 성분의 합으로 쓰는 표기 체계. 3차원 구조를 손으로 다루려면 반드시 필요합니다."}, {"id": "M2-03", "t": "힘의 분류와 작용선", "e": "External / internal forces, line of action", "k": "필수", "v": 1, "y": "개념", "d": "“내력”이라는 단어를 정확히 쓰기 위한 정리. 잘라 보기 전에는 보이지 않던 힘이, 자르는 순간 나타납니다."}, {"id": "M2-04", "t": "모멘트", "e": "Moment, M = F · d", "k": "필수", "v": 1, "y": "계산", "d": "힘이 물체를 회전시키려는 경향. 크기는 힘 × 수직거리이며, 거리가 선형으로 들어가기 때문에 조금만 내밀어도 급격히 불리해집니다."}, {"id": "M2-05", "t": "우력(짝힘)과 등가우력", "e": "Couple & equivalent couples", "k": "필수", "v": 2, "y": "개념", "d": "크기가 같고 방향이 반대이며 작용선이 다른 두 힘. 힘의 합은 0인데 회전은 일어나고, 어느 점에 대해서도 모멘트가 같습니다."}, {"id": "M2-06", "t": "합력과 등가 힘–우력계", "e": "Resultant, R·d = M_O", "k": "필수", "v": 2, "y": "계산", "d": "여러 힘과 우력이 걸린 계를 힘 하나 + 모멘트 하나로 줄이는 조작. 복잡한 하중 분포를 손으로 다룰 수 있는 크기로 만듭니다."}, {"id": "M2-07", "t": "벡터의 내적과 외적", "e": "Dot product & cross product", "k": "필수", "v": 3, "y": "계산", "d": "한 방향으로의 성분을 뽑는 연산(내적)과, 두 벡터가 만드는 평면에 수직인 벡터를 만드는 연산(외적). 3차원 모멘트 계산의 도구입니다."}, {"id": "M2-08", "t": "지점의 종류", "e": "Pin, roller and fixed supports", "k": "필수", "v": 1, "y": "개념", "d": "실제 접합 디테일을 어떤 기호로 바꿀 것인가. 도면의 상세와 해석 모델을 잇는 유일한 다리이며, 여기서 틀리면 그 뒤의 모든 계산이 엉뚱해집니다."}, {"id": "M2-09", "t": "자유물체도", "e": "Free-body diagram (FBD)", "k": "필수", "v": 1, "y": "해석", "d": "물체를 지지부에서 떼어내고, 지지부가 주던 힘·우력을 반력으로 그려 넣는 절차. 구조 문제 풀이의 첫 단계이자 가장 자주 틀리는 단계입니다."}, {"id": "M2-10", "t": "평형방정식과 반력 계산", "e": "ΣFx = 0, ΣFy = 0, ΣM = 0", "k": "필수", "v": 1, "y": "해석", "d": "2차원에서 독립한 평형식은 정확히 3개, 3차원에서는 6개입니다. 다른 점에서 모멘트를 잡아도 독립식이 늘지 않는다는 것이 핵심입니다."}, {"id": "M2-11", "t": "정정 · 부정정 · 부적정 지지", "e": "Determinate, indeterminate, improper supports", "k": "필수", "v": 2, "y": "개념", "d": "계산을 시작하기 전에 이 구조가 성립하는가를 판별하는 능력. 미지수와 식의 개수만 세면 됩니다."}, {"id": "M3-01", "t": "트러스의 정의와 세 가지 가정", "e": "Truss: two-force members, joint loads, self-weight neglected", "k": "필수", "v": 1, "y": "개념", "d": "막대를 핀으로 결합해 삼각형을 만든 구조. 세 가지 가정 위에서만 “모든 부재가 축력만 받는다”가 성립합니다."}, {"id": "M3-02", "t": "격점법", "e": "Method of joints", "k": "필수", "v": 2, "y": "해석", "d": "절점을 하나씩 떼어 ΣFx = 0, ΣFy = 0을 적용합니다. 절점마다 식이 2개뿐이므로 미지 부재력이 2개 이하인 절점부터 풀어 나갑니다."}, {"id": "M3-03", "t": "단면법", "e": "Method of sections", "k": "필수", "v": 2, "y": "해석", "d": "트러스를 잘라 분할부에 평형을 적용합니다. 2차원 분할부의 독립식은 3개뿐이므로 미지력이 3개 이하가 되도록 절단선을 골라야 합니다."}, {"id": "M3-04", "t": "영부재", "e": "Zero-force members", "k": "필수", "v": 2, "y": "해석", "d": "하중이 걸리지 않은 절점에서, 계산하지 않고도 힘이 0임을 알 수 있는 부재들. 계산량을 크게 줄여 줍니다."}, {"id": "M3-05", "t": "프레임과 기계의 해석", "e": "Frames & machines", "k": "선택", "v": 3, "y": "해석", "d": "트러스와 달리 부재 중간에 하중이 걸리고 다력부재가 섞인 구조. 전체 FBD로 일부 반력을 구한 뒤 부재별로 분해합니다."}, {"id": "M3-06", "t": "입체트러스", "e": "Space truss", "k": "선택", "v": 3, "y": "해석", "d": "볼–소켓 조인트로 사면체를 구성한 3차원 트러스. 2차원 트러스와 같은 방법(절점법·단면법)으로 풀되, 평형식이 절점당 3개가 됩니다."}, {"id": "M4-01", "t": "수직응력", "e": "Normal stress, σ = P / A", "k": "필수", "v": 1, "y": "계산", "d": "단위 면적당 내력. 재료역학에서 가장 근본적인 개념이며, 파괴를 결정하는 것은 하중이 아니라 응력이라는 사실이 핵심입니다."}, {"id": "M4-02", "t": "수직변형률", "e": "Normal strain, ε = δ / L", "k": "필수", "v": 1, "y": "계산", "d": "원래 길이 대비 늘어난 비율. 절대 길이가 아니라 비율로 이야기해야 서로 다른 재료와 부재를 비교할 수 있습니다."}, {"id": "M4-03", "t": "응력–변형률 선도", "e": "σ–ε curve, yield / ultimate / fracture", "k": "필수", "v": 2, "y": "실험", "d": "인장시험이 그리는 곡선 하나에 재료의 모든 성격이 담깁니다. 강재는 항복 후에도 버티고 콘크리트는 바로 깨진다 — 그 차이가 여기 있습니다."}, {"id": "M4-04", "t": "탄성과 소성", "e": "Elasticity & plasticity", "k": "필수", "v": 2, "y": "실험", "d": "하중을 제거했을 때 원래대로 돌아오면 탄성, 잔류변형이 남으면 비탄성. 지진 후 “서 있는데 못 쓰는 건물”의 정체가 이것입니다."}, {"id": "M4-05", "t": "후크의 법칙과 탄성계수", "e": "Hooke's law, σ = Eε", "k": "필수", "v": 1, "y": "개념", "d": "탄성 영역에서 응력과 변형률은 비례하고, 그 기울기가 탄성계수 E입니다. 강도(strength)와 강성(stiffness)은 전혀 다른 물성이라는 것이 이 개념의 핵심입니다."}, {"id": "M4-06", "t": "포아송비", "e": "Poisson's ratio, ν", "k": "필수", "v": 2, "y": "실험", "d": "축방향으로 늘어날 때 횡방향으로 줄어드는 비율. 콘크리트 약 0.2, 강재 약 0.3, 고무는 0.5에 가깝습니다."}, {"id": "M4-07", "t": "전단응력과 단전단 · 복전단", "e": "Shear stress, τ = P / A, single & double shear", "k": "필수", "v": 2, "y": "계산", "d": "부재를 미끄러뜨리려는 힘이 만드는 응력. 볼트가 한 면에서 잘리면 단전단, 두 면이면 저항 면적이 두 배가 되어 응력은 절반입니다."}, {"id": "M4-08", "t": "전단변형률과 전단탄성계수", "e": "Shear strain γ, modulus G, τ = Gγ", "k": "필수", "v": 2, "y": "실험", "d": "직각이 얼마나 틀어졌는가(rad)로 정의되는 변형률과, 전단에서의 후크의 법칙."}, {"id": "M4-09", "t": "지압응력", "e": "Bearing stress", "k": "선택", "v": 2, "y": "설계", "d": "하중이 한 부재에서 다른 부재로 전달될 때 접촉면에 직각으로 생기는 응력. 볼트가 멀쩡해도 판재의 구멍이 찢어지는 파괴 모드입니다."}, {"id": "M4-10", "t": "허용응력 · 허용하중과 단면 설계", "e": "Allowable stress & load, A_req = P / σ_allow", "k": "필수", "v": 2, "y": "설계", "d": "극한강도를 안전율로 나눈 허용응력으로 필요 단면적을 역산합니다. 학생이 처음으로 “설계”를 해 보는 지점입니다."}, {"id": "M5-01", "t": "축부재의 신장량과 강성", "e": "δ = PL / EA, stiffness EA/L", "k": "필수", "v": 1, "y": "계산", "d": "응력·변형률·후크의 법칙을 합치면 나오는 결론. 재료(E)·단면(A)·길이(L) 중 무엇을 바꿔야 얼마나 덜 늘어나는지를 정량적으로 판단하는 첫 도구입니다."}, {"id": "M5-02", "t": "불균일 조건에서의 변형", "e": "Nonuniform conditions, Σ and ∫", "k": "필수", "v": 2, "y": "계산", "d": "단면이나 축력이 구간마다 달라지면 구간별로 더하고, 연속적으로 변하면 적분합니다. 자중을 받는 긴 기둥이 대표 사례입니다."}, {"id": "M5-03", "t": "부정정 축부재의 해석", "e": "Statically indeterminate axial members", "k": "필수", "v": 3, "y": "해석", "d": "미지수 2개, 평형식 1개인 상황. 적합조건과 구성방정식을 더해 식을 하나 더 만드는 절차 — 부정정 구조 해석 전체의 축소판입니다."}, {"id": "M5-04", "t": "온도변화와 열응력", "e": "Thermal effects, δ_T = α(ΔT)L", "k": "필수", "v": 2, "y": "계산", "d": "자유롭게 늘어날 수 있으면 변형만 생기고 응력은 0. 구속되면 변형이 막히면서 응력이 생깁니다 — 하중이 하나도 없어도 부재가 파괴될 수 있습니다."}, {"id": "M5-05", "t": "경사단면의 응력", "e": "Stresses on inclined sections", "k": "필수", "v": 3, "y": "계산", "d": "순수 축인장 상태에서도 45° 경사면에서는 전단응력이 최대가 됩니다. 인장을 걸었는데 파괴면이 비스듬히 나오는 이유입니다."}, {"id": "M6-01", "t": "보의 종류 · 하중 · 반력", "e": "Types of beams, loads and reactions", "k": "필수", "v": 1, "y": "해석", "d": "같은 스팬·같은 하중이라도 지지 방식에 따라 모멘트가 완전히 달라집니다. 평면 계획이 곧 구조 조건인 이유입니다."}, {"id": "M6-02", "t": "전단력과 휨모멘트, 그리고 부호규약", "e": "Shear force V, bending moment M, sign convention", "k": "필수", "v": 2, "y": "해석", "d": "보를 임의의 위치에서 잘랐을 때 단면에 작용하는 내력. 부호규약이 흔들리면 이후 모든 그림이 무너집니다."}, {"id": "M6-03", "t": "하중 · 전단력 · 휨모멘트의 관계", "e": "dV/dx = −w, dM/dx = V", "k": "필수", "v": 2, "y": "해석", "d": "하중을 적분하면 전단력, 전단력을 적분하면 휨모멘트. 전단력이 0이 되는 곳에서 휨모멘트가 최대가 된다는 사실이 실용적 핵심입니다."}, {"id": "M6-04", "t": "SFD · BMD 작도", "e": "Shear-force & bending-moment diagrams", "k": "필수", "v": 2, "y": "해석", "d": "보 전 길이에 걸친 V(x)와 M(x)를 그림으로 그리는 절차. 이 과목의 대표 결과물이며, 최대 모멘트의 위치와 크기가 곧 보 춤과 철근량입니다."}, {"id": "M6-05", "t": "골조의 축력 · 전단력 · 모멘트도", "e": "Axial force, V and M for frames", "k": "필수", "v": 3, "y": "해석", "d": "보와 기둥이 강접합된 골조에서 각 부재별 내력도를 그리는 방법. 절점에서 모멘트가 어떻게 전달되는지가 핵심입니다."}, {"id": "M7-01", "t": "순수휨과 곡률", "e": "Pure & nonuniform bending, curvature κ = 1/ρ", "k": "필수", "v": 2, "y": "개념", "d": "전단력 없이 일정한 모멘트만 받는 구간이 순수휨. 곡률은 보가 얼마나 급하게 휘었는지의 국소적 척도이며, 곡률반경의 역수입니다."}, {"id": "M7-02", "t": "보의 종방향 변형률과 중립축", "e": "Longitudinal strains, neutral axis", "k": "필수", "v": 2, "y": "개념", "d": "평면 유지 가정 아래 변형률은 중립축으로부터의 거리 y에 선형 비례합니다 — 위는 압축, 아래는 인장, 중립축에서 0."}, {"id": "M7-03", "t": "도심 · 단면2차모멘트 · 단면계수", "e": "Centroid, moment of inertia I, section modulus S", "k": "필수", "v": 2, "y": "계산", "d": "단면의 기하학적 성질. 직사각형은 I = bh³/12 — 춤 h가 세제곱으로 들어갑니다. 이 사실 하나가 보 단면 형상의 거의 모든 것을 설명합니다."}, {"id": "M7-04", "t": "휨응력 공식", "e": "Flexure formula, σ = My / I", "k": "필수", "v": 2, "y": "계산", "d": "휨모멘트가 단면 안에서 응력으로 바뀌는 식. M6의 BMD와 M7의 단면 성질이 만나 “이 보가 버티는가”라는 판정으로 이어지는 지점입니다."}, {"id": "M7-05", "t": "휨에 대한 보의 설계", "e": "Design of beams for bending, S_req = M_max / σ_allow", "k": "필수", "v": 3, "y": "설계", "d": "최대모멘트와 허용응력에서 필요 단면계수를 구하고 단면을 확정하는 절차. 스팬이 주어졌을 때 보 춤을 스스로 정할 수 있게 됩니다."}, {"id": "M7-06", "t": "보의 전단응력", "e": "Shear stress in beams, τ = VQ / Ib", "k": "필수", "v": 3, "y": "계산", "d": "휨을 받는 보 안에서 전단응력은 중립축에서 최대, 최외단에서 0 — 휨응력과 정확히 반대 분포입니다."}, {"id": "M8-01", "t": "평면응력과 응력요소", "e": "Plane stress, stress element", "k": "필수", "v": 2, "y": "개념", "d": "한 점의 응력 상태를 σx, σy, τxy 세 성분을 가진 미소 사각형으로 표현하는 방법. 응력은 스칼라도 벡터도 아닙니다."}, {"id": "M8-02", "t": "응력의 변환식", "e": "Transformation equations", "k": "필수", "v": 3, "y": "계산", "d": "좌표축을 θ만큼 돌렸을 때 응력 성분이 어떻게 바뀌는지를 주는 식. 같은 점, 같은 상태, 다른 표현입니다."}, {"id": "M8-03", "t": "주응력과 최대전단응력", "e": "Principal stresses & maximum shear stress", "k": "필수", "v": 3, "y": "해석", "d": "전단응력이 0이 되는 면에서의 수직응력이 주응력. 콘크리트 균열이 왜 그 방향으로 나는지가 이 개념으로 설명됩니다."}, {"id": "M8-04", "t": "모어원", "e": "Mohr's circle", "k": "필수", "v": 3, "y": "해석", "d": "응력 변환을 원 하나로 그려 내는 도해법. 공식을 외우지 않고 주응력·최대전단응력·임의 각도의 응력을 읽어 냅니다."}, {"id": "M8-05", "t": "평면변형률과 3축응력", "e": "Plane strain, Hooke's law for plane stress, triaxial stress", "k": "선택", "v": 3, "y": "개념", "d": "평면응력과 평면변형률의 구분, 2·3차원으로 확장된 후크의 법칙. 어떤 가정을 쓸지가 해석 모델 선택을 좌우합니다."}, {"id": "M9-01", "t": "처짐곡선과 사용성", "e": "Deflection curve, slope, serviceability", "k": "필수", "v": 2, "y": "설계", "d": "강도는 만족하는데 처짐 때문에 탈락하는 설계가 실무에서 훨씬 흔합니다. 안 무너지는데 문이 안 닫히고 천장이 갈라지는 세계."}, {"id": "M9-02", "t": "모멘트–곡률 관계", "e": "EI v″ = M, elastic beam theory", "k": "필수", "v": 2, "y": "개념", "d": "보의 곡률이 M/EI와 같다는 관계. 여기서 하중–전단–모멘트–처짐각–처짐이 미분·적분으로 한 줄에 꿰집니다."}, {"id": "M9-03", "t": "이중적분법", "e": "Double integration method", "k": "필수", "v": 3, "y": "해석", "d": "M(x)를 두 번 적분해 v(x)를 얻고, 적분상수는 경계조건·연속조건·대칭조건으로 결정합니다. 강의자료의 6단계 절차를 그대로 따르는 것이 핵심입니다."}, {"id": "M9-04", "t": "모멘트면적법", "e": "Moment-area method", "k": "선택", "v": 3, "y": "해석", "d": "M/EI 선도의 면적과 도심 위치로 처짐각과 처짐을 구하는 기하학적 방법. 적분 없이 BMD 그림만으로 답을 냅니다."}, {"id": "M9-05", "t": "공액보법", "e": "Conjugate-beam method", "k": "필수", "v": 3, "y": "해석", "d": "M/EI를 가상의 하중으로 얹은 “공액보”를 만들면, 그 보의 전단력이 처짐각이고 휨모멘트가 처짐이 됩니다."}, {"id": "M9-06", "t": "에너지법 — 가상일과 카스티야노 정리", "e": "Virtual work & Castigliano's theorem", "k": "선택", "v": 3, "y": "해석", "d": "힘의 평형 대신 에너지 보존으로 처짐을 구하는 접근. 트러스·골조처럼 기하가 복잡한 구조에서 특히 강력합니다."}]; var MODS={"M1": "구조와 역학의 큰 그림", "M2": "힘 · 모멘트 · 평형", "M3": "트러스와 골조", "M4": "응력과 변형률", "M5": "축하중 부재", "M6": "보의 내력", "M7": "보의 응력", "M8": "응력 · 변형률 해석", "M9": "처짐"};
+(function(){
+  var K='sm-theme';
+  try{var t=localStorage.getItem(K); if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
+  document.getElementById('themeBtn').addEventListener('click',function(){
+    var cur=document.documentElement.getAttribute('data-theme');
+    var sd=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var nx=cur?(cur==='dark'?'light':'dark'):(sd?'light':'dark');
+    document.documentElement.setAttribute('data-theme',nx);
+    try{localStorage.setItem(K,nx);}catch(e){}
+  });
+})();
+function seen(){ try{return JSON.parse(localStorage.getItem('sm-seen')||'[]');}catch(e){return [];} }
+var tier='all', lvf='all', kif='all', q='';
+var KMAP={'개념':'k1','계산':'k2','해석':'k3','설계':'k4','실험':'k5'};
+var LNAME={1:'기초',2:'표준',3:'심화'};
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function draw(){
+  var sv=seen(), list=document.getElementById('list'), out='', total=0;
+  var groups={};
+  DATA.forEach(function(c){ (groups[c.id.split('-')[0]]=groups[c.id.split('-')[0]]||[]).push(c); });
+  Object.keys(MODS).forEach(function(m){
+    var items=(groups[m]||[]).filter(function(c){
+      if(tier!=='all'&&c.k!==tier) return false;
+      if(lvf!=='all'&&String(c.v)!==lvf) return false;
+      if(kif!=='all'&&c.y!==kif) return false;
+      if(!q) return true;
+      var s=(c.id+' '+c.t+' '+c.e+' '+c.d+' '+c.y+' '+LNAME[c.v]).toLowerCase();
+      return s.indexOf(q)>=0;
+    });
+    if(!items.length) return;
+    total+=items.length;
+    var a=items.filter(function(c){return c.k==='필수';}).length;
+    out+='<section class="mod"><div class="mod-h"><h2>'+m+' &nbsp;'+esc(MODS[m])+'</h2>'+
+         '<span>'+items.length+' 개념 · 필수 '+a+' / 선택 '+(items.length-a)+'</span></div><div class="grid">';
+    items.forEach(function(c){
+      out+='<a class="card t-'+KMAP[c.y]+(sv.indexOf(c.id)>=0?' seen':'')+'" href="apps/'+c.id+'.html">'+
+        '<div class="r"><span class="id">'+c.id+'</span>'+
+        '<span class="tier-pill'+(c.k==='선택'?' sel':'')+'">'+c.k+'</span></div>'+
+        '<h3>'+esc(c.t)+'</h3><span class="en">'+esc(c.e)+'</span>'+
+        '<div class="meta"><span class="lv lv'+c.v+'">'+LNAME[c.v]+'</span>'+
+        '<span class="kind '+KMAP[c.y]+'">'+c.y+'</span></div></a>';
+    });
+    out+='</div></section>';
+  });
+  list.innerHTML = out || '<p class="empty">검색 결과가 없습니다.</p>';
+  var p=sv.length, n=DATA.length;
+  document.getElementById('pnum').textContent=p+' / '+n;
+  document.getElementById('pbar').style.width=(n?100*p/n:0)+'%';
+}
+document.getElementById('q').addEventListener('input',function(e){q=e.target.value.trim().toLowerCase(); draw();});
+function bindFilter(id, set){
+  document.getElementById(id).addEventListener('click',function(e){
+    var b=e.target.closest('button'); if(!b)return;
+    Array.prototype.forEach.call(this.querySelectorAll('button'),function(x){x.setAttribute('aria-pressed',x===b?'true':'false');});
+    set(b.dataset.v); draw();
+  });
+}
+bindFilter('tier',function(v){tier=v;});
+bindFilter('lvf', function(v){lvf=v;});
+bindFilter('kif', function(v){kif=v;});
+document.getElementById('reset').addEventListener('click',function(){
+  try{localStorage.removeItem('sm-seen');}catch(e){} draw();
+});
+draw();
+window.addEventListener('pageshow',draw);
+</script>
+</body>
+</html>
