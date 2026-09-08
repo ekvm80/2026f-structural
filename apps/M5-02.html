@@ -302,7 +302,7 @@ input[type=range]::-moz-range-thumb{background:var(--ui); width:15px; height:15p
 <div class="lab">
 <div class="lab-h"><span>3단 계단 단면 기둥</span><span>구간별 축력이 어떻게 누적되는지 보세요</span></div>
 <div class="fig"><canvas id="cv"></canvas></div>
-<div class="ctrls"><div class="ctrl"><label for="A1">상단 단면 A₁<output id="A1v">1000 mm²</output></label><input type="range" id="A1" min="500" max="4000" step="100" value="1000"></div><div class="ctrl"><label for="A2">중단 단면 A₂<output id="A2v">2000 mm²</output></label><input type="range" id="A2" min="500" max="4000" step="100" value="2000"></div><div class="ctrl"><label for="A3">하단 단면 A₃<output id="A3v">3000 mm²</output></label><input type="range" id="A3" min="500" max="4000" step="100" value="3000"></div><div class="ctrl"><label for="Pt">상단 하중 P<output id="Ptv">150 kN</output></label><input type="range" id="Pt" min="20" max="400" step="10" value="150"></div><div class="ctrl"><label class="chk"><input type="checkbox" id="sw"> 자중 포함 (강재 77 kN/m³)</label></div></div><div class="readout"><div><span class="rk">구간별 δ₁</span><span class="rv" id="r1">–</span></div><div><span class="rk">δ₂</span><span class="rv" id="r2">–</span></div><div><span class="rk">δ₃</span><span class="rv" id="r3">–</span></div><div><span class="rk">총 신장량 Σδ</span><span class="rv" id="r4">–</span></div></div></div>
+<div class="ctrls"><div class="ctrl"><label for="A1">상단 단면 A₁<output id="A1v">1000 mm²</output></label><input type="range" id="A1" min="500" max="4000" step="100" value="1000"></div><div class="ctrl"><label for="A2">중단 단면 A₂<output id="A2v">2000 mm²</output></label><input type="range" id="A2" min="500" max="4000" step="100" value="2000"></div><div class="ctrl"><label for="A3">하단 단면 A₃<output id="A3v">3000 mm²</output></label><input type="range" id="A3" min="500" max="4000" step="100" value="3000"></div><div class="ctrl"><label for="Pt">상단 하중 P<output id="Ptv">150 kN</output></label><input type="range" id="Pt" min="20" max="400" step="10" value="150"></div><div class="ctrl"><label class="chk"><input type="checkbox" id="sw"> 자중 포함 (강재 77 kN/m³)</label></div></div><div class="readout"><div><span class="rk">구간별 δ₁</span><span class="rv" id="r1">–</span></div><div><span class="rk">δ₂</span><span class="rv" id="r2">–</span></div><div><span class="rk">δ₃</span><span class="rv" id="r3">–</span></div><div><span class="rk">총 축소량 Σδ</span><span class="rv" id="r4">–</span></div></div></div>
 <div class="note why"><h3>설계에서</h3><p><strong>초고층 기둥의 축소량(column shortening)</strong>이 층마다 다른 이유입니다. 아래층 기둥은 위층 전체의 무게를 받으므로 더 많이 줄어들고, 이것이 누적되면 최상층에서 수십 mm의 차이가 납니다.</p><p>그래서 실무에서는 시공 단계마다 레벨을 보정하고, 코어와 외주 기둥의 축소량 차이(differential shortening)를 별도로 계산합니다.</p></div>
 <div class="note"><h3>자주 하는 오해</h3><p>“단면이 큰 쪽이 항상 덜 줄어든다”가 아닙니다. 그 구간이 받는 <strong>축력도 함께 커지기</strong> 때문입니다. 자중을 켜고 A₃를 바꿔 보세요 — 하단 구간의 축력이 가장 큽니다.</p></div>
 <details class="q"><summary>자중만 받는 균일 단면 기둥의 총 축소량은?</summary><div class="a"><p><code>δ = WL/(2EA)</code> — 전체 자중 W가 <strong>중앙에 집중된 것과 같은 효과</strong>입니다. 축력이 0에서 W까지 선형으로 변하므로 평균이 W/2이기 때문입니다.</p></div></details>
@@ -417,7 +417,7 @@ function supFixed(c,x,y,col,side){
 var f=sketch('cv',function(c,W,H){
   var A=[val('A1'),val('A2'),val('A3')], P=val('Pt'), sw=on('sw'), E=200000, Ls=2000;
   var d=[], N=[], acc=P*1000;
-  var wgt=A.map(function(a){ return sw? 77e-9*a*Ls : 0; });   // N per segment
+  var wgt=A.map(function(a){ return sw? 77e-6*a*Ls : 0; });   // N per segment (77 kN/m³ = 77e-6 N/mm³)
   for(var i=0;i<3;i++){
     var Ntop=acc, Nbot=acc+wgt[i];
     N.push([Ntop,Nbot]);
@@ -427,7 +427,7 @@ var f=sketch('cv',function(c,W,H){
   var tot=d[0]+d[1]+d[2];
   var ink=C('--ink'), ten=C('--tension'), comp=C('--compression'), mut=C('--muted'), soft=C('--rule');
   var top=H*0.14, sh=(H*0.62)/3, cx=W*0.30, mxA=Math.max.apply(null,A);
-  line(c,cx-70,top,cx+70,top,ink,2.2); hatch(c,cx-70,top-11,140,soft);
+  line(c,cx-70,top+3*sh,cx+70,top+3*sh,ink,2.2); hatch(c,cx-70,top+3*sh,140,soft);
   arrow(c,cx,top-46,cx,top-8,comp,0,0);
   for(i=0;i<3;i++){
     var bw=18+52*A[i]/mxA, y=top+i*sh;

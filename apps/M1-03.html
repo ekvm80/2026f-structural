@@ -300,7 +300,7 @@ input[type=range]::-moz-range-thumb{background:var(--ui); width:15px; height:15p
 <div class="eq">① ΣF = 0 &nbsp;&nbsp; ② δ₁ = δ₂ &nbsp;&nbsp; ③ δ = PL/EA &nbsp;&nbsp;⇒&nbsp;&nbsp; F₁ : F₂ = k₁ : k₂<small>평형(①)·적합(②)·구성(③)을 합치면 하중은 강성비대로 갈립니다.</small></div>
 
 <div class="lab">
-<div class="lab-h"><span>부정정 문제 해부</span><span>두 봉이 하중을 나눠 받는 방식</span></div>
+<div class="lab-h"><span>부정정 문제 해부</span><span>두 봉이 하중을 나눠 받는 방식 (E₂ = 200 GPa, L = 2 m 고정)</span></div>
 <div class="fig"><canvas id="cv"></canvas></div>
 <div class="ctrls"><div class="ctrl"><label for="P">하중 P<output id="Pv">120 kN</output></label><input type="range" id="P" min="20" max="300" step="5" value="120"></div><div class="ctrl"><label for="E1">왼쪽 봉 탄성계수 E₁<output id="E1v">200 GPa</output></label><input type="range" id="E1" min="50" max="220" step="10" value="200"></div><div class="ctrl"><label for="A1">왼쪽 봉 단면적 A₁<output id="A1v">600 mm²</output></label><input type="range" id="A1" min="200" max="2000" step="50" value="600"></div><div class="ctrl"><label for="A2">오른쪽 봉 단면적 A₂<output id="A2v">600 mm²</output></label><input type="range" id="A2" min="200" max="2000" step="50" value="600"></div></div><div class="readout"><div><span class="rk">강성비 k₁:k₂</span><span class="rv" id="r0">–</span></div><div><span class="rk">F₁</span><span class="rv" id="r1">–</span></div><div><span class="rk">F₂</span><span class="rv" id="r2">–</span></div><div><span class="rk">공통 처짐 δ</span><span class="rv" id="r3">–</span></div></div></div>
 <div class="note why"><h3>설계에서</h3><p><strong>하중은 “강한 쪽”이 아니라 “뻣뻣한 쪽”으로 갑니다.</strong> A₁을 키워 보세요 — 왼쪽 봉이 하중을 더 가져갑니다. 강도(strength)를 올린 게 아니라 강성(stiffness)을 올렸을 뿐인데도요.</p><p>이것이 전단벽을 한쪽에만 세우면 지진력이 그쪽으로 몰리는 이유이고, 부정정 구조에서 “보강했더니 오히려 그 부재가 더 위험해지는” 현상의 정체입니다.</p></div>
@@ -434,8 +434,9 @@ var f=sketch('cv',function(c,W,H){
   // 강체 판
   c.save(); c.fillStyle=ink; c.fillRect(W*0.22,plate+dd,W*0.56,10); c.restore();
   txt(c,'강체 판 (수평 유지 → δ₁ = δ₂)', W/2, plate+dd+26, mut,10,'center');
-  arrow(c,W/2,plate+dd+42,W/2,plate+dd+13,comp,2,8);
-  txt(c,'P = '+fmt(P,0)+' kN', W/2, plate+dd+56, comp,11,'center',600);
+  var xP=x1+(x2-x1)*F2/P;                       // 판이 수평을 유지하려면 ΣM=0: P의 작용점은 F₁:F₂ 비로 정해진다
+  arrow(c,xP,plate+dd+13,xP,plate+dd+42,comp,2,8);
+  txt(c,'P = '+fmt(P,0)+' kN', xP, plate+dd+56, comp,11,'center',600);
   // 힘 분배 막대
   var by=H*0.16, bw=W*0.30, bx=W*0.06;
   txt(c,'힘 분배', bx, by-14, mut,9.5,'left');

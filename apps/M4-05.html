@@ -428,8 +428,8 @@ var f=sketch('cv',function(c,W,H){
     c.save(); c.fillStyle=cc; c.globalAlpha=.30; c.fillRect(x-17,top,34,len); c.restore();
     c.save(); c.fillStyle=cc; c.globalAlpha=.85; c.fillRect(x-17,top+len,34,ex); c.restore();
     line(c,x-30,top+len,x+30,top+len,mut,1,[4,3]);
-    arrow(c,x,top+len+ex+52,x,top+len+ex+10,ten,2.4,9);
-    txt(c,'P',x,top+len+ex+64,ten,11,'center',600);
+    arrow(c,x,top+len+ex+10,x,top+len+ex+52,ten,2.4,9);
+    txt(c,'P',x,top+len+ex+70,ten,11,'center',600);
     txt(c,nm+'  E = '+fmt(E/1000,0)+' GPa', x, top-24, cc,11.5,'center',600);
     txt(c,'δ = '+fmt(d,3)+' mm', x, top+len+ex+30, cc,12,'center',600);
   }

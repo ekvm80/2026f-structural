@@ -425,8 +425,8 @@ function buildTruss(type, bays, span, height, loads){
   for(i=0;i<bays;i++){ mem.push([i,i+1]); mem.push([B+i,B+i+1]); }   // 현재
   for(i=0;i<=bays;i++) mem.push([i,B+i]);                             // 수직재
   for(i=0;i<bays;i++){                                                // 사재
-    if(type==='pratt') mem.push([B+i, i+1]);
-    else if(type==='howe') mem.push([i, B+i+1]);
+    if(type==='pratt') mem.push( i<bays/2 ? [B+i, i+1] : [B+i+1, i] );      // 중앙 대칭: 사재가 중앙 쪽 아래로 (인장)
+    else if(type==='howe') mem.push( i<bays/2 ? [i, B+i+1] : [i+1, B+i] );   // 중앙 대칭: 사재가 중앙 쪽 위로 (압축)
     else mem.push( i%2===0 ? [i,B+i+1] : [B+i, i+1] );
   }
   var N=nodes.length, M=mem.length, R=3;                 // 핀(2) + 롤러(1)
@@ -498,6 +498,7 @@ var f=sketch('cv',function(c,W,H){
   var ink=C('--ink'), ten=C('--tension'), comp=C('--compression'), mut=C('--muted'), acc=C('--accent');
   var pad=W*0.11, xL=g.P(T.nodes[0])[0], xR=g.P(T.nodes[bays])[0];
   var xc=xL+(xR-xL)*t;
+  T.nodes.forEach(function(n){ if(Math.abs(g.P(n)[0]-xc)<0.5) xc+=0.5; });   // 절점을 관통하는 절단선은 유효한 단면이 아니므로 살짝 비켜 놓는다
   // 잘리는 부재 판정
   var cutIdx=[], mxf=0;
   T.mem.forEach(function(m,k){
@@ -516,11 +517,12 @@ var f=sketch('cv',function(c,W,H){
     var pk = keepFirst? p1:p2, po = keepFirst? p2:p1;
     var dx=po[0]-pk[0], dy=po[1]-pk[1], L=Math.hypot(dx,dy);
     var yi = pk[1] + dy*Math.abs((xc-pk[0])/dx||0.5);
-    var dir = fv>0? 1:-1;
-    var bx=xc, by=(p1[1]+p2[1])/2;
+    var bx=xc, by=yi;                              // 절단선과 부재의 실제 교점에 그린다
+    var ux=dx/L, uy=dy/L, tc=fv>0?ten:comp;
     var off=34+16*ci;
-    arrow(c, bx, by, bx+dir*off*dx/L, by+dir*off*dy/L, fv>0?ten:comp, 2.4, 9);
-    txt(c, fmt(Math.abs(fv),1)+(fv>0?' T':' C'), bx+dir*(off+20)*dx/L, by+dir*(off+16)*dy/L-14, fv>0?ten:comp, 10,'center',600);
+    if(fv>0) arrow(c, bx, by, bx+off*ux, by+off*uy, tc, 2.4, 9);                 // 인장: 절단면에서 바깥(제거된 쪽)으로
+    else     arrow(c, bx+off*ux, by+off*uy, bx+8*ux, by+8*uy, tc, 2.4, 9);       // 압축: 절단면을 향해
+    txt(c, fmt(Math.abs(fv),1)+(fv>0?' T':' C'), bx+(off+20)*ux, by+(off+16)*uy-14, tc, 10,'center',600);
   });
   var okc = cutIdx.length<=3;
   txt(c, cutIdx.length+'개 부재 절단 — '+(okc?'풀 수 있습니다':'식 3개로는 부족합니다'),

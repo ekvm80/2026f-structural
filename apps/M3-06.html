@@ -440,7 +440,7 @@ var f=sketch('cv',function(c,W,H){
   }
   mem.forEach(function(m,k){
     var p=P(pts[m[0]]), q=P(pts[m[1]]);
-    line(c,p[0],p[1],q[0],q[1], k%2? comp:ten, 2.4);
+    line(c,p[0],p[1],q[0],q[1], ink, 2.4);   // 하중이 없으므로 인장·압축 색을 쓰지 않는다
   });
   pts.forEach(function(p,i){
     var q=P(p);

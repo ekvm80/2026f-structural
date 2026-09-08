@@ -302,8 +302,8 @@ input[type=range]::-moz-range-thumb{background:var(--ui); width:15px; height:15p
 <div class="lab">
 <div class="lab-h"><span>문형 골조 (portal frame)</span><span>수직·수평 하중을 바꿔 보세요</span></div>
 <div class="fig"><canvas id="cv"></canvas></div>
-<div class="ctrls"><div class="ctrl"><label for="wv">보 등분포하중 w<output id="wvv">12 kN/m</output></label><input type="range" id="wv" min="0" max="25" step="0.5" value="12"></div><div class="ctrl"><label for="Ph">수평 하중 (풍·지진) P<output id="Phv">20 kN</output></label><input type="range" id="Ph" min="0" max="80" step="2" value="20"></div><div class="ctrl"><label for="hh">층고 h<output id="hhv">4 m</output></label><input type="range" id="hh" min="2.5" max="6" step="0.1" value="4"></div><div class="ctrl"><label>표시</label><div class="seg" id="dg"><button type="button" data-v="M" aria-pressed="true">모멘트도</button><button type="button" data-v="V" aria-pressed="false">전단력도</button><button type="button" data-v="N" aria-pressed="false">축력도</button></div></div></div><div class="readout"><div><span class="rk">기둥 축력</span><span class="rv" id="r1">–</span></div><div><span class="rk">절점 모멘트</span><span class="rv" id="r2">–</span></div><div><span class="rk">보 중앙 모멘트</span><span class="rv" id="r3">–</span></div><div><span class="rk">밑면 모멘트</span><span class="rv" id="r4">–</span></div></div></div>
-<h2>골조가 보와 다른 점</h2><ul><li><strong>기둥에도 모멘트가 생깁니다.</strong> 강접합 절점이 보의 단부 모멘트를 기둥으로 전달합니다 — 보-기둥부재.</li><li><strong>보에도 축력이 생깁니다.</strong> 수평 하중이 걸리면 보가 기둥 사이를 잇는 타이 역할을 합니다.</li><li>수평 하중에서는 모멘트도가 <strong>역대칭</strong>이 되어 절점 위아래로 부호가 뒤집힙니다.</li></ul><div class="note why"><h3>설계에서</h3><p><strong>지진 시 기둥–보 접합부가 급소인 이유가 이것입니다.</strong> 수평 하중 P를 올려 보세요 — 절점 모멘트가 급격히 커집니다. 그 모멘트를 접합부가 전달하지 못하면 골조는 힌지가 되어 무너집니다.</p><p>내진 설계의 원칙인 <strong>“강기둥–약보(strong column, weak beam)”</strong>도 이 그림에서 나옵니다 — 항복이 보에서 먼저 일어나야 기둥이 살아남습니다.</p></div>
+<div class="ctrls"><div class="ctrl"><label for="wv">보 등분포하중 w<output id="wvv">12 kN/m</output></label><input type="range" id="wv" min="0" max="25" step="0.5" value="12"></div><div class="ctrl"><label for="Ph">수평 하중 (풍·지진) P<output id="Phv">20 kN</output></label><input type="range" id="Ph" min="0" max="80" step="2" value="20"></div><div class="ctrl"><label for="hh">층고 h<output id="hhv">4 m</output></label><input type="range" id="hh" min="2.5" max="6" step="0.1" value="4"></div><div class="ctrl"><label>표시</label><div class="seg" id="dg"><button type="button" data-v="M" aria-pressed="true">모멘트도</button><button type="button" data-v="V" aria-pressed="false">전단력도</button><button type="button" data-v="N" aria-pressed="false">축력도</button></div></div></div><div class="readout"><div><span class="rk">기둥 축력 (좌 / 우)</span><span class="rv" id="r1">–</span></div><div><span class="rk">절점 모멘트 (좌 / 우)</span><span class="rv" id="r2">–</span></div><div><span class="rk">보 중앙 모멘트</span><span class="rv" id="r3">–</span></div><div><span class="rk">밑면 모멘트 (좌 / 우)</span><span class="rv" id="r4">–</span></div></div></div>
+<h2>골조가 보와 다른 점</h2><ul><li><strong>기둥에도 모멘트가 생깁니다.</strong> 강접합 절점이 보의 단부 모멘트를 기둥으로 전달합니다 — 보-기둥부재.</li><li><strong>보에도 축력이 생깁니다.</strong> 수평 하중이 걸리면 보가 기둥 사이에서 수평력을 전달하는 축력 부재(스트럿 또는 타이) 역할을 합니다. 위 예에서는 보가 압축을 받습니다.</li><li>수평 하중에서는 모멘트도가 <strong>역대칭</strong>이 되어, 기둥은 상단과 밑면에서 모멘트 부호가 뒤집히는 복곡률로 휩니다.</li></ul><div class="note why"><h3>설계에서</h3><p><strong>지진 시 기둥–보 접합부가 급소인 이유가 이것입니다.</strong> 수평 하중 P를 올려 보세요 — 절점 모멘트가 급격히 커집니다. 그 모멘트를 접합부가 전달하지 못하면 골조는 힌지가 되어 무너집니다.</p><p>내진 설계의 원칙인 <strong>“강기둥–약보(strong column, weak beam)”</strong>도 이 그림에서 나옵니다 — 항복이 보에서 먼저 일어나야 기둥이 살아남습니다.</p></div>
 <div class="note"><h3>자주 하는 오해</h3><p>“기둥은 축력만 받는다”는 트러스적 직관은 <strong>라멘조에서 완전히 틀립니다.</strong> 라멘조 기둥은 축력과 휨을 동시에 받으며, 그래서 단순한 <code>σ = P/A</code>로 설계할 수 없습니다.</p></div>
 <details class="q"><summary>수평 하중만 걸릴 때 기둥 밑면 모멘트의 방향은 양쪽이 같은가?</summary><div class="a"><p><strong>같습니다.</strong> 두 기둥 모두 같은 방향으로 휘기 때문입니다. 다만 축력은 반대 — 한쪽은 인장, 다른 쪽은 압축이 됩니다(전도 모멘트에 저항).</p><p>고층 건물에서 이 축력차가 누적되면 외곽 기둥의 인장이 심각해집니다.</p></div></details>
 
@@ -417,61 +417,74 @@ function supFixed(c,x,y,col,side){
 var DG='M';
 var f=sketch('cv',function(c,W,H){
   var w=val('wv'), P=val('Ph'), h=val('hh'), L=8;
-  // 문형 골조 근사 (양단 고정 기둥, 강접합) — 대칭 수직하중 + 반대칭 수평하중 중첩
-  var I=1, k=(I/L)/(I/h);
-  var Mj_v = w*L*L/12 * (1/(1+ 2*k*0+2))*1.0;          // 절점 모멘트 근사
-  Mj_v = w*L*L/12 / (1 + 2*(h/L));                      // 강성비 반영 근사
+  // 문형 골조 (양단 고정 기둥, 강접합, 모든 부재 EI 동일) — 처짐각법 정해
+  // 대칭 수직하중 w: 절점 모멘트 = (wL²/12)/(1 + h/2L), 기둥 밑면 = 절점의 1/2 (복곡률)
+  var Mj_v = w*L*L/12 / (1 + h/(2*L));
+  var Mb_v = Mj_v/2;
   var Mmid_v = w*L*L/8 - Mj_v;
-  var Mcol_v = Mj_v;
-  var Mj_h = P*h/4, Mb_h = P*h/4;                       // 반곡점법(포털법)
-  var Nax_v = w*L/2, Nax_h = Mj_h*2/L;
+  var Hv = (Mj_v+Mb_v)/h;                            // 수직하중에 의한 기둥 전단 (밑면 수평반력, 안쪽 방향)
+  // 반대칭 수평하중 P (좌측 절점, 우향): 기둥 상단 = 3Ph²/(2(L+6h)), 밑면 = Ph/2 − 상단 (층전단 P/2)
+  var Mt_h = 3*P*h*h/(2*(L+6*h));
+  var Mb_h = P*h/2 - Mt_h;
+  var Nax_v = w*L/2, Nax_h = 2*Mt_h/L;               // 기둥 축력: 수직하중분, 수평하중에 의한 증감(=보 전단)
+  // 부호 있는 단부 모멘트 — 보: 아래로 볼록 +, 기둥: 바깥면 인장 +
+  var MB = -Mj_v + Mt_h, MC = -Mj_v - Mt_h;          // 보 좌단·우단
+  var MLt = Mj_v - Mt_h, MLb = -Mb_v + Mb_h;         // 좌측 기둥 상단·밑면
+  var MRt = Mj_v + Mt_h, MRb = -Mb_v - Mb_h;         // 우측 기둥 상단·밑면
+  var QL = P/2 - Hv, QR = P/2 + Hv;                  // 기둥 전단 (보가 기둥 상단을 미는 힘, 우향 +)
+  var NL = Nax_v - Nax_h, NR = Nax_v + Nax_h;        // 기둥 축력 (압축 +) — 풍상측(좌) 감소, 풍하측(우) 증가
+  var Nbeam = P/2 + Hv;                              // 보 축력 (압축 +)
   var ink=C('--ink'), ten=C('--tension'), comp=C('--compression'), mut=C('--muted'), acc=C('--accent');
   var s=Math.min((W*0.42)/L, (H*0.40)/h);
-  var cx=W*0.34, yb=H*0.82, yt=yb-h*s, xl=cx-L*s/2, xr=cx+L*s/2;
+  var cx=W*0.36, yb=H*0.82, yt=yb-h*s, xl=cx-L*s/2, xr=cx+L*s/2;
   line(c,xl,yb,xl,yt,ink,6); line(c,xr,yb,xr,yt,ink,6); line(c,xl,yt,xr,yt,ink,6);
   supFixed(c,xl,yb,ink,'left'); supFixed(c,xr,yb,ink,'left');
   hatch(c,xl-24,yb,48,mut); hatch(c,xr-24,yb,48,mut);
   if(w>0){ for(var i=0;i<=9;i++){ var xx=xl+(xr-xl)*i/9; arrow(c,xx,yt-30,xx,yt-6,mut,1.2,5); }
     line(c,xl,yt-30,xr,yt-30,mut,1.4); txt(c,'w = '+fmt(w,1),cx,yt-42,mut,10,'center',600); }
-  if(P>0){ arrow(c,xl-64,yt,xl-8,yt,comp,2.6,10); txt(c,'P = '+fmt(P,0)+' kN',xl-68,yt-14,comp,11,'right',600); }
+  if(P>0){ arrow(c,xl-64,yt,xl-8,yt,comp,2.6,10); txt(c,'P = '+fmt(P,0)+' kN',xl-36,yt-16,comp,11,'center',600); }
   // 내력도
-  var gx=W*0.66, gs=Math.min((W*0.28)/L,(H*0.34)/h);
+  var gx=W*0.74, gs=Math.min((W*0.24)/L,(H*0.34)/h);   // 내력도는 골조(≤0.57W) 오른쪽에 겹치지 않게
   var gxl=gx-L*gs/2, gxr=gx+L*gs/2, gyb=H*0.78, gyt=gyb-h*gs;
   line(c,gxl,gyb,gxl,gyt,mut,1.4); line(c,gxr,gyb,gxr,gyt,mut,1.4); line(c,gxl,gyt,gxr,gyt,mut,1.4);
-  var lab='', v1=0,v2=0,v3=0,v4=0;
+  var lab='';
   if(DG==='M'){
-    var Mj=Mj_v+Mj_h, Mmid=Mmid_v, Mbase=Mcol_v+Mb_h;
-    var sc=34/Math.max(Mj,Mmid,Mbase,1);
+    // 압축측에 그린다 — 보: 아래로 볼록(+)이면 위쪽, 기둥: 바깥면 인장(+)이면 안쪽. 강절점에서 보 단부와 기둥 상단의 값이 같다.
+    var mx=Math.max(Math.abs(MB),Math.abs(MC),Math.abs(MLb),Math.abs(MRb),Math.abs(Mmid_v),1), sc=34/mx;
     c.save(); c.strokeStyle=comp; c.lineWidth=2; c.beginPath();
-    c.moveTo(gxl,gyt-Mj*sc);
+    c.moveTo(gxl,gyt); c.lineTo(gxl,gyt-MB*sc);
     for(i=0;i<=30;i++){ var t=i/30, xx2=gxl+(gxr-gxl)*t;
-      var mm=-Mj+(Mmid+Mj)*4*t*(1-t); c.lineTo(xx2, gyt - mm*sc); }
-    c.stroke(); c.restore();
-    line(c,gxl,gyt-Mj*sc,gxl,gyb+Mbase*sc*0,comp,0);
-    c.save(); c.strokeStyle=comp; c.lineWidth=2;
-    c.beginPath(); c.moveTo(gxl-Mj*sc,gyt); c.lineTo(gxl+Mbase*sc,gyb); c.stroke();
-    c.beginPath(); c.moveTo(gxr+Mj*sc,gyt); c.lineTo(gxr+Mbase*sc,gyb); c.stroke(); c.restore();
-    lab='모멘트도 M'; v1=Nax_v; v2=Mj; v3=Mmid; v4=Mbase;
+      var mm=MB+(MC-MB)*t + (w*L*L/8)*4*t*(1-t); c.lineTo(xx2, gyt - mm*sc); }
+    c.lineTo(gxr,gyt); c.stroke();
+    c.beginPath(); c.moveTo(gxl,gyt); c.lineTo(gxl+MLt*sc,gyt); c.lineTo(gxl+MLb*sc,gyb); c.lineTo(gxl,gyb); c.stroke();
+    c.beginPath(); c.moveTo(gxr,gyt); c.lineTo(gxr-MRt*sc,gyt); c.lineTo(gxr-MRb*sc,gyb); c.lineTo(gxr,gyb); c.stroke();
+    c.restore();
+    lab='모멘트도 M (압축측)';
   } else if(DG==='V'){
-    var Vb=w*L/2, Vc=P/2+ 2*Mj_v/h;
-    var sc2=30/Math.max(Vb,Vc,1);
+    // 보: V(x) = wL/2 − wx − 2M_t,h/L (위쪽 +). 기둥: 층전단 P/2 ± 수직하중분 H_v, 우향(+)을 왼쪽에 그린다.
+    var Vb0=Nax_v-Nax_h, VbL=-Nax_v-Nax_h;
+    var sc2=30/Math.max(Math.abs(Vb0),Math.abs(VbL),Math.abs(QL),Math.abs(QR),1);
     c.save(); c.strokeStyle=acc; c.lineWidth=2;
-    c.beginPath(); c.moveTo(gxl,gyt-Vb*sc2); c.lineTo(gxr,gyt+Vb*sc2); c.stroke();
-    c.beginPath(); c.moveTo(gxl-Vc*sc2,gyt); c.lineTo(gxl-Vc*sc2,gyb); c.stroke();
-    c.beginPath(); c.moveTo(gxr-Vc*sc2,gyt); c.lineTo(gxr-Vc*sc2,gyb); c.stroke(); c.restore();
-    lab='전단력도 V'; v1=Nax_v; v2=Vc; v3=Vb; v4=Vc;
+    c.beginPath(); c.moveTo(gxl,gyt); c.lineTo(gxl,gyt-Vb0*sc2); c.lineTo(gxr,gyt-VbL*sc2); c.lineTo(gxr,gyt); c.stroke();
+    c.beginPath(); c.moveTo(gxl,gyt); c.lineTo(gxl-QL*sc2,gyt); c.lineTo(gxl-QL*sc2,gyb); c.lineTo(gxl,gyb); c.stroke();
+    c.beginPath(); c.moveTo(gxr,gyt); c.lineTo(gxr-QR*sc2,gyt); c.lineTo(gxr-QR*sc2,gyb); c.lineTo(gxr,gyb); c.stroke();
+    c.restore();
+    lab='전단력도 V';
   } else {
-    var Nl=Nax_v+Nax_h, Nr=Nax_v-Nax_h, sc3=26/Math.max(Nl,Math.abs(Nr),1);
-    c.save(); c.strokeStyle=ten; c.lineWidth=2;
-    c.beginPath(); c.moveTo(gxl-Nl*sc3,gyt); c.lineTo(gxl-Nl*sc3,gyb); c.stroke();
-    c.strokeStyle=comp; c.beginPath(); c.moveTo(gxr+Nr*sc3,gyt); c.lineTo(gxr+Nr*sc3,gyb); c.stroke(); c.restore();
-    lab='축력도 N'; v1=Nl; v2=Nr; v3=P/2; v4=Nax_h;
+    // 축력: 압축은 부재 바깥쪽에 압축색, 인장이면 인장색. 보도 P/2 + H_v 의 압축 축력을 받는다.
+    var sc3=26/Math.max(Math.abs(NL),Math.abs(NR),Nbeam,1);
+    c.save(); c.lineWidth=2;
+    c.strokeStyle= NL>=0? comp:ten; c.beginPath(); c.moveTo(gxl,gyt); c.lineTo(gxl-NL*sc3,gyt); c.lineTo(gxl-NL*sc3,gyb); c.lineTo(gxl,gyb); c.stroke();
+    c.strokeStyle= NR>=0? comp:ten; c.beginPath(); c.moveTo(gxr,gyt); c.lineTo(gxr+NR*sc3,gyt); c.lineTo(gxr+NR*sc3,gyb); c.lineTo(gxr,gyb); c.stroke();
+    c.strokeStyle=comp; c.beginPath(); c.moveTo(gxl,gyt); c.lineTo(gxl,gyt-Nbeam*sc3); c.lineTo(gxr,gyt-Nbeam*sc3); c.lineTo(gxr,gyt); c.stroke();
+    c.restore();
+    lab='축력도 N (압축 +)';
   }
   txt(c, lab, gx, gyt-58, ink, 12,'center',600);
   txt(c,'문형 골조 (portal frame)', cx, H*0.12, mut, 11,'center');
-  set('r1',fmt(Nax_v+Nax_h,1)+' / '+fmt(Nax_v-Nax_h,1)+' kN');
-  set('r2',fmt(Mj_v+Mj_h,1)+' kN·m'); set('r3',fmt(Mmid_v,1)+' kN·m');
-  set('r4',fmt(Mcol_v+Mb_h,1)+' kN·m');
+  set('r1',fmt(NL,1)+' / '+fmt(NR,1)+' kN');
+  set('r2',fmt(Math.abs(MLt),1)+' / '+fmt(MRt,1)+' kN·m'); set('r3',fmt(Mmid_v,1)+' kN·m');
+  set('r4',fmt(Math.abs(MLb),1)+' / '+fmt(Math.abs(MRb),1)+' kN·m');
 });
 bind(f,{wv:function(v){return fmt(v,1)+' kN/m';},Ph:function(v){return fmt(v,0)+' kN';},hh:function(v){return fmt(v,1)+' m';}});
 segment('dg',function(v){DG=v; f.render();});

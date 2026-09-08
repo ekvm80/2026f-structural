@@ -449,7 +449,7 @@ var f=sketch('cv',function(c,W,H){
   if(off){ line(c, X(0.002), Y(0), X(0.002+m.fy/m.E*1.3), Y(m.fy*1.3), acc,1.4,[5,4]);
     txt(c,'0.2% 오프셋', X(0.002), y0+18, acc,9.5,'center',600); }
   // 표시점
-  [[m.ey,m.fy,'σ_y 항복',comp],[m.eu,m.fu,'σ_u 극한',ink],[m.ef,curve(m,m.ef),'σ_f 파단',mut]].forEach(function(p,i){
+  [[m.ey,m.fy,(MT==='cc'||MT==='wd')? 'σ_pl 비례한도':'σ_y 항복',comp],[m.eu,m.fu,'σ_u 극한',ink],[m.ef,curve(m,m.ef),'σ_f 파단',mut]].forEach(function(p,i){
     line(c,X(p[0]),y1+4,X(p[0]),y0, p[3],1,[3,3]);
     c.save(); c.fillStyle=p[3]; c.beginPath(); c.arc(X(p[0]),Y(p[1]),4.4,0,7); c.fill(); c.restore();
     txt(c,p[2], X(p[0])+7, y1+10+i*19, p[3],9.5,'left',600);
@@ -461,9 +461,10 @@ var f=sketch('cv',function(c,W,H){
   if(lx < x0+72){ lx=X(ec)+10; la='left'; } else if(lx > x1-72){ lx=X(ec)-10; la='right'; }
   txt(c, fmt(sc,1)+' MPa', lx, Y(sc)+24, acc,12,la,600);
   txt(c, m.name, x1, y1-6, ten, 12,'right',600);
-  var st = ec<=m.ey? '탄성' : (ec<=m.eu? '소성 (항복 후)' : (ec<=m.ef? '넥킹 · 파단 임박':'파단'));
+  var brittle = (MT==='cc'||MT==='wd');
+  var st = ec<=m.ey? '탄성' : (ec<=m.eu? (brittle? '비선형 (비례한도 초과)':'소성 (항복 후)') : (ec<=m.ef? (brittle? '최고점 이후 · 파괴 임박':'넥킹 · 파단 임박'):'파단'));
   set('r1',fmt(sc,1)+' MPa'); set('r2',fmt(m.E/1000,0)+' GPa');
-  set('r3',fmt(m.fy,0)+' MPa'); set('r4',st);
+  set('r3', brittle? '뚜렷한 항복 없음 (σ_u '+fmt(m.fu,0)+' MPa)' : fmt(m.fy,0)+' MPa'); set('r4',st);
   var e2=el('r4'); if(e2) e2.style.color = ec<=m.ey? ink : ten;
 });
 bind(f,{ep:function(v){return fmt(v,1)+' ‰';}});

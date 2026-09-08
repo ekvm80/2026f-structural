@@ -439,8 +439,8 @@ var f=sketch('cv',function(c,W,H){
     c.save(); c.beginPath(); c.strokeStyle=acc; c.lineWidth=4; c.lineCap='round';
     for(var i=0;i<=100;i++){
       var t=i/100, sh;
-      if(CS==='c') sh = (t*t*(3-t))/2;
-      else sh = t*(1-2*t*t+t*t*t)/(5/24);
+      if(CS==='c') sh = ((1-t)*(1-t)*(2+t))/2;          // 자유단(t=0)에서 1, 고정단(t=1)에서 0·수평
+      else sh = t*(1-2*t*t+t*t*t)/(5/16);              // 중앙 t=0.5에서 1
       var X=x0+(x1-x0)*t, Y=y+amp*Math.max(0,Math.min(1.2,sh));
       if(i===0)c.moveTo(X,Y); else c.lineTo(X,Y);
     }

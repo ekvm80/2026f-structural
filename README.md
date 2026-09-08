@@ -80,6 +80,10 @@
 그보다 더 잘 설명하는 영상·앱을 만드는 것이 과제입니다.
 배정 방식과 평가 루브릭은 [개념 지도](map.html)에 있습니다.
 
+## 수정 이력
+
+- **2026-09-08** — 61개 앱의 물리·역학 정합성을 전수 검토하여 수식·JS 모델·그림 방향·확인 문제 수치의 오류를 수정하였다. 앱별 상세는 [CHANGELOG.md](CHANGELOG.md) 참조.
+
 ---
 
 교재 — Gere, *Mechanics of Materials* / Hibbeler, *Structural Analysis*

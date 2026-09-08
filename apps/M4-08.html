@@ -435,15 +435,15 @@ var f=sketch('cv',function(c,W,H){
   c.moveTo(cx-bw/2,cy); c.lineTo(cx+bw/2,cy); c.lineTo(cx+bw/2+sx,cy-bh); c.lineTo(cx-bw/2+sx,cy-bh);
   c.closePath(); c.stroke(); c.restore();
   arrow(c,cx-bw/2+sx-56,cy-bh,cx-bw/2+sx-6,cy-bh,ten,2.6,10);
-  arrow(c,cx+bw/2+56,cy-bh,cx+bw/2+sx+6,cy-bh,ten,0,0);
   txt(c,'τ = '+fmt(tau,1)+' MPa', cx-bw/2+sx-62, cy-bh-16, ten,11.5,'right',600);
   // 각도
   c.save(); c.strokeStyle=ten; c.lineWidth=1.4; c.beginPath();
   c.arc(cx-bw/2, cy, 30, -Math.PI/2, -Math.PI/2+Math.atan2(sx,bh)); c.stroke(); c.restore();
   txt(c,'γ', cx-bw/2+20, cy-38, ten,12,'left',600);
   txt(c, GG[MM][1]+'  G = '+(G>=1000? fmt(G/1000,0)+' GPa':fmt(G,0)+' MPa'), W*0.05, H*0.10, ink,12,'left',600);
-  txt(c,'γ = '+fmt(g,5)+' rad = '+fmt(g*180/Math.PI,3)+'°', W*0.05, H*0.92, comp,11.5,'left',600);
-  set('r1',fmt(g,5)+' rad'); set('r2',fmt(g*180/Math.PI,3)+'°');
+  var th=Math.atan(g);   /* 직각의 변화량 θ: tanθ = γ (미소변형에서 θ ≈ γ) */
+  txt(c,'γ = '+fmt(g,5)+' rad,  θ = '+fmt(th*180/Math.PI,3)+'°', W*0.05, H*0.92, comp,11.5,'left',600);
+  set('r1',fmt(g,5)+' rad'); set('r2',fmt(th*180/Math.PI,3)+'°');
   set('r3',fmt(dx,2)+' mm'); set('r4', g>0.5?'과대 변형':'탄성 범위');
 });
 bind(f,{tau:function(v){return fmt(v,1)+' MPa';},hb:function(v){return fmt(v,0)+' mm';}});

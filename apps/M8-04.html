@@ -438,14 +438,14 @@ function elem(c,cx,cy,a,th,sx,sy,txy,scale,ink,ten,comp,mut){
   function nrm(mid, ux,uy, val, col){
     var L=Math.min(52, Math.abs(val)*scale);
     if(L<3) return;
-    var d = val>=0? 1 : -1;
-    arrow(c, mid[0]-d*(L+8)*ux, mid[1]+d*(L+8)*uy, mid[0]-d*6*ux, mid[1]+d*6*uy, col, 2, 8);
+    var fx=mid[0]-(L+8)*ux, fy=mid[1]+(L+8)*uy, nx=mid[0]-6*ux, ny=mid[1]+6*uy;   /* 바깥 끝(f) / 면 근처(n) */
+    if(val>=0) arrow(c, nx,ny, fx,fy, col, 2, 8); else arrow(c, fx,fy, nx,ny, col, 2, 8);   /* 인장: 면에서 바깥으로, 압축: 바깥에서 면으로 */
   }
   function shr(mid, tx,ty, val, col){
     var L=Math.min(40, Math.abs(val)*scale);
     if(L<3) return;
     var d = val>=0? 1:-1;
-    arrow(c, mid[0]-d*L*tx*0.5, mid[1]+d*L*ty*0.5, mid[0]+d*L*tx*0.5, mid[1]-d*L*ty*0.5, col, 2, 7);
+    arrow(c, mid[0]-d*L*tx*0.5, mid[1]-d*L*ty*0.5, mid[0]+d*L*tx*0.5, mid[1]+d*L*ty*0.5, col, 2, 7);
   }
   var mR=P(a,0), mL=P(-a,0), mT=P(0,a), mB=P(0,-a);
   nrm(mR, -co, -si, sx, sx>=0?ten:comp);

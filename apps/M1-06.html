@@ -297,12 +297,12 @@ input[type=range]::-moz-range-thumb{background:var(--ui); width:15px; height:15p
 <h1>안전율과 세 가지 설계법</h1>
 <span class="en">Factor of safety · ASD, Strength, LSD</span>
 <p class="lede">안전율은 “불안해서 넉넉히 잡는 것”이 아니라, 재료·하중·해석 세 곳의 불확실성을 정량화한 값입니다. 그래서 재료마다 다릅니다.</p>
-<div class="eq">FS = 극한하중 / 작용하중 &nbsp;&nbsp;&nbsp; σ<sub>allow</sub> = σ<sub>u</sub> / FS<small>강재 약 1.5, 콘크리트 2~3, 벽돌 5.5 — 재료가 균질하고 예측 가능할수록 안전율이 작아집니다.</small></div>
+<div class="eq">FS = 극한하중 / 작용하중 &nbsp;&nbsp;&nbsp; σ<sub>allow</sub> = σ<sub>u</sub> / FS (연성 재료인 강재는 σ<sub>y</sub> / FS)<small>강재 약 1.5, 콘크리트 2~3, 벽돌 5.5 — 재료가 균질하고 예측 가능할수록 안전율이 작아집니다.</small></div>
 
 <div class="lab">
 <div class="lab-h"><span>안전 여유 게이지</span><span>재료를 바꿔 보세요</span></div>
 <div class="fig"><canvas id="cv"></canvas></div>
-<div class="ctrls"><div class="ctrl"><label>재료</label><div class="seg" id="mt"><button type="button" data-v="s" aria-pressed="true">강재 FS 1.5</button><button type="button" data-v="c" aria-pressed="false">콘크리트 FS 2.5</button><button type="button" data-v="b" aria-pressed="false">벽돌 FS 5.5</button></div></div><div class="ctrl"><label for="P">작용 하중 P<output id="Pv">150 kN</output></label><input type="range" id="P" min="20" max="600" step="10" value="150"></div><div class="ctrl"><label for="A">단면적 A<output id="Av">6000 mm²</output></label><input type="range" id="A" min="1000" max="20000" step="500" value="6000"></div></div><div class="readout"><div><span class="rk">극한강도 σᵤ</span><span class="rv" id="r1">–</span></div><div><span class="rk">허용응력 σ_allow</span><span class="rv" id="r2">–</span></div><div><span class="rk">작용응력 σ</span><span class="rv" id="r3">–</span></div><div><span class="rk">판정</span><span class="rv" id="r4">–</span></div></div></div>
+<div class="ctrls"><div class="ctrl"><label>재료</label><div class="seg" id="mt"><button type="button" data-v="s" aria-pressed="true">강재 FS 1.5</button><button type="button" data-v="c" aria-pressed="false">콘크리트 FS 2.5</button><button type="button" data-v="b" aria-pressed="false">벽돌 FS 5.5</button></div></div><div class="ctrl"><label for="P">작용 하중 P<output id="Pv">150 kN</output></label><input type="range" id="P" min="20" max="600" step="10" value="150"></div><div class="ctrl"><label for="A">단면적 A<output id="Av">6000 mm²</output></label><input type="range" id="A" min="1000" max="20000" step="500" value="6000"></div></div><div class="readout"><div><span class="rk">기준강도 σᵤ (강재는 σ<sub>y</sub>)</span><span class="rv" id="r1">–</span></div><div><span class="rk">허용응력 σ_allow</span><span class="rv" id="r2">–</span></div><div><span class="rk">작용응력 σ</span><span class="rv" id="r3">–</span></div><div><span class="rk">판정</span><span class="rv" id="r4">–</span></div></div></div>
 <h2>세 가지 설계법</h2><ul><li><strong>허용응력설계법 (ASD)</strong> — 구조물 모든 부분에서 재료의 응력이 허용응력 이하가 되게. 해석·설계 모두 선형 탄성.</li><li><strong>강도설계법</strong> — 하중에 의해 유발되는 응력으로 부재가 파괴되지 않게. 해석은 선형, 단면 설계는 비선형(극한상태).</li><li><strong>한계상태설계법 (LSD)</strong> — 사용기간 동안 만족할 만한 확률로 한계상태(사용·강도·극한)에 도달하지 않게. 확률 기반.</li></ul><div class="note why"><h3>설계에서</h3><p>왜 벽돌의 안전율이 강재의 <strong>3.7배</strong>인가 — 강재는 공장에서 규격대로 나오고 항복 후에도 버티지만(연성), 조적은 재료·시공 편차가 크고 갑자기 깨집니다(취성). 안전율은 <strong>재료를 얼마나 믿을 수 있는가의 척도</strong>입니다.</p><p>같은 이유로 현장 콘크리트가 공장 프리캐스트보다 안전율이 큽니다.</p></div>
 <div class="note"><h3>자주 하는 오해</h3><p>“안전율 2.5면 2.5배 하중까지 버틴다”는 <strong>대략만 맞습니다.</strong> 강도설계·한계상태설계에서는 하중 쪽에도 계수(1.2·1.6)가 붙고 재료 쪽에도 강도감소계수 φ가 붙어, 안전 여유가 양쪽에 나뉘어 들어갑니다.</p></div>
 <details class="q"><summary>작용응력이 허용응력의 딱 절반이면 안전한가? 경제적인가?</summary><div class="a"><p><strong>안전하지만 비경제적</strong>입니다. 실제 안전율이 규정의 두 배가 되어 재료를 두 배 쓴 셈입니다.</p><p>좋은 설계는 작용응력을 허용응력의 <strong>80~95% 부근</strong>에 두는 것입니다. 위 게이지에서 단면적을 줄여 그 구간에 맞춰 보세요.</p></div></details>
@@ -414,7 +414,7 @@ function supFixed(c,x,y,col,side){
   c.restore();
 }
 
-var MAT={s:[400,1.5,'강재'],c:[24,2.5,'콘크리트'],b:[10,5.5,'벽돌']}, M='s';
+var MAT={s:[275,1.5,'강재 SS275 (항복강도 기준)'],c:[24,2.5,'콘크리트'],b:[10,5.5,'벽돌']}, M='s';
 var f=sketch('cv',function(c,W,H){
   var m=MAT[M], su=m[0], FS=m[1], sa=su/FS;
   var P=val('P'), A=val('A'), s=P*1000/A;
@@ -429,7 +429,7 @@ var f=sketch('cv',function(c,W,H){
   line(c,bx+wa,y-15,bx+wa,y+bh+15, comp,1.8,[5,4]);
   txt(c,'허용 '+fmt(sa,1), bx+wa, y-25, comp,10.5,'center',600);
   line(c,bx+bw,y-15,bx+bw,y+bh+15, ink,1.4,[3,3]);
-  txt(c,'극한 '+fmt(su,0)+' MPa', bx+bw, y-25, ink,10.5,'right',600);
+  txt(c,'기준 '+fmt(su,0)+' MPa', bx+bw, y-25, ink,10.5,'right',600);
   txt(c, fmt(s,1)+' MPa', bx+8, y+bh/2, C('--paper'),12,'left',600);
   txt(c, m[2]+' · FS = '+FS, bx, y-48, mut, 12,'left',600);
   // 여유율

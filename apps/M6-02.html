@@ -416,7 +416,7 @@ function supFixed(c,x,y,col,side){
 
 /* ── 공통 보 해석기 ────────────────────────────────────────────
    type: 'ss' 단순보 | 'cant' 캔틸레버(좌단 고정) | 'over' 내민보(0, xb 지지)
-   loads: {t:'P', x, P}  |  {t:'w', x1, x2, w}  |  {t:'M', x, M}
+   loads: {t:'P', x, P}  |  {t:'w', x1, x2, w}  |  {t:'M', x, M}  (M: 시계방향 +)
    부호: 하중 아래 방향 +, 반력 위 방향 +, 모멘트 상연 압축 +            */
 function beam(type, L, xb, loads){
   if(type==='ss') xb=L; if(type==='cant') xb=null;
@@ -432,7 +432,7 @@ function beam(type, L, xb, loads){
   function V(x){
     var v=Ra; if(xb!==null && x>xb) v+=Rb;
     loads.forEach(function(l){
-      if(l.t==='P'){ if(x>l.x) v-=l.P; }
+      if(l.t==='P'){ if(x>l.x || l.x<=0) v-=l.P; }
       else if(l.t==='w'){ var b=Math.min(x,l.x2); if(b>l.x1) v-=l.w*(b-l.x1); }
     });
     return v;
@@ -442,7 +442,7 @@ function beam(type, L, xb, loads){
     loads.forEach(function(l){
       if(l.t==='P'){ if(x>l.x) m-=l.P*(x-l.x); }
       else if(l.t==='w'){ var b=Math.min(x,l.x2); if(b>l.x1){ var q=l.w*(b-l.x1); m-=q*(x-(l.x1+b)/2); } }
-      else if(l.t==='M'){ if(x>l.x) m-=l.M; }
+      else if(l.t==='M'){ if(x>l.x) m+=l.M; }
     });
     return m;
   }

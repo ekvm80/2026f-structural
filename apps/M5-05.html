@@ -304,7 +304,7 @@ input[type=range]::-moz-range-thumb{background:var(--ui); width:15px; height:15p
 <div class="fig"><canvas id="cv"></canvas></div>
 <div class="ctrls"><div class="ctrl"><label for="th">절단면 각도 θ<output id="thv">45°</output></label><input type="range" id="th" min="0" max="90" step="1" value="45"></div><div class="ctrl"><label for="sx">축응력 σₓ<output id="sxv">120 MPa</output></label><input type="range" id="sx" min="20" max="300" step="5" value="120"></div></div><div class="readout"><div><span class="rk">수직응력 σ_θ</span><span class="rv" id="r1">–</span></div><div><span class="rk">전단응력 τ_θ</span><span class="rv" id="r2">–</span></div><div><span class="rk">τ 최대 각도</span><span class="rv" id="r3">–</span></div><div><span class="rk">τ_max</span><span class="rv" id="r4">–</span></div></div></div>
 <div class="note why"><h3>설계에서</h3><p>응력이 <strong>“면의 방향에 따라 달라지는 양”</strong>이라는 것 — 이것이 M8(응력 해석)의 예고편입니다. 같은 한 점인데도 어느 면을 자르느냐에 따라 수직응력과 전단응력의 조합이 달라집니다.</p><p>연성 금속의 인장시편이 45°로 미끄러져 파괴되는 것은 그 재료가 <strong>전단에 약하기</strong> 때문이고, 취성 재료가 축에 수직으로 깨지는 것은 <strong>인장에 약하기</strong> 때문입니다. 같은 응력 상태, 다른 파괴면.</p></div>
-<div class="note"><h3>자주 하는 오해</h3><p>“축인장이니까 전단은 없다”는 <strong>틀렸습니다.</strong> 축에 수직인 면(θ=0)에서만 전단이 0일 뿐, 기울어진 면에는 언제나 전단이 있습니다.</p></div>
+<div class="note"><h3>자주 하는 오해</h3><p>“축인장이니까 전단은 없다”는 <strong>틀렸습니다.</strong> 축에 수직인 면(θ = 0°)과 축에 평행한 면(θ = 90°)에서만 전단이 0일 뿐, 그 사이의 기울어진 면에는 언제나 전단이 있습니다.</p></div>
 <details class="q"><summary>σₓ = 120 MPa일 때 최대 전단응력과 그 면의 각도는?</summary><div class="a"><p>τ_max = 120/2 = <strong>60 MPa</strong>, θ = <strong>45°</strong>.</p><p>이때 그 면의 수직응력도 σ/2 = 60 MPa입니다. 위에서 θ를 45°에 맞추면 두 값이 같아지는 것을 볼 수 있습니다.</p></div></details>
 
 
@@ -423,15 +423,16 @@ var f=sketch('cv',function(c,W,H){
   arrow(c,x0-6,cy,x0-54,cy,ten,2.6,10); arrow(c,x1+6,cy,x1+54,cy,ten,2.6,10);
   txt(c,'σₓ = '+fmt(sx,0)+' MPa', (x0+x1)/2, cy-bh/2-40, ten,12,'center',600);
   // 절단선
-  var xc=(x0+x1)/2, dx=(bh/2)*Math.tan(th);
-  line(c, xc-dx, cy+bh/2, xc+dx, cy-bh/2, acc, 2.4, [6,4]);
+  var xc=(x0+x1)/2, dx=(bh/2)*Math.tan(th), dy=bh/2, dxm=(x1-x0)/2;
+  if(dx>dxm){ dy=dy*dxm/dx; dx=dxm; }   // θ→90°에서 tanθ 발산 방지
+  line(c, xc-dx, cy-dy, xc+dx, cy+dy, acc, 2.4, [6,4]);   // 법선 n=(cosθ, −sinθ)에 수직인 절단선
   // 경사면의 응력 성분
   var nx=Math.cos(th), ny=-Math.sin(th);
   var mag=Math.min(58, sn*0.42), tmag=Math.min(58, Math.abs(tt)*0.42);
   arrow(c, xc, cy, xc+mag*nx*1.0, cy+mag*ny*1.0, comp, 2.4, 9);
   txt(c,'σ_θ '+fmt(sn,0), xc+mag*nx+12, cy+mag*ny-10, comp,10.5,'left',600);
-  arrow(c, xc, cy, xc-tmag*(-ny), cy-tmag*(nx), ink, 2.4, 9);
-  txt(c,'τ_θ '+fmt(Math.abs(tt),0), xc+tmag*ny-8, cy-tmag*nx-12, ink,10.5,'right',600);
+  arrow(c, xc, cy, xc-tmag*ny, cy+tmag*nx, ink, 2.4, 9);   // τ_θ<0: 좌측 자유물체의 경사면에서 −t 방향
+  txt(c,'τ_θ '+fmt(Math.abs(tt),0), xc-tmag*ny+8, cy+tmag*nx+12, ink,10.5,'left',600);
   txt(c,'θ = '+fmt(th*180/Math.PI,0)+'°', xc-dx-10, cy+bh/2+18, acc,11,'right',600);
   // 그래프
   var gx=W*0.10, gw=W*0.80, gy=H*0.88, gh=H*0.34;

@@ -302,8 +302,8 @@ input[type=range]::-moz-range-thumb{background:var(--ui); width:15px; height:15p
 <div class="lab">
 <div class="lab-h"><span>같은 문제, 두 가지 모델</span><span>토글로 관점을 바꿔 보세요</span></div>
 <div class="fig"><canvas id="cv"></canvas></div>
-<div class="ctrls"><div class="ctrl"><label>해석 모델</label><div class="seg" id="md"><button type="button" data-v="r" aria-pressed="true">강체 — 정역학</button><button type="button" data-v="d" aria-pressed="false">변형체 — 재료역학</button></div></div><div class="ctrl"><label for="P">끝단 하중 P<output id="Pv">1.5 kN</output></label><input type="range" id="P" min="0.5" max="4" step="0.1" value="1.5"></div><div class="ctrl"><label for="L">내민 길이 L<output id="Lv">2 m</output></label><input type="range" id="L" min="1" max="3" step="0.1" value="2"></div></div><div class="readout"><div><span class="rk">지점 A 반력</span><span class="rv" id="r1">–</span></div><div><span class="rk">지점 B 반력</span><span class="rv" id="r2">–</span></div><div><span class="rk">최대 모멘트</span><span class="rv" id="r3">–</span></div><div><span class="rk">끝단 처짐</span><span class="rv" id="r4">–</span></div></div></div>
-<h2>무엇을 물을 수 있는가</h2><ul><li><strong>정역학 (강체)</strong> — 지점 A·B의 반력. 여기까지가 전부입니다.</li><li><strong>재료역학 (변형체)</strong> — 파괴하중과 파괴 위치, 끝단 처짐, 처짐과 하중의 관계, 보드의 최적 형상, 최적 재료.</li></ul><div class="note why"><h3>설계에서</h3><p>학생이 “구조를 배웠는데 왜 실제 설계가 안 되지”라고 느끼는 지점이 정확히 여기입니다. 반력만 구하는 단계에서 멈추면 <strong>단면을 정할 수 없습니다.</strong> 강성(EI)이 들어와야 처짐이 나오고, 처짐이 나와야 “쓸 만한가”를 판정할 수 있습니다.</p><p>커리큘럼 순서 — 정역학(2학년) → 재료역학 → 구조역학 → 철근콘크리트·철골설계.</p></div>
+<div class="ctrls"><div class="ctrl"><label>해석 모델</label><div class="seg" id="md"><button type="button" data-v="r" aria-pressed="true">강체 — 정역학</button><button type="button" data-v="d" aria-pressed="false">변형체 — 재료역학</button></div></div><div class="ctrl"><label for="P">끝단 하중 P<output id="Pv">1.5 kN</output></label><input type="range" id="P" min="0.5" max="4" step="0.1" value="1.5"></div><div class="ctrl"><label for="L">내민 길이 L<output id="Lv">2 m</output></label><input type="range" id="L" min="1" max="3" step="0.1" value="2"></div></div><div class="readout"><div><span class="rk">지점 A 반력</span><span class="rv" id="r1">–</span></div><div><span class="rk">지점 B 반력</span><span class="rv" id="r2">–</span></div><div><span class="rk">최대 모멘트 (B점)</span><span class="rv" id="r3">–</span></div><div><span class="rk">끝단 처짐</span><span class="rv" id="r4">–</span></div></div></div>
+<h2>무엇을 물을 수 있는가</h2><ul><li><strong>정역학 (강체)</strong> — 지점 A·B의 반력, 그리고 자유물체도로 구하는 단면력(전단력·휨모멘트). 여기까지가 전부입니다.</li><li><strong>재료역학 (변형체)</strong> — 파괴하중과 파괴 위치, 끝단 처짐, 처짐과 하중의 관계, 보드의 최적 형상, 최적 재료.</li></ul><div class="note why"><h3>설계에서</h3><p>학생이 “구조를 배웠는데 왜 실제 설계가 안 되지”라고 느끼는 지점이 정확히 여기입니다. 반력만 구하는 단계에서 멈추면 <strong>단면을 정할 수 없습니다.</strong> 강성(EI)이 들어와야 처짐이 나오고, 처짐이 나와야 “쓸 만한가”를 판정할 수 있습니다.</p><p>커리큘럼 순서 — 정역학(2학년) → 재료역학 → 구조역학 → 철근콘크리트·철골설계.</p></div>
 <details class="q"><summary>강체 모델에서 재료를 강철에서 나무로 바꾸면 반력이 달라지는가?</summary><div class="a"><p><strong>정정 구조라면 달라지지 않습니다.</strong> 반력은 평형방정식만으로 결정되고, 평형식에는 E가 들어가지 않기 때문입니다.</p><p>하지만 처짐은 <code>δ ∝ 1/E</code>로 크게 달라집니다. 위에서 모델을 바꿔 확인해 보세요 — 반력 표시는 그대로, 처짐 칸만 활성화됩니다.</p></div></details>
 
 
@@ -419,7 +419,8 @@ var f=sketch('cv',function(c,W,H){
   var ink=C('--ink'), comp=C('--compression'), ten=C('--tension'), mut=C('--muted'), acc=C('--accent');
   var scale=(W*0.62)/(a+L), xA=W*0.16, xB=xA+a*scale, xE=xB+L*scale, y=H*0.46;
   var RB=P*(a+L)/a, RA=RB-P;
-  var Mmax=P*L, E=10e9, I=0.30*Math.pow(0.05,3)/12, defl=P*1000*Math.pow(L,3)/(3*E*I)*1000;
+  var Mmax=P*L, E=10e9, I=0.30*Math.pow(0.05,3)/12;          // 보드 단면 300×50 mm, E = 10 GPa
+  var defl=P*1000*L*L*(a+L)/(3*E*I)*1000;   // 내민보 끝 처짐 δ = P·L²(a+L)/(3EI)  (B점 회전 포함, Gere 부록 G)
   // 물
   c.save(); c.fillStyle=comp; c.globalAlpha=.10; c.fillRect(0,H*0.80,W,H*0.20); c.restore();
   line(c,0,H*0.80,W,H*0.80,comp,1.2);
@@ -428,8 +429,8 @@ var f=sketch('cv',function(c,W,H){
     c.save(); c.beginPath(); c.moveTo(xA,y);
     for(var x=xA;x<=xE;x+=3){
       var t=(x-xB)/scale, dy=0;
-      if(x>xB){ dy = defl*Math.pow(t/L,2)*(3-t/L)/2 * 0.9; }
-      else { dy = -defl*0.16*((x-xA)/(xB-xA)); }
+      if(x>xB){ dy = defl*( a*t/(L*(a+L)) + t*t*(3*L-t)/(2*L*L*(a+L)) ) * 0.9; }   // B점 회전 + 캔틸레버 곡선
+      else { var s0=(x-xA)/scale; dy = -defl*0.9*s0*(a*a-s0*s0)/(2*a*L*(a+L)); }   // A~B: 단부모멘트 PL에 의한 위로 볼록한 곡선, 지점에서 0
       c.lineTo(x,y+Math.min(dy,H*0.28));
     }
     c.strokeStyle=ink; c.lineWidth=6; c.lineCap='round'; c.stroke(); c.restore();
@@ -445,11 +446,11 @@ var f=sketch('cv',function(c,W,H){
   txt(c,'A',xA,y+38,mut,10,'center'); txt(c,'B',xB,y+44,mut,10,'center');
   arrow(c,xE,y-46,xE,y-8,comp,2,8);
   txt(c,'P = '+fmt(P,1)+' kN', xE, y-56, comp,11,'center',600);
-  arrow(c,xA,y+52,xA,y+18,ten,1.6,7); txt(c,fmt(Math.abs(RA),2)+'↓',xA-8,y+62,ten,9.5,'right',600);
+  arrow(c,xA,y+22,xA,y+56,ten,1.6,7); txt(c,fmt(Math.abs(RA),2)+'↓',xA-8,y+62,ten,9.5,'right',600);
   arrow(c,xB,y+58,xB,y+24,ten,1.6,7); txt(c,fmt(RB,2)+'↑',xB+8,y+68,ten,9.5,'left',600);
-  txt(c, MODE==='r'?'정역학 — 반력까지':'재료역학 — 응력·처짐까지', W*0.04, H*0.10, acc, 12,'left',600);
-  set('r1', fmt(RA,2)+' kN'); set('r2', fmt(RB,2)+' kN');
-  set('r3', MODE==='d'? fmt(Mmax,2)+' kN·m' : '— 못 구함');
+  txt(c, MODE==='r'?'정역학 — 반력·단면력까지':'재료역학 — 응력·처짐까지', W*0.04, H*0.10, acc, 12,'left',600);
+  set('r1', fmt(RA,2)+' kN ↓'); set('r2', fmt(RB,2)+' kN ↑');
+  set('r3', fmt(Mmax,2)+' kN·m (B점)');
   set('r4', MODE==='d'? fmt(defl,1)+' mm' : '— 못 구함');
 });
 bind(f,{P:function(v){return fmt(v,1)+' kN';},L:function(v){return fmt(v,1)+' m';}});

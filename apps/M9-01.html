@@ -494,8 +494,7 @@ var TY='ss';
 var f=sketch('cv',function(c,W,H){
   var L=val('L'), w=val('w'), h=val('hh'), b=val('bb');
   var E=27000, I=b*h*h*h/12;                       // N/mm², mm⁴ (RC 가정)
-  var EI=E*I/1e12;                                  // kN·m²  (N·mm² → kN·m²: /1e12... )
-  EI = E*I/1e9/1000;                                // kN·m²
+  var EI=E*I/1e9;                                   // kN·m²  (N·mm² → kN·m²: N→kN /1e3, mm²→m² /1e6)
   var d = TY==='ss'? 5*w*Math.pow(L,4)/(384*EI)*1000 : w*Math.pow(L,4)/(8*EI)*1000;   // mm
   var lim=L*1000/360, ok=d<=lim;
   var ink=C('--ink'), ten=C('--tension'), comp=C('--compression'), mut=C('--muted'), acc=C('--accent');
@@ -511,7 +510,7 @@ var f=sketch('cv',function(c,W,H){
   c.save(); c.beginPath(); c.strokeStyle= ok? comp:ten; c.lineWidth=5; c.lineCap='round';
   for(i=0;i<=120;i++){
     var t=i/120, sh;
-    if(TY==='ss') sh = t*(1-2*t*t+t*t*t)/ (5/24);      // 정규화 5wL⁴/384EI 형상
+    if(TY==='ss') sh = t*(1-2*t*t+t*t*t)/ (5/16);      // 정규화: 중앙 t=0.5에서 5/16 → 1 (5wL⁴/384EI 형상)
     else sh = (t*t*(6-4*t+t*t))/3;
     sh = Math.max(0, Math.min(1.2, sh));
     var X=x0+(x1-x0)*t, Y=y+amp*sh;

@@ -433,7 +433,7 @@ var f=sketch('cv',function(c,W,H){
   if(R>0){
     var xr=x0+d*s, hr=30+(H*0.22);
     line(c,x0,y+48,x0+8*s,y+48,soft,1);
-    arrow(c,xr,y+48+62,xr,y+52,comp,3.4,13);
+    arrow(c,xr,y+52,xr,y+48+62,comp,3.4,13);
     txt(c,'R = '+fmt(R,0)+' kN', xr-12, y+48+66, comp,12,'right',600);
     line(c,x0,y+48+40,xr,y+48+40,comp,1,[4,4]);
     txt(c,'d = '+fmt(d,2)+' m', (x0+xr)/2, y+48+30, comp,10.5,'center');
@@ -442,7 +442,7 @@ var f=sketch('cv',function(c,W,H){
     txt(c,'O', x0-10, y+48, comp,10,'right',600);
   }
   set('r1',fmt(R,1)+' kN'); set('r2',fmt(M,1)+' kN·m');
-  set('r3',R>0?fmt(d,2)+' m':'–'); set('r4',R>0?'R·d = M_O ✓':'R = 0 → 우력만');
+  set('r3',R>0?fmt(d,2)+' m':'–'); set('r4',R>0?'R·d = M_O ✓':'R = 0 (하중 없음)');
 });
 bind(f,{f1:function(v){return fmt(v,0)+' kN';},f2:function(v){return fmt(v,0)+' kN';},
         f3:function(v){return fmt(v,0)+' kN';},f4:function(v){return fmt(v,0)+' kN';}});

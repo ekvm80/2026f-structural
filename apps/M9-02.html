@@ -297,7 +297,7 @@ input[type=range]::-moz-range-thumb{background:var(--ui); width:15px; height:15p
 <h1>모멘트–곡률 관계</h1>
 <span class="en">EI v″ = M, elastic beam theory</span>
 <p class="lede">보의 곡률이 <code>M/EI</code>와 같다는 관계. 여기서 <strong>하중–전단–모멘트–처짐각–처짐이 미분·적분으로 한 줄에 꿰집니다.</strong></p>
-<div class="eq">EI v″ = M &nbsp;&nbsp; EI v‴ = V &nbsp;&nbsp; EI v⁗ = −w<small>v′ = 처짐각 θ, v = 처짐. 위로 볼록이 +, 반시계 처짐각이 +.</small></div>
+<div class="eq">EI v″ = M &nbsp;&nbsp; EI v‴ = V &nbsp;&nbsp; EI v⁗ = −w<small>v′ = 처짐각 θ, v = 처짐. v는 위 방향 +, 아래로 볼록(v″ &gt; 0, 정모멘트)이 +, 반시계 처짐각이 +.</small></div>
 
 <div class="lab">
 <div class="lab-h"><span>다섯 도표의 사슬</span><span>w → V → M → θ → v</span></div>
@@ -511,7 +511,7 @@ var f=sketch('cv',function(c,W,H){
     ['V  전단력', B.V, acc, 'kN', H*0.31, H*0.07],
     ['M  휨모멘트', B.M, comp, 'kN·m', H*0.52, H*0.08],
     ['θ = v′  처짐각', TH, ink, 'rad', H*0.72, H*0.07],
-    ['v  처짐', function(x){return -VV(x)*1000;}, ten, 'mm', H*0.93, H*0.08]
+    ['v  처짐', function(x){return VV(x)*1000;}, ten, 'mm', H*0.93, H*0.08]
   ];
   rows.forEach(function(r){ diagram(c,B,r[1],x0,x1,r[4],r[5],r[2],r[0],r[3]); });
   if(P>0){ var xp=x0+(x1-x0)*a/L; line(c,xp,H*0.06,xp,H*0.95,mut,1,[3,4]); }

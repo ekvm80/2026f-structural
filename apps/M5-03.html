@@ -297,7 +297,7 @@ input[type=range]::-moz-range-thumb{background:var(--ui); width:15px; height:15p
 <h1>부정정 축부재의 해석</h1>
 <span class="en">Statically indeterminate axial members</span>
 <p class="lede">미지수 2개, 평형식 1개인 상황. <strong>적합조건과 구성방정식을 더해</strong> 식을 하나 더 만드는 절차 — 부정정 구조 해석 전체의 축소판입니다.</p>
-<div class="eq">R<sub>A</sub> + R<sub>B</sub> = P &nbsp;&nbsp;&&nbsp;&nbsp; δ<sub>AC</sub> + δ<sub>CB</sub> = 0 &nbsp;⇒&nbsp; R<sub>A</sub> = P·b/L, &nbsp; R<sub>B</sub> = P·a/L<small>양단 고정 봉의 중간에 하중이 걸린 경우 — 반력은 반대쪽 거리에 비례해 갈립니다.</small></div>
+<div class="eq">R<sub>A</sub> + R<sub>B</sub> = P &nbsp;&nbsp;&&nbsp;&nbsp; δ<sub>AC</sub> + δ<sub>CB</sub> = 0 &nbsp;⇒&nbsp; R<sub>A</sub> = P·b/L, &nbsp; R<sub>B</sub> = P·a/L<small>양단 고정 균일 단면 봉의 중간에 하중이 걸린 경우 — 반력은 반대쪽 구간의 길이(일반적으로는 유연도 L/EA)에 비례해 갈립니다.</small></div>
 
 <div class="lab">
 <div class="lab-h"><span>양단 고정 봉</span><span>하중 위치와 단면비를 바꿔 보세요</span></div>
@@ -429,14 +429,14 @@ var f=sketch('cv',function(c,W,H){
   c.save(); c.fillStyle=ten; c.globalAlpha=.30; c.fillRect(cx-w1/2,top,w1,a*sc); c.restore();
   c.save(); c.fillStyle=comp; c.globalAlpha=.30; c.fillRect(cx-w2/2,top+a*sc,w2,b*sc); c.restore();
   var yc=top+a*sc;
-  arrow(c,cx+70,yc,cx+16,yc,ink,2.8,11);
-  txt(c,'P = '+fmt(P,0)+' kN', cx+76, yc-14, ink,12,'left',600);
+  arrow(c,cx,yc-50,cx,yc-8,ink,2.8,11);
+  txt(c,'P = '+fmt(P,0)+' kN', cx+12, yc-32, ink,12,'left',600);
   c.save(); c.fillStyle=ink; c.beginPath(); c.arc(cx,yc,4,0,7); c.fill(); c.restore();
   txt(c,'C', cx-w1/2-10, yc, mut,10,'right',600);
   arrow(c,cx-w1/2-34,top+18,cx-w1/2-34,top-2,ten,2.2,9);
   txt(c,'R_A '+fmt(RA,1), cx-w1/2-40, top+22, ten,10.5,'right',600);
-  arrow(c,cx-w2/2-34,top+L*sc-18,cx-w2/2-34,top+L*sc+2,comp,2.2,9);
-  txt(c,'R_B '+fmt(RB,1), cx-w2/2-40, top+L*sc-22, comp,10.5,'right',600);
+  arrow(c,cx-w2/2-34,top+L*sc+18,cx-w2/2-34,top+L*sc-2,comp,2.2,9);
+  txt(c,'R_B '+fmt(RB,1), cx-w2/2-40, top+L*sc+24, comp,10.5,'right',600);
   txt(c,'a = '+fmt(a,2)+' m', cx+w1/2+12, top+a*sc/2, mut,10,'left');
   txt(c,'b = '+fmt(b,2)+' m', cx+w2/2+12, top+a*sc+b*sc/2, mut,10,'left');
   // 힘 분배

@@ -442,7 +442,8 @@ var f=sketch('cv',function(c,W,H){
     c.save(); c.fillStyle=ten; c.globalAlpha=.9;
     c.fillRect(bx-r, cy-(TY==='s'?pl+6:pl*2.6), 2*r, (TY==='s'?2*pl+12:pl*5.2)); c.restore();
   }
-  arrow(c,x0-8,cy-(TY==='s'?pl/2:pl*0.5),x0-58,cy-(TY==='s'?pl/2:pl*0.5),ten,2.6,10);
+  if(TY==='s'){ arrow(c,x0-8,cy-pl/2,x0-58,cy-pl/2,ten,2.6,10); }
+  else { arrow(c,x0-8,cy-pl*1.3,x0-58,cy-pl*1.3,ten,2.2,9); arrow(c,x0-8,cy+pl*1.3,x0-58,cy+pl*1.3,ten,2.2,9); }
   arrow(c,x1+8,cy+(TY==='s'?pl/2:pl*0.5),x1+58,cy+(TY==='s'?pl/2:pl*0.5),ten,2.6,10);
   txt(c,'P = '+fmt(P,0)+' kN', x0-62, cy-24, ten,11.5,'right',600);
   // 게이지

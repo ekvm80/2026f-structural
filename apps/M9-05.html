@@ -305,7 +305,7 @@ input[type=range]::-moz-range-thumb{background:var(--ui); width:15px; height:15p
 <div class="ctrls"><div class="ctrl"><label>실제보</label><div class="seg" id="cs"><button type="button" data-v="ss" aria-pressed="true">단순보 + 중앙 집중하중</button><button type="button" data-v="cn" aria-pressed="false">캔틸레버 + 끝단 하중</button></div></div><div class="ctrl"><label for="P">하중 P<output id="Pv">20 kN</output></label><input type="range" id="P" min="5" max="60" step="1" value="20"></div><div class="ctrl"><label for="L">스팬 L<output id="Lv">6 m</output></label><input type="range" id="L" min="3" max="10" step="0.5" value="6"></div><div class="ctrl"><label for="EI">EI<output id="EIv">12000 kN·m²</output></label><input type="range" id="EI" min="3000" max="40000" step="1000" value="12000"></div></div><div class="readout"><div><span class="rk">가상 하중 총량</span><span class="rv" id="r1">–</span></div><div><span class="rk">공액보 반력</span><span class="rv" id="r2">–</span></div><div><span class="rk">θ (= V′)</span><span class="rv" id="r3">–</span></div><div><span class="rk">δ (= M′)</span><span class="rv" id="r4">–</span></div></div></div>
 <h2>지점 치환 규칙</h2><ul><li>실제보 <strong>핀·롤러</strong> (v=0, θ≠0) → 공액보 <strong>핀·롤러</strong> (M′=0, V′≠0)</li><li>실제보 <strong>고정단</strong> (v=0, θ=0) → 공액보 <strong>자유단</strong> (M′=0, V′=0)</li><li>실제보 <strong>자유단</strong> (v≠0, θ≠0) → 공액보 <strong>고정단</strong></li><li>실제보 <strong>내부 지점</strong> → 공액보 <strong>내부 힌지</strong></li></ul><div class="note why"><h3>설계에서</h3><p><strong>이미 익힌 SFD·BMD 기술을 그대로 재사용해 처짐을 구하는 우아한 치환</strong>입니다. 새 기법을 배우는 것이 아니라, 아는 것을 다른 문제에 적용하는 개념 전이의 좋은 사례입니다.</p><p>부정정 구조나 단면이 변하는 보(EI가 x에 따라 변하는 경우)에서 특히 유용합니다 — M/EI 도만 그리면 되기 때문입니다.</p></div>
 <div class="note"><h3>자주 하는 오해</h3><p>지점 치환을 빠뜨리면 완전히 틀린 답이 나옵니다. <strong>“고정단 ↔ 자유단”이 서로 뒤바뀐다</strong>는 것이 가장 헷갈리는 부분이니, 조건(v, θ)이 무엇에 대응되는지를 따져 보면 자연스럽습니다.</p></div>
-<details class="q"><summary>단순보 중앙 집중하중의 처짐을 공액보법으로 구하면?</summary><div class="a"><p>M/EI 도는 삼각형(최대 PL/4EI). 총 면적 = <code>PL²/16EI</code>가 가상 하중이고, 대칭이므로 공액보 반력은 각각 절반 = <code>PL²/16EI</code> = <strong>지점 처짐각 θ</strong>.</p><p>중앙에서 공액보의 모멘트를 구하면 <code>PL³/48EI</code> = <strong>중앙 처짐 δ</strong>. 공식과 일치합니다.</p></div></details>
+<details class="q"><summary>단순보 중앙 집중하중의 처짐을 공액보법으로 구하면?</summary><div class="a"><p>M/EI 도는 삼각형(최대 PL/4EI). 총 면적 = <code>PL²/8EI</code>가 가상 하중이고, 대칭이므로 공액보 반력은 각각 절반 = <code>PL²/16EI</code> = <strong>지점 처짐각 θ</strong>.</p><p>중앙에서 공액보의 모멘트를 구하면 <code>PL³/48EI</code> = <strong>중앙 처짐 δ</strong>. 공식과 일치합니다.</p></div></details>
 
 
 <nav class="pager"><a href="M9-04.html">← M9-04 모멘트면적법</a><a href="M9-06.html">M9-06 에너지법 — 가상일과 카스티야노 정리 →</a></nav>
@@ -440,10 +440,10 @@ var f=sketch('cv',function(c,W,H){
   c.moveTo(x0,y2);
   for(var i=0;i<=100;i++){ var t=i/100, v;
     if(CS==='ss') v = t<0.5? 2*t : 2*(1-t);
-    else v = 1-t;
+    else v = t;
     c.lineTo(x0+(x1-x0)*t, y2-gh*v); }
   c.lineTo(x1,y2); c.closePath(); c.fill(); c.restore();
-  for(i=1;i<10;i++){ var t2=i/10, v2 = CS==='ss'? (t2<0.5?2*t2:2*(1-t2)) : (1-t2);
+  for(i=1;i<10;i++){ var t2=i/10, v2 = CS==='ss'? (t2<0.5?2*t2:2*(1-t2)) : t2;
     arrow(c,x0+(x1-x0)*t2, y2-gh*v2, x0+(x1-x0)*t2, y2-4, acc,1.2,5); }
   line(c,x0,y2,x1,y2,ink,6);
   if(CS==='ss'){ supPin(c,x0,y2+3,ink); supRoller(c,x1,y2+3,ink);

@@ -296,14 +296,14 @@ input[type=range]::-moz-range-thumb{background:var(--ui); width:15px; height:15p
 <div class="wrap">
 <h1>허용응력 · 허용하중과 단면 설계</h1>
 <span class="en">Allowable stress &amp; load, A_req = P / σ_allow</span>
-<p class="lede">극한강도를 안전율로 나눈 허용응력으로 <strong>필요 단면적을 역산</strong>합니다. 학생이 처음으로 “설계”를 해 보는 지점입니다.</p>
-<div class="eq">σ<sub>allow</sub> = σ<sub>u</sub> / FS &nbsp;&nbsp;⇒&nbsp;&nbsp; A<sub>req</sub> = P / σ<sub>allow</sub><small>해석은 답이 하나지만, 설계는 A_req 이상이면 모두 답입니다 — 그중 고르는 것이 설계자의 일.</small></div>
+<p class="lede">재료 강도(극한강도 또는 항복강도)를 안전율로 나눈 허용응력으로 <strong>필요 단면적을 역산</strong>합니다. 학생이 처음으로 “설계”를 해 보는 지점입니다.</p>
+<div class="eq">σ<sub>allow</sub> = σ<sub>u</sub> / FS (강재는 σ<sub>y</sub> / FS) &nbsp;&nbsp;⇒&nbsp;&nbsp; A<sub>req</sub> = P / σ<sub>allow</sub><small>해석은 답이 하나지만, 설계는 A_req 이상이면 모두 답입니다 — 그중 고르는 것이 설계자의 일.</small></div>
 
 <div class="lab">
 <div class="lab-h"><span>단면 설계 한 사이클</span><span>필요 단면적을 구하고 규격을 고르세요</span></div>
 <div class="fig"><canvas id="cv"></canvas></div>
 <div class="ctrls"><div class="ctrl"><label>재료</label><div class="seg" id="mt"><button type="button" data-v="st" aria-pressed="true">강재 SS275</button><button type="button" data-v="cc" aria-pressed="false">콘크리트 24</button><button type="button" data-v="wd" aria-pressed="false">목재</button></div></div><div class="ctrl"><label for="P">설계 하중 P<output id="Pv">200 kN</output></label><input type="range" id="P" min="20" max="900" step="10" value="200"></div><div class="ctrl"><label for="pick">내가 고른 단면 치수<output id="pickv">100 mm</output></label><input type="range" id="pick" min="30" max="400" step="5" value="100"></div><div class="ctrl"><label>단면 형상</label><div class="seg" id="sh"><button type="button" data-v="r" aria-pressed="true">정사각형</button><button type="button" data-v="c" aria-pressed="false">원형</button></div></div></div><div class="readout"><div><span class="rk">허용응력</span><span class="rv" id="r1">–</span></div><div><span class="rk">필요 단면적 A_req</span><span class="rv" id="r2">–</span></div><div><span class="rk">내 단면적</span><span class="rv" id="r3">–</span></div><div><span class="rk">판정</span><span class="rv" id="r4">–</span></div></div></div>
-<h2>설계 절차</h2><ul><li><strong>1</strong> 하중 산정 (M1-05) → 설계 하중 P</li><li><strong>2</strong> 재료 선택 → 극한강도 σ_u와 안전율 FS (M1-06)</li><li><strong>3</strong> 허용응력 <code>σ_allow = σ_u / FS</code></li><li><strong>4</strong> 필요 단면적 <code>A_req = P / σ_allow</code></li><li><strong>5</strong> A_req 이상인 <strong>실제 규격 단면</strong>을 고른다 — 여기가 설계</li></ul><div class="note why"><h3>설계에서</h3><p><strong>좋은 설계는 A_req의 100~120% 정도를 고릅니다.</strong> 200%를 고르면 안전하지만 재료를 두 배 쓴 셈이고, 100% 미만이면 위험합니다. 위에서 판정이 “OK”이면서 사용률이 최대가 되는 치수를 찾아보세요.</p><p>실무에서는 임의의 치수가 아니라 <strong>생산되는 규격</strong>(H-300×300, D19 철근 등) 중에서 고릅니다. 그래서 100.0%가 아니라 계단식으로 뛰어오릅니다.</p></div>
+<h2>설계 절차</h2><ul><li><strong>1</strong> 하중 산정 (M1-05) → 설계 하중 P</li><li><strong>2</strong> 재료 선택 → 기준강도(σ_u 또는 σ_y)와 안전율 FS (M1-06)</li><li><strong>3</strong> 허용응력 <code>σ_allow = σ_u / FS</code> (강재는 σ_y / FS)</li><li><strong>4</strong> 필요 단면적 <code>A_req = P / σ_allow</code></li><li><strong>5</strong> A_req 이상인 <strong>실제 규격 단면</strong>을 고른다 — 여기가 설계</li></ul><div class="note why"><h3>설계에서</h3><p><strong>좋은 설계는 A_req의 100~120% 정도를 고릅니다.</strong> 200%를 고르면 안전하지만 재료를 두 배 쓴 셈이고, 100% 미만이면 위험합니다. 위에서 판정이 “OK”이면서 사용률이 최대가 되는 치수를 찾아보세요.</p><p>실무에서는 임의의 치수가 아니라 <strong>생산되는 규격</strong>(H-300×300, D19 철근 등) 중에서 고릅니다. 그래서 100.0%가 아니라 계단식으로 뛰어오릅니다.</p></div>
 <div class="note"><h3>자주 하는 오해</h3><p>이 계산은 <strong>축인장 또는 짧은 압축부재</strong>에만 그대로 적용됩니다. 긴 압축부재는 응력이 허용치 이하여도 <strong>좌굴</strong>로 먼저 무너지므로 별도 검토가 필요합니다.</p></div>
 <details class="q"><summary>P = 200 kN, 허용응력 165 MPa일 때 필요 단면적과 정사각형 한 변은?</summary><div class="a"><p>A_req = 200,000 / 165 = <strong>1212 mm²</strong>. 정사각형 한 변 = √1212 = <strong>34.8 mm</strong> → 실무에서는 35 또는 40 mm를 고릅니다.</p><p>위에서 P=200, 강재, 치수 35로 맞춰 확인해 보세요.</p></div></details>
 
@@ -415,7 +415,7 @@ function supFixed(c,x,y,col,side){
 }
 
 var MT='st', SH='r';
-var MA={st:[410,1.5,'강재 SS275'],cc:[24,2.5,'콘크리트 24'],wd:[40,3.5,'목재']};
+var MA={st:[275,5/3,'강재 SS275'],cc:[24,2.5,'콘크리트 24'],wd:[40,3.5,'목재']};   /* 강재: 항복강도 275 / FS 1.67 = 165 MPa (0.6 fy) */
 var f=sketch('cv',function(c,W,H){
   var m=MA[MT], sa=m[0]/m[1], P=val('P'), p=val('pick');
   var Areq=P*1000/sa;

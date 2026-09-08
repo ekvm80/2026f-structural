@@ -434,8 +434,8 @@ var f=sketch('cv',function(c,W,H){
   // 반력
   var Hx = (SP==='p'||SP==='f'), Vy = true, Mz = (SP==='f');
   if(SP==='r') Hx=false;
-  if(Hx&&AC!=='n') arrow(c,x-46,y+34,x-6,y+34,ten,2,8);
-  if(Vy&&AC!=='n') arrow(c,x-34,y+58,x-34,y+18,ten,2,8);
+  if(Hx&&AC!=='n'&&!free) arrow(c,x-46,y+34,x-6,y+34,ten,2,8);
+  if(Vy&&AC!=='n'&&!free) arrow(c,x-34,y+58,x-34,y+18,ten,2,8);
   if(Mz&&AC==='r'){ c.save(); c.strokeStyle=ten; c.lineWidth=2.2; c.beginPath(); c.arc(x,y,24,0.4,2.9); c.stroke(); c.restore(); }
   var msg = free? '자유롭게 '+(AC==='h'?'이동':'회전')+'합니다 → 반력 없음'
                 : (AC==='n'? '동작을 골라 반력을 확인하세요' : '막힙니다 → 반력 '+(AC==='r'?'우력':'힘')+' 발생');

@@ -432,7 +432,7 @@ var f=sketch('cv',function(c,W,H){
   bar(y1,L1,e1,ten,'짧은 부재'); bar(y2,L2,e2,comp,'긴 부재');
   txt(c,'같은 δ라도 짧은 부재의 변형률이 '+fmt(e1/e2,1)+'배 큽니다', W/2, H*0.90, ink,12,'center',600);
   set('r1',fmt(e1*1e6,0)+' με'); set('r2',fmt(e2*1e6,0)+' με');
-  set('r3',fmt(e1/e2,2)+' 배'); set('r4', e1>0.002? '짧은 부재 항복':'둘 다 탄성');
+  set('r3',fmt(e1/e2,2)+' 배'); set('r4', e2>0.002? '둘 다 항복':(e1>0.002? '짧은 부재 항복':'둘 다 탄성'));
   var e=el('r4'); if(e) e.style.color = e1>0.002? ten : ink;
 });
 bind(f,{L1:function(v){return fmt(v,1)+' m';},L2:function(v){return fmt(v,1)+' m';},dd:function(v){return fmt(v,1)+' mm';}});

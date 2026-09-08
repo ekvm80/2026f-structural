@@ -425,8 +425,8 @@ function buildTruss(type, bays, span, height, loads){
   for(i=0;i<bays;i++){ mem.push([i,i+1]); mem.push([B+i,B+i+1]); }   // 현재
   for(i=0;i<=bays;i++) mem.push([i,B+i]);                             // 수직재
   for(i=0;i<bays;i++){                                                // 사재
-    if(type==='pratt') mem.push([B+i, i+1]);
-    else if(type==='howe') mem.push([i, B+i+1]);
+    if(type==='pratt') mem.push( i<bays/2 ? [B+i, i+1] : [B+i+1, i] );      // 중앙 대칭: 사재가 중앙 쪽 아래로 (인장)
+    else if(type==='howe') mem.push( i<bays/2 ? [i, B+i+1] : [i+1, B+i] );   // 중앙 대칭: 사재가 중앙 쪽 위로 (압축)
     else mem.push( i%2===0 ? [i,B+i+1] : [B+i, i+1] );
   }
   var N=nodes.length, M=mem.length, R=3;                 // 핀(2) + 롤러(1)
@@ -493,9 +493,10 @@ var f=sketch('cv',function(c,W,H){
   var jn=val('jn'), h=val('ht'), P=val('P'), bays=4;
   var loads=[]; for(var i=1;i<bays;i++) loads.push({n:bays+1+i, fy:-P});
   var T=buildTruss('warren',bays,8,h,loads);
-  var seq=[0,5,1,6,2,7];                        // 풀이 순서 (하현 좌 → 상현 좌 → …)
+  var seq=[5,0,1,6,7,2];                        // 풀이 순서 F→A→B→G→H→C (각 절점의 미지 부재력이 2개 이하가 되는 순서)
   var cur=seq[jn-1];
   var solved=seq.slice(0,jn);
+  var prev=seq.slice(0,jn-1);                   // 이미 푼 절점 — 여기에 연결된 부재력은 알려진 값
   var hide=[];
   T.mem.forEach(function(m,k){
     var touched = solved.some(function(n){ return m[0]===n||m[1]===n; });
@@ -512,10 +513,10 @@ var f=sketch('cv',function(c,W,H){
     var other = m[0]===cur? m[1]:m[0];
     var q=g.P(T.nodes[other]), fv=T.force[k];
     var dx=q[0]-p[0], dy=q[1]-p[1], L=Math.hypot(dx,dy);
-    var dir = fv>0? 1 : -1;                     // 인장이면 절점 바깥(부재 쪽), 압축이면 절점 쪽
-    var ax=p[0]+dir*38*dx/L, ay=p[1]+dir*38*dy/L;
-    arrow(c,p[0],p[1],ax,ay, fv>0?ten:comp, 2.2, 8);
-    if(hide.indexOf(k)>=0) unk++; else kn++;
+    var ux=dx/L, uy=dy/L;
+    if(fv>0.05)       arrow(c,p[0],p[1],p[0]+38*ux,p[1]+38*uy, ten, 2.2, 8);              // 인장: 절점에서 부재 쪽으로 (바깥)
+    else if(fv<-0.05) arrow(c,p[0]+38*ux,p[1]+38*uy,p[0]+8*ux,p[1]+8*uy, comp, 2.2, 8);   // 압축: 부재 위에서 절점을 향해
+    if(prev.indexOf(other)>=0) kn++; else unk++;   // 반대쪽 절점을 이미 풀었으면 알려진 힘
   });
   txt(c, '절점 '+String.fromCharCode(65+cur)+' 풀이 중', W*0.04, H*0.10, acc, 12,'left',600);
   txt(c, '화살표 방향 — 절점 바깥 = 인장, 절점 쪽 = 압축', W*0.04, H*0.94, mut, 10.5,'left');

@@ -461,7 +461,7 @@ function drawSection(c, S, cx, ybot, sc, col, alpha){
 var SK='rect';
 var f=sketch('cv',function(c,W,H){
   var L=val('L'), w=val('w'), b=val('bb'), h=val('hh');
-  var sa = SK==='rect'? 60 : 165;
+  var sa = SK==='rect'? 10 : 165;
   var Mmax=w*L*L/8, Sreq=Mmax*1e6/sa;
   var S = SK==='rect'? section('rect',{b:b,h:h}) : section('ibeam',{bf:b,h:h,tf:14,tw:9});
   var util=Sreq/S.S*100, ok=S.S>=Sreq;
@@ -492,7 +492,7 @@ var f=sketch('cv',function(c,W,H){
   txt(c,'100 %', gx+gw/1.3, gy+30, mut,9.5,'center');
   txt(c,'사용률 '+fmt(util,0)+' %  '+(ok?(util<55?'— 과대설계':(util<85?'— 여유 있음':'— 적정')):'— 단면 부족'),
       gx, gy-12, ok?(util<55?mut:comp):ten, 12.5,'left',600);
-  txt(c, SK==='rect'? '허용응력 60 MPa (RC 환산)':'허용응력 165 MPa (강재)', W*0.97, H*0.19, mut,10,'right');
+  txt(c, SK==='rect'? '허용응력 10 MPa (목재 · RC 개략 환산)':'허용응력 165 MPa (강재)', W*0.97, H*0.19, mut,10,'right');
   set('r1',fmt(Mmax,1)+' kN·m'); set('r2',fmt(Sreq/1e3,0)+' ×10³ mm³');
   set('r3',fmt(S.S/1e3,0)+' ×10³ mm³'); set('r4',(ok?'OK':'NG')+' · 1/'+fmt(L*1000/h,0));
   var e=el('r4'); if(e) e.style.color= ok? ink:ten;

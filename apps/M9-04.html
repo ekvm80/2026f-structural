@@ -443,7 +443,7 @@ var f=sketch('cv',function(c,W,H){
   txt(c,'M / EI  도', x0, gy-gh-10, acc,11,'left',600);
   txt(c, fmt(Mmax/EI,5)+' 1/m', x1, gy-gh-10, acc,10,'right',600);
   // 면적 · 도심
-  var xc=x0+(x1-x0)*(1-xbar/L);
+  var xc=x0+(x1-x0)*(xbar/L);                     // x̄는 자유단(x0) 기준
   line(c,xc,gy,xc,gy-gh*0.9,ink,1.6,[4,3]);
   c.save(); c.fillStyle=ink; c.beginPath(); c.arc(xc,gy,5,0,7); c.fill(); c.restore();
   txt(c,'도심', xc, gy+18, ink,10,'center',600);

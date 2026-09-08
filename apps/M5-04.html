@@ -303,7 +303,7 @@ input[type=range]::-moz-range-thumb{background:var(--ui); width:15px; height:15p
 <div class="lab-h"><span>자유 vs 구속</span><span>같은 온도변화, 전혀 다른 결과</span></div>
 <div class="fig"><canvas id="cv"></canvas></div>
 <div class="ctrls"><div class="ctrl"><label>경계조건</label><div class="seg" id="bc"><button type="button" data-v="fr" aria-pressed="true">한쪽 자유 (롤러)</button><button type="button" data-v="fx" aria-pressed="false">양단 구속 (고정)</button></div></div><div class="ctrl"><label for="dT">온도변화 ΔT<output id="dTv">30 °C</output></label><input type="range" id="dT" min="-40" max="60" step="1" value="30"></div><div class="ctrl"><label for="L">부재 길이 L<output id="Lv">20 m</output></label><input type="range" id="L" min="3" max="60" step="1" value="20"></div><div class="ctrl"><label>재료</label><div class="seg" id="ma"><button type="button" data-v="st" aria-pressed="true">강재</button><button type="button" data-v="cc" aria-pressed="false">콘크리트</button></div></div></div><div class="readout"><div><span class="rk">자유 신장량</span><span class="rv" id="r1">–</span></div><div><span class="rk">실제 신장량</span><span class="rv" id="r2">–</span></div><div><span class="rk">열응력 σ</span><span class="rv" id="r3">–</span></div><div><span class="rk">판정</span><span class="rv" id="r4">–</span></div></div></div>
-<div class="note why"><h3>설계에서</h3><p><strong>신축이음(expansion joint)을 어디에 몇 미터 간격으로 둘지가 이 계산입니다.</strong> 길이를 60 m로 놓고 구속 조건을 “양단 고정”으로 바꿔 보세요 — 하중 없이도 응력이 항복강도에 육박합니다.</p><p>교량 받침이 한쪽은 핀, 한쪽은 롤러인 이유(M2-08)와, 긴 건물에 20~50 m마다 신축줄눈을 넣는 이유가 정확히 같습니다.</p></div>
+<div class="note why"><h3>설계에서</h3><p><strong>신축이음(expansion joint)을 어디에 몇 미터 간격으로 둘지가 이 계산입니다.</strong> ΔT를 60 ℃로 놓고 구속 조건을 “양단 구속”으로 바꿔 보세요 — 하중 없이도 항복강도의 절반을 넘는 응력(144 MPa)이 생깁니다.</p><p>교량 받침이 한쪽은 핀, 한쪽은 롤러인 이유(M2-08)와, 긴 건물에 20~50 m마다 신축줄눈을 넣는 이유가 정확히 같습니다.</p></div>
 <div class="note"><h3>자주 하는 오해</h3><p><strong>열응력은 길이와 무관합니다.</strong> <code>σ = EαΔT</code>에 L이 없습니다. 늘어나려는 <em>양</em>은 길이에 비례하지만, 완전히 구속되면 변형률 <code>ε = αΔT</code>가 길이와 무관하기 때문입니다. 위에서 L을 바꿔 확인해 보세요 — 응력이 그대로입니다.</p></div>
 <details class="q"><summary>강재 부재를 30°C 올리면서 완전 구속하면 응력은?</summary><div class="a"><p>σ = 200,000 MPa × 12×10⁻⁶ × 30 = <strong>72 MPa</strong> (압축). 항복강도 275 MPa의 26%를 온도만으로 써 버린 셈입니다.</p><p>여름·겨울 온도차가 50°C면 120 MPa — 설계에서 무시할 수 없는 크기입니다.</p></div></details>
 
@@ -415,7 +415,7 @@ function supFixed(c,x,y,col,side){
 }
 
 var BC='fr', MA='st';
-var AL={st:[12e-6,200000,275,'강재'],cc:[10e-6,27000,24,'콘크리트']};
+var AL={st:[12e-6,200000,275,'강재',275],cc:[10e-6,27000,24,'콘크리트',3]};   // [α, E(MPa), 압축측 한계(MPa), 이름, 인장측 한계(MPa)]
 var f=sketch('cv',function(c,W,H){
   var dT=val('dT'), L=val('L'), m=AL[MA];
   var dfree=m[0]*dT*L*1000, dact= BC==='fr'? dfree:0;
@@ -446,9 +446,9 @@ var f=sketch('cv',function(c,W,H){
   }
   txt(c, m[3]+'  α = '+fmt(m[0]*1e6,0)+'×10⁻⁶/°C   ΔT = '+fmt(dT,0)+'°C', W*0.05, H*0.12, mut,11,'left');
   txt(c,'L = '+fmt(L,0)+' m', (x0+x1)/2, y+bh/2+44, mut,10.5,'center');
-  var ng=Math.abs(sig)>m[2];
+  var ng=Math.abs(sig)>(sig<0? m[2] : m[4]);
   set('r1',fmt(dfree,1)+' mm'); set('r2',fmt(dact,1)+' mm');
-  set('r3',fmt(Math.abs(sig),1)+' MPa'); set('r4', BC==='fr'?'응력 없음':(ng?'항복 초과!':'탄성 범위'));
+  set('r3',fmt(Math.abs(sig),1)+' MPa'); set('r4', BC==='fr'?'응력 없음':(ng?(MA==='st'?'항복 초과!':(sig<0?'압축강도 초과!':'인장강도 초과(균열)!')):'탄성 범위'));
   var e=el('r4'); if(e) e.style.color = ng? ten:ink;
 });
 bind(f,{dT:function(v){return fmt(v,0)+' °C';},L:function(v){return fmt(v,0)+' m';}});

@@ -302,7 +302,7 @@ input[type=range]::-moz-range-thumb{background:var(--ui); width:15px; height:15p
 <div class="lab">
 <div class="lab-h"><span>판재 구멍의 파괴</span><span>연단거리를 줄여 보세요</span></div>
 <div class="fig"><canvas id="cv"></canvas></div>
-<div class="ctrls"><div class="ctrl"><label for="P">하중 P<output id="Pv">80 kN</output></label><input type="range" id="P" min="10" max="300" step="5" value="80"></div><div class="ctrl"><label for="db">볼트 지름 d<output id="dbv">20 mm</output></label><input type="range" id="db" min="10" max="30" step="1" value="20"></div><div class="ctrl"><label for="tp">판 두께 t<output id="tpv">10 mm</output></label><input type="range" id="tp" min="4" max="20" step="1" value="10"></div><div class="ctrl"><label for="ed">연단거리 e<output id="edv">40 mm</output></label><input type="range" id="ed" min="15" max="90" step="1" value="40"></div></div><div class="readout"><div><span class="rk">지압응력 σ_b</span><span class="rv" id="r1">–</span></div><div><span class="rk">e / d 비</span><span class="rv" id="r2">–</span></div><div><span class="rk">지압 판정</span><span class="rv" id="r3">–</span></div><div><span class="rk">예상 파괴 모드</span><span class="rv" id="r4">–</span></div></div></div>
+<div class="ctrls"><div class="ctrl"><label for="P">하중 P<output id="Pv">80 kN</output></label><input type="range" id="P" min="10" max="300" step="5" value="80"></div><div class="ctrl"><label for="db">볼트 지름 d<output id="dbv">20 mm</output></label><input type="range" id="db" min="10" max="30" step="1" value="20"></div><div class="ctrl"><label for="tp">판 두께 t<output id="tpv">10 mm</output></label><input type="range" id="tp" min="4" max="20" step="1" value="10"></div><div class="ctrl"><label for="ed">연단거리 e<output id="edv">40 mm</output></label><input type="range" id="ed" min="15" max="90" step="1" value="40"></div></div><div class="readout"><div><span class="rk">지압응력 σ_b</span><span class="rv" id="r1">–</span></div><div><span class="rk">e / d 비</span><span class="rv" id="r2">–</span></div><div><span class="rk">지압 판정 (허용 480 MPa)</span><span class="rv" id="r3">–</span></div><div><span class="rk">예상 파괴 모드</span><span class="rv" id="r4">–</span></div></div></div>
 <h2>접합부의 네 가지 파괴 모드</h2><ul><li><strong>볼트 전단파괴</strong> — 볼트가 잘림 (M4-07)</li><li><strong>지압파괴</strong> — 판재 구멍이 늘어나며 찌그러짐</li><li><strong>연단파괴 (전단찢김)</strong> — 구멍과 판 끝 사이가 찢겨 나감. e/d가 작을 때</li><li><strong>판재 인장파괴</strong> — 구멍으로 줄어든 순단면에서 판이 끊어짐</li></ul><div class="note why"><h3>설계에서</h3><p><strong>연단거리 규정(보통 e ≥ 2d)이 여기서 나옵니다.</strong> 볼트를 판 끝에 너무 가까이 뚫으면 지압응력을 견디기 전에 앞쪽이 찢겨 나갑니다. e를 줄여 보세요 — 파괴 모드 예측이 바뀝니다.</p><p>얇은 판일수록 지압이 위험하므로, 얇은 재료에는 볼트보다 용접이나 리벳을 씁니다.</p></div>
 <div class="note"><h3>자주 하는 오해</h3><p>지압응력은 <strong>재료의 압축강도보다 훨씬 높은 값까지 허용됩니다.</strong> 접촉부 주변 재료가 구속되어 3축 응력 상태가 되기 때문입니다 — 포아송 효과(M4-06)와 같은 원리.</p></div>
 <details class="q"><summary>판 두께를 절반으로 줄이면 지압응력은?</summary><div class="a"><p><strong>정확히 2배</strong>가 됩니다. <code>σ_b = P/(d·t)</code>에서 t가 분모에 있기 때문입니다.</p><p>같은 하중을 얇은 판으로 전달하려면 볼트 지름을 키우거나 개수를 늘려야 합니다.</p></div></details>
@@ -417,7 +417,7 @@ function supFixed(c,x,y,col,side){
 var f=sketch('cv',function(c,W,H){
   var P=val('P'), d=val('db'), t=val('tp'), e=val('ed');
   var sb=P*1000/(d*t), ed=e/d;
-  var mode = ed<1.5? '연단 전단찢김' : (sb>480? '지압파괴' : '안전');
+  var mode = ed<2? '연단 전단찢김' : (sb>480? '지압파괴' : '안전');
   var ink=C('--ink'), ten=C('--tension'), comp=C('--compression'), mut=C('--muted'), soft=C('--rule');
   var sc=Math.min(W*0.0032, H*0.0055)*1.1;
   var cx=W*0.52, cy=H*0.44, ph=Math.max(40, 90*sc*3);
@@ -439,8 +439,8 @@ var f=sketch('cv',function(c,W,H){
   // 연단거리
   line(c,px0,cy+ph/2+18,cx,cy+ph/2+18,mut,1,[4,3]);
   arrow(c,px0,cy+ph/2+18,cx,cy+ph/2+18,mut,1,6);
-  txt(c,'e = '+fmt(e,0)+' mm  (e/d = '+fmt(ed,2)+')', (px0+cx)/2, cy+ph/2+32, ed<1.5?ten:mut,10.5,'center',600);
-  if(ed<1.5){
+  txt(c,'e = '+fmt(e,0)+' mm  (e/d = '+fmt(ed,2)+')', (px0+cx)/2, cy+ph/2+32, ed<2?ten:mut,10.5,'center',600);
+  if(ed<2){
     line(c,px0,cy-r,cx,cy-r,ten,2,[5,4]); line(c,px0,cy+r,cx,cy+r,ten,2,[5,4]);
     txt(c,'이 면이 찢겨 나갑니다', (px0+cx)/2, cy-r-18, ten,10,'center',600);
   }

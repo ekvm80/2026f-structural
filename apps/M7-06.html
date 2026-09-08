@@ -493,9 +493,13 @@ var f=sketch('cv',function(c,W,H){
     txt(c,'정확히 반대 분포', gx, H*0.90, mut,10.5,'center');
   }
   var avg=V*1000/S.A;
-  var web = SK==='ibeam'? 0.93 : 0.67;
+  // 웨브 분담률 = (1/I)∫_web Q dy  (전단력 중 웨브가 전달하는 비율, V와 무관)
+  var web=1;
+  if(SK==='ibeam'){ var tf=14, hw=S.h-2*tf, n2=300, qs=0;
+    for(var k=0;k<n2;k++){ var yk=tf+hw*(k+0.5)/n2; qs+=S.Q(yk-S.yb)*hw/n2; }
+    web=qs/S.I; }
   set('r1',fmt(avg,2)+' MPa'); set('r2',fmt(tmax,2)+' MPa');
-  set('r3',fmt(tmax/avg,2)+' 배'); set('r4',fmt(web*100,0)+' %');
+  set('r3',fmt(tmax/avg,2)+' 배'); set('r4', SK==='ibeam'? fmt(web*100,0)+' %' : '– (플랜지 없음)');
 });
 bind(f,{V:function(v){return fmt(v,0)+' kN';},bb:function(v){return fmt(v,0)+' mm';},hh:function(v){return fmt(v,0)+' mm';}});
 segment('sk',function(v){SK=v; f.render();});
