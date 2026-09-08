@@ -1040,28 +1040,31 @@ var f=sketch('cv',function(c,W,H){
   // 물
   c.save(); c.fillStyle=comp; c.globalAlpha=.10; c.fillRect(0,H*0.80,W,H*0.20); c.restore();
   line(c,0,H*0.80,W,H*0.80,comp,1.2);
-  // 보드
+  // 보드 — 처짐은 화면에 맞게 곡선 전체를 한 배율(k)로 축소한다 (점별 절단 금지: 형상이 수평선으로 왜곡됨)
+  var yTip=y;
   if(MODE==='d'){
+    var k=Math.min(1, (H*0.28)/(defl*0.9));           // 표시 배율: 끝단 처짐이 캔버스 높이의 28 %를 넘지 않게
     c.save(); c.beginPath(); c.moveTo(xA,y);
     for(var x=xA;x<=xE;x+=3){
       var t=(x-xB)/scale, dy=0;
       if(x>xB){ dy = defl*( a*t/(L*(a+L)) + t*t*(3*L-t)/(2*L*L*(a+L)) ) * 0.9; }   // B점 회전 + 캔틸레버 곡선
       else { var s0=(x-xA)/scale; dy = -defl*0.9*s0*(a*a-s0*s0)/(2*a*L*(a+L)); }   // A~B: 단부모멘트 PL에 의한 위로 볼록한 곡선, 지점에서 0
-      c.lineTo(x,y+Math.min(dy,H*0.28));
+      c.lineTo(x,y+dy*k);
     }
     c.strokeStyle=ink; c.lineWidth=6; c.lineCap='round'; c.stroke(); c.restore();
     line(c,xA,y,xE,y,mut,1,[4,4]);
-    var yd=y+Math.min(defl*0.9,H*0.28);
-    arrow(c,xE+16,y,xE+16,yd,ten,1.4,6);
-    txt(c,'δ = '+fmt(defl,1)+' mm', xE+22, (y+yd)/2, ten,10,'left',600);
+    yTip=y+defl*0.9*k;
+    arrow(c,xE+16,y,xE+16,yTip,ten,1.4,6);
+    txt(c,'δ = '+fmt(defl,1)+' mm', xE+22, (y+yTip)/2, ten,10,'left',600);
+    if(k<0.999) txt(c,'처짐 그림 배율 1/'+fmt(1/k,1), xE+22, (y+yTip)/2+16, mut,9,'left');
   } else {
     line(c,xA,y,xE,y,ink,6);
     txt(c,'변형 없음 (강체 가정)', (xA+xE)/2, y-30, mut,10,'center');
   }
   supPin(c,xA,y+4,ink); supRoller(c,xB,y+4,ink);
   txt(c,'A',xA,y+38,mut,10,'center'); txt(c,'B',xB,y+44,mut,10,'center');
-  arrow(c,xE,y-46,xE,y-8,comp,2,8);
-  txt(c,'P = '+fmt(P,1)+' kN', xE, y-56, comp,11,'center',600);
+  arrow(c,xE,yTip-46,xE,yTip-8,comp,2,8);              // 하중은 처진 끝점을 따라 이동
+  txt(c,'P = '+fmt(P,1)+' kN', xE-10, yTip-54, comp,11,'right',600);   // 오른쪽 δ 라벨과 겹치지 않게 화살표 왼쪽에
   arrow(c,xA,y+22,xA,y+56,ten,1.6,7); txt(c,fmt(Math.abs(RA),2)+'↓',xA-8,y+62,ten,9.5,'right',600);
   arrow(c,xB,y+58,xB,y+24,ten,1.6,7); txt(c,fmt(RB,2)+'↑',xB+8,y+68,ten,9.5,'left',600);
   txt(c, MODE==='r'?'정역학 — 반력·단면력까지':'재료역학 — 응력·처짐까지', W*0.04, H*0.10, acc, 12,'left',600);
