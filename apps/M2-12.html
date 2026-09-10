@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>트러스의 정의와 세 가지 가정 · 구조역학</title>
-<meta name="description" content="막대를 핀으로 결합해 삼각형을 만든 구조. 세 가지 가정 위에서만 “모든 부재가 축력만 받는다”가 성립합니다.">
+<title>지점 조합과 반력 · 구조역학</title>
+<meta name="description" content="이동·회전·고정 세 지점을 양 끝에 자유롭게 조합해 보면, 지점이 막은 방향에만 반력이 생긴다는 사실과 구조가 성립하는 조건이 함께 보입니다.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap">
@@ -289,26 +289,27 @@ input[type=range]::-moz-range-thumb{background:var(--ui); width:15px; height:15p
 <body>
 <div class="topbar"><div class="in">
   <a class="home" href="../index.html">← 대시보드</a>
-  <div class="crumb"><span>M3 트러스와 골조</span><b>M3-01</b><span class="tier-pill">필수</span><span class="lv lv1">기초</span><span class="kind k1">개념</span></div>
+  <div class="crumb"><span>M2 힘 · 모멘트 · 평형</span><b>M2-12</b><span class="tier-pill">필수</span><span class="lv lv2">표준</span><span class="kind k3">해석</span></div>
   <button class="tbtn" id="themeBtn" type="button" aria-label="밝기 전환">◐ 밝기</button>
 </div></div>
 
 <div class="wrap">
-<h1>트러스의 정의와 세 가지 가정</h1>
-<span class="en">Truss: two-force members, joint loads, self-weight neglected</span>
-<p class="lede">막대를 핀으로 결합해 삼각형을 만든 구조. 세 가지 가정 위에서만 “모든 부재가 축력만 받는다”가 성립합니다.</p>
-<div class="eq">가정 ① 모든 절점은 핀 &nbsp;&nbsp; ② 하중은 절점에만 &nbsp;&nbsp; ③ 부재 자중 무시<small>이 셋이 지켜지면 모든 부재는 이력부재(two-force member)가 되어 휨 없이 축력만 받습니다.</small></div>
-
+<h1>지점 조합과 반력</h1>
+<span class="en">Support combinations &amp; reactions</span>
+<p class="lede">이동·회전·고정 세 지점을 양 끝에 자유롭게 조합해 보면, 지점이 막은 방향에만 반력이 생긴다는 사실과 구조가 성립하는 조건이 함께 보입니다.</p>
+<div class="eq">지점이 막는 운동의 수 = 반력 성분의 수<small>이동지점 1 · 회전지점 2 · 고정지점 3 (2차원 기준). 막지 않은 방향에는 하중이 아무리 커도 반력이 0입니다.</small></div>
 <div class="lab">
-<div class="lab-h"><span>형식을 바꿔 보기</span><span>붉은색 인장 · 파란색 압축 · 굵기는 힘의 크기</span></div>
+<div class="lab-h"><span>지점을 바꿔 가며 반력 읽기</span><span>스팬 L = 6 m · 반력 kN, 모멘트 kN·m</span></div>
 <div class="fig"><canvas id="cv"></canvas></div>
-<div class="ctrls"><div class="ctrl"><label>트러스 형식</label><div class="seg" id="ty"><button type="button" data-v="warren" aria-pressed="true">워런</button><button type="button" data-v="pratt" aria-pressed="false">프랫</button><button type="button" data-v="howe" aria-pressed="false">하우</button></div></div><div class="ctrl"><label for="bay">경간 분할 수<output id="bayv">4 칸</output></label><input type="range" id="bay" min="3" max="8" step="1" value="4"></div><div class="ctrl"><label for="ht">트러스 춤 h<output id="htv">2 m</output></label><input type="range" id="ht" min="0.6" max="3.5" step="0.1" value="2"></div><div class="ctrl"><label for="P">절점 하중 P<output id="Pv">20 kN</output></label><input type="range" id="P" min="5" max="60" step="1" value="20"></div><div class="ctrl"><label class="chk"><input type="checkbox" id="lb" checked> 부재력 값 표시</label></div></div><div class="readout"><div><span class="rk">최대 인장</span><span class="rv" id="r1">–</span></div><div><span class="rk">최대 압축</span><span class="rv" id="r2">–</span></div><div><span class="rk">상현재</span><span class="rv" id="r3">–</span></div><div><span class="rk">하현재</span><span class="rv" id="r4">–</span></div></div></div>
-<h2>삼각형이어야 하는 이유</h2><p>사각형 틀은 핀 절점만으로는 마름모로 찌그러집니다 — 형상이 결정되지 않습니다. 삼각형은 세 변의 길이가 정해지면 형상이 유일하게 결정되므로, <strong>부재를 늘이거나 줄이지 않고는 변형할 수 없습니다.</strong> 그래서 축력만으로 형태가 유지됩니다.</p><div class="note why"><h3>설계에서</h3><p><strong>트러스 춤 h를 줄여 보세요</strong> — 현재(弦材)의 힘이 급격히 커집니다. 모멘트를 현재의 힘 쌍(우력)으로 받기 때문에 <code>F ≈ M/h</code>이고, 춤이 절반이면 힘은 두 배입니다.</p><p>체육관·공장처럼 큰 스팬에서 트러스 춤을 크게 잡는 이유이자, 천장고를 낮추라는 요구가 곧 부재 증대로 이어지는 이유입니다.</p></div>
-<div class="note"><h3>자주 하는 오해</h3><p>“트러스니까 부재 중간에 하중 좀 걸어도 된다”는 <strong>가정을 깨는 행위</strong>입니다. 절점이 아닌 곳에 하중을 걸면 그 부재에 휨이 생기고, 축력만 계산한 결과는 안전하지 않습니다. 실무에서는 그 지점에 절점을 추가하거나 보-기둥부재로 다시 설계합니다.</p></div>
-<details class="q"><summary>상현재와 하현재 중 어느 쪽이 압축인가? 그 이유는?</summary><div class="a"><p>단순지지 트러스에 아래로 하중이 걸리면 <strong>상현재가 압축, 하현재가 인장</strong>입니다. 트러스 전체가 하나의 큰 보처럼 휘고, 보의 위쪽이 압축·아래쪽이 인장인 것과 같은 이치입니다(M7-02).</p><p>압축재는 좌굴을 검토해야 하므로 같은 힘이라도 더 굵어집니다 — 위 그림에서 파란 부재들입니다.</p></div></details>
-
-
-<nav class="pager"><a href="M2-12.html">← M2-12 지점 조합과 반력</a><a href="M3-02.html">M3-02 격점법 →</a></nav>
+<div class="ctrls"><div class="ctrl"><label>A 지점 (왼쪽)</label><div class="seg" id="sa"><button type="button" data-v="n" aria-pressed="false">없음</button><button type="button" data-v="m" aria-pressed="false">이동</button><button type="button" data-v="p" aria-pressed="true">회전</button><button type="button" data-v="f" aria-pressed="false">고정</button></div></div><div class="ctrl"><label>B 지점 (오른쪽)</label><div class="seg" id="sb"><button type="button" data-v="n" aria-pressed="false">없음</button><button type="button" data-v="m" aria-pressed="true">이동</button><button type="button" data-v="p" aria-pressed="false">회전</button><button type="button" data-v="f" aria-pressed="false">고정</button></div></div><div class="ctrl"><label for="P">수직하중 P<output id="Pv">20 kN</output></label><input type="range" id="P" min="0" max="40" step="1" value="20"></div><div class="ctrl"><label for="a">하중 위치 a<output id="av">2.0 m</output></label><input type="range" id="a" min="1" max="5" step="0.1" value="2"></div><div class="ctrl"><label for="h">수평하중 H<output id="hv">6 kN</output></label><input type="range" id="h" min="0" max="20" step="1" value="6"></div></div><div class="readout"><div><span class="rk">A 지점 반력</span><span class="rv" id="r1">–</span></div><div><span class="rk">B 지점 반력</span><span class="rv" id="r2">–</span></div><div><span class="rk">미지 반력 수 r</span><span class="rv" id="r3">–</span></div><div><span class="rk">판정</span><span class="rv" id="r4">–</span></div></div></div>
+<div class="note why"><h3>설계에서</h3><p>실제 접합은 완전한 회전지점도 완전한 고정지점도 아닙니다. 철골 주각에서 <strong>베이스 플레이트가 얇고 앵커가 기둥 단면 안쪽에 있으면 회전지점에 가깝고</strong>, 두꺼운 플레이트에 앵커를 바깥으로 벌려 배치하면 고정지점에 가깝습니다. 어느 쪽으로 모델링하느냐에 따라 기둥 모멘트와 기초 크기가 달라집니다.</p><p>교량 받침을 한쪽만 회전지점, 다른 쪽을 이동지점으로 두는 이유도 여기 있습니다. 양쪽을 모두 막으면 온도가 오르내릴 때마다 큰 축력이 생깁니다(M5-04). <strong>구속을 늘리는 것이 언제나 안전한 선택은 아닙니다.</strong></p></div>
+<h2>세 지점이 막는 것</h2><ul><li><strong>이동지점 (roller)</strong> — 면에 수직인 이동만 막습니다. 수평 이동과 회전은 허용. 반력 1성분. 교량 받침, 신축이음.</li><li><strong>회전지점 (pin · hinge)</strong> — 수평·수직 이동을 막고 회전은 허용. 반력 2성분. 트러스 절점, 아치의 기초.</li><li><strong>고정지점 (fixed)</strong> — 이동도 회전도 막습니다. 반력 3성분(힘 2 + 모멘트 1). 벽에 묻힌 캔틸레버, 강접합 주각.</li><li><strong>자유단 (free end)</strong> — 아무것도 막지 않으므로 반력이 없습니다. 캔틸레버의 끝.</li></ul>
+<h2>구조가 성립하는 조건</h2><ul><li>세 운동 — <strong>수평이동 · 수직이동 · 회전</strong> — 이 모두 막혀야 합니다. 하나라도 자유로우면 하중이 걸리는 순간 움직입니다.</li><li>회전은 고정지점 하나로도 막히고, <strong>수직 반력 두 개가 서로 다른 위치</strong>에 있어도 막힙니다(둘이 짝힘을 만들기 때문).</li><li>세 운동이 모두 막힌 상태에서 미지 반력이 <code>r = 3</code>이면 정정, <code>r &gt; 3</code>이면 (r − 3)차 부정정입니다(M2-11).</li></ul>
+<div class="note"><h3>자주 하는 오해</h3><p>반력은 지점이 스스로 만들어 내는 힘이 아닙니다. <strong>부재가 움직이려 하는 것을 막았기 때문에 생기는 힘</strong>입니다. 그래서 막지 않은 방향에는 하중이 아무리 커도 반력이 0입니다 — 이동지점에 수평하중을 아무리 크게 걸어도 그 지점의 수평 반력은 생기지 않고, 대신 구조가 밀려납니다.</p></div>
+<details class="q"><summary>이동지점 두 개로는 왜 구조가 성립하지 않는가?</summary><div class="a"><p>이동지점은 구르는 면에 수직인 힘 하나만 만듭니다. 둘 다 이동지점이면 수평 반력이 하나도 없어 <code>ΣFx = 0</code>을 만족시킬 방법이 없고, 아무리 작은 수평하중에도 구조가 통째로 밀려납니다.</p><p>위에서 A·B를 모두 “이동”으로 놓아 보세요 — <strong>r = 2 &lt; 3</strong>이 되고 밀려나는 방향이 점선으로 나타납니다. 수평하중 H를 0으로 놓아도 판정은 여전히 불안정입니다. 지금 하중이 없다는 것과 막을 수단이 없다는 것은 다른 문제이기 때문입니다.</p></div></details>
+<details class="q"><summary>A를 고정지점, B를 없음으로 두면(캔틸레버) 반력은 얼마인가?</summary><div class="a"><p>P = 20 kN이 A에서 a = 2 m 떨어진 곳에 걸릴 때 <code>ΣFy = 0</code>에서 <strong>V_A = 20 kN(↑)</strong>, <code>ΣM_A = 0</code>에서 <strong>M_A = 20 × 2 = 40 kN·m(반시계)</strong>, <code>ΣFx = 0</code>에서 H_A는 H와 크기가 같고 방향이 반대입니다.</p><p>지점 하나가 세 운동을 모두 막으므로 r = 3이고 정정입니다. a를 키워 보면 V_A는 그대로이고 <strong>M_A만 커집니다</strong> — 캔틸레버에서 내밀수록 불리해지는 이유가 이것입니다.</p></div></details>
+<details class="q"><summary>양쪽을 모두 회전지점으로 두면 왜 평형식만으로 못 푸는가?</summary><div class="a"><p>회전지점 두 개는 r = 4인데 독립 평형식은 3개뿐입니다. 수평 반력이 A와 B 두 곳에 생기는데 <code>ΣFx = 0</code> 하나로는 <strong>둘로 나뉘는 비율</strong>을 정할 수 없습니다.</p><p>그 비율은 부재의 강성이 결정하며, 적합조건을 더해야 풀립니다(M5-03). 수직하중만 걸린 경우에도 온도가 변하면 이 여분의 구속이 축력을 만듭니다(M5-04).</p></div></details>
+<nav class="pager"><a href="M2-11.html">← M2-11 정정 · 부정정 · 부적정 지지</a><a href="M3-01.html">M3-01 트러스의 정의와 세 가지 가정 →</a></nav>
 </div>
 
 <script>
@@ -325,7 +326,7 @@ input[type=range]::-moz-range-thumb{background:var(--ui); width:15px; height:15p
     document.dispatchEvent(new Event('themechange'));
   });
   try{ var v=JSON.parse(localStorage.getItem('sm-seen')||'[]');
-       if(v.indexOf('M3-01')<0){v.push('M3-01'); localStorage.setItem('sm-seen',JSON.stringify(v));} }catch(e){}
+       if(v.indexOf('M2-12')<0){v.push('M2-12'); localStorage.setItem('sm-seen',JSON.stringify(v));} }catch(e){}
 })();
 
 /* ── 공통 런타임 ── */
@@ -414,97 +415,124 @@ function supFixed(c,x,y,col,side){
   c.restore();
 }
 
-/* ── 공통 트러스 해석기 (Warren / Pratt / Howe) ────────────────
-   절점법을 최소제곱 없이 순수 선형계로 푼다. 미지수 = 부재력 + 반력. */
-function buildTruss(type, bays, span, height, loads){
-  var nodes=[], mem=[], i;
-  var dx=span/bays;
-  for(i=0;i<=bays;i++) nodes.push({x:i*dx, y:0});          // 하현 0..bays
-  for(i=0;i<=bays;i++) nodes.push({x:i*dx, y:height});     // 상현 bays+1..
-  var B=bays+1;
-  for(i=0;i<bays;i++){ mem.push([i,i+1]); mem.push([B+i,B+i+1]); }   // 현재
-  for(i=0;i<=bays;i++) mem.push([i,B+i]);                             // 수직재
-  for(i=0;i<bays;i++){                                                // 사재
-    if(type==='pratt') mem.push( i<bays/2 ? [B+i, i+1] : [B+i+1, i] );      // 중앙 대칭: 사재가 중앙 쪽 아래로 (인장)
-    else if(type==='howe') mem.push( i<bays/2 ? [i, B+i+1] : [i+1, B+i] );   // 중앙 대칭: 사재가 중앙 쪽 위로 (압축)
-    else mem.push( i%2===0 ? [i,B+i+1] : [B+i, i+1] );
-  }
-  var N=nodes.length, M=mem.length, R=3;                 // 핀(2) + 롤러(1)
-  var A=[], b=[];
-  for(i=0;i<2*N;i++){ A.push(new Array(M+R).fill(0)); b.push(0); }
-  mem.forEach(function(m,k){
-    var n1=nodes[m[0]], n2=nodes[m[1]];
-    var L=Math.hypot(n2.x-n1.x, n2.y-n1.y);
-    var cx=(n2.x-n1.x)/L, cy=(n2.y-n1.y)/L;
-    A[2*m[0]][k]+=cx;  A[2*m[0]+1][k]+=cy;
-    A[2*m[1]][k]-=cx;  A[2*m[1]+1][k]-=cy;
-  });
-  A[0][M]=1; A[1][M+1]=1; A[2*bays+1][M+2]=1;            // 좌단 핀, 우단(하현 끝) 롤러
-  loads.forEach(function(l){ b[2*l.n]-= l.fx||0; b[2*l.n+1]-= l.fy||0; });
-  var x=solveLS(A,b,M+R);
-  return {nodes:nodes, mem:mem, force:x.slice(0,M), react:x.slice(M), span:span, height:height};
-}
-function solveLS(A,b,n){                                  // 정규방정식 + 가우스
-  var m=A.length, N=[], r=[];
-  for(var i=0;i<n;i++){ N.push(new Array(n).fill(0)); r.push(0); }
-  for(i=0;i<n;i++){ for(var j=0;j<n;j++){ var s=0; for(var k=0;k<m;k++) s+=A[k][i]*A[k][j]; N[i][j]=s; }
-    var t=0; for(k=0;k<m;k++) t+=A[k][i]*b[k]; r[i]=t; }
-  for(i=0;i<n;i++){
-    var p=i; for(var q=i+1;q<n;q++) if(Math.abs(N[q][i])>Math.abs(N[p][i])) p=q;
-    var tmp=N[i]; N[i]=N[p]; N[p]=tmp; var tb=r[i]; r[i]=r[p]; r[p]=tb;
-    if(Math.abs(N[i][i])<1e-10) continue;
-    for(q=i+1;q<n;q++){ var f=N[q][i]/N[i][i]; if(!f) continue;
-      for(k=i;k<n;k++) N[q][k]-=f*N[i][k]; r[q]-=f*r[i]; }
-  }
-  var x=new Array(n).fill(0);
-  for(i=n-1;i>=0;i--){ var s2=r[i]; for(k=i+1;k<n;k++) s2-=N[i][k]*x[k];
-    x[i]= Math.abs(N[i][i])<1e-10?0: s2/N[i][i]; }
-  return x;
-}
-function drawTruss(c,W,H,T,opt){
-  opt=opt||{};
-  var ink=C('--ink'), ten=C('--tension'), comp=C('--compression'), mut=C('--muted'), soft=C('--rule');
-  var pad=W*0.11, s=Math.min((W-2*pad)/T.span, (H*0.52)/Math.max(T.height,0.1));
-  var ox=pad, oy=H*0.74;
-  function P(n){ return [ox+n.x*s, oy-n.y*s]; }
-  var mx=1; T.force.forEach(function(f){ mx=Math.max(mx,Math.abs(f)); });
-  T.mem.forEach(function(m,k){
-    var p1=P(T.nodes[m[0]]), p2=P(T.nodes[m[1]]), f=T.force[k];
-    var col = Math.abs(f)<0.05? mut : (f>0? ten : comp);
-    var lw  = 1.2 + 4.4*Math.abs(f)/mx;
-    if(opt.hide && opt.hide.indexOf(k)>=0){ line(c,p1[0],p1[1],p2[0],p2[1],soft,1,[4,4]); return; }
-    line(c,p1[0],p1[1],p2[0],p2[1],col,lw);
-    if(opt.labels && Math.abs(f)>0.05 && s>23){
-      var mxp=(p1[0]+p2[0])/2, myp=(p1[1]+p2[1])/2;
-      txt(c, fmt(Math.abs(f),0), mxp, myp-10, col, 9.5,'center',600);
-    }
-  });
-  T.nodes.forEach(function(n,i){
-    var p=P(n);
-    c.save(); c.fillStyle=ink; c.beginPath(); c.arc(p[0],p[1],3.2,0,7); c.fill(); c.restore();
-    if(opt.nodeIds) txt(c, String.fromCharCode(65+i), p[0]+7, p[1]-8, mut, 9,'left');
-  });
-  var b=T.nodes[0], e=T.nodes[(T.nodes.length/2|0)-1];
-  supPin(c, P(b)[0], P(b)[1]+3, ink); supRoller(c, P(e)[0], P(e)[1]+3, ink);
-  return {P:P, s:s};
-}
+/* ── 지점 조합과 반력 ── */
+var TA='p', TB='m';                                   /* n 없음 · m 이동 · p 회전 · f 고정 */
+var TN={n:'자유단', m:'이동지점', p:'회전지점', f:'고정지점'};
+function res(t){ return t==='n'?[0,0,0] : t==='m'?[0,1,0] : t==='p'?[1,1,0] : [1,1,1]; }  /* [수평, 수직, 회전] 구속 */
 
-var TY='warren';
 var f=sketch('cv',function(c,W,H){
-  var bays=val('bay'), h=val('ht'), P=val('P'), lb=on('lb');
-  var loads=[]; for(var i=1;i<bays;i++) loads.push({n:bays+1+i, fy:-P});
-  var T=buildTruss(TY,bays,8,h,loads);
-  drawTruss(c,W,H,T,{labels:lb});
-  var mt=0, mc=0, top=0, bot=0;
-  T.force.forEach(function(v){ mt=Math.max(mt,v); mc=Math.min(mc,v); });
-  for(i=0;i<bays;i++){ bot=Math.max(bot,Math.abs(T.force[2*i])); top=Math.max(top,Math.abs(T.force[2*i+1])); }
-  txt(c,'상현 압축 · 하현 인장', W*0.5, H*0.10, C('--muted'), 11,'center');
-  set('r1',fmt(mt,1)+' kN'); set('r2',fmt(Math.abs(mc),1)+' kN');
-  set('r3',fmt(top,1)+' kN (압축)'); set('r4',fmt(bot,1)+' kN (인장)');
+  var P=val('P'), a=val('a'), Hl=val('h'), L=6;
+  var ink=C('--ink'), ten=C('--tension'), comp=C('--compression'), mut=C('--muted'), acc=C('--accent');
+  var u=Math.min(1,Math.max(0.72,W/820)), vu=Math.min(1,Math.max(0.70,H/470));   /* 좁은 화면에서 여백을 함께 줄인다 */
+  var sc=(W*0.56)/L, xA=W*0.21, xB=xA+L*sc, y=H*0.46, xP=xA+a*sc;
+
+  var RA=res(TA), RB=res(TB);
+  var rA=RA[0]+RA[1]+RA[2], rB=RB[0]+RB[1]+RB[2], r=rA+rB;
+  /* 세 운동이 모두 막혀야 구조가 성립한다. 회전은 고정지점 하나 또는 서로 다른 위치의 수직 반력 두 개로 막힌다 */
+  var okX=!!(RA[0]||RB[0]), okY=!!(RA[1]||RB[1]), okR=!!(RA[2]||RB[2]||(RA[1]&&RB[1]));
+  var stable=okX&&okY&&okR, det=stable&&r===3;
+
+  /* 반력 — 정정인 네 조합만 평형식으로 풀린다. 모멘트는 반시계 + */
+  var HA=0,VA=0,MA=0,HB=0,VB=0,MB=0;
+  if(det){
+    if(TA==='p'&&TB==='m'){ HA=-Hl; VB=P*a/L; VA=P-VB; }              /* 회전 + 이동 */
+    else if(TA==='m'&&TB==='p'){ HB=-Hl; VA=P*(L-a)/L; VB=P-VA; }     /* 이동 + 회전 */
+    else if(TA==='f'){ HA=-Hl; VA=P; MA=P*a; }                        /* 고정 + 자유단: M_A = P·a (반시계) */
+    else { HB=-Hl; VB=P; MB=-P*(L-a); }                               /* 자유단 + 고정: M_B = −P(L−a) (시계) */
+  }
+
+  /* 불안정 — 하중이 걸리면 어디로 움직이는지 점선으로 */
+  if(!stable){
+    var gdx=0, gdy=0, grot=0, pv=xA;
+    if(!okX) gdx=34*u;
+    else if(!okR){ pv = RA[1]? xA : xB; grot=(xP>pv?1:-1)*0.18; }
+    else gdy=34*vu;
+    var d1=xA-pv, d2=xB-pv;
+    var g1x=pv+gdx+d1*Math.cos(grot), g1y=y+gdy+d1*Math.sin(grot);
+    var g2x=pv+gdx+d2*Math.cos(grot), g2y=y+gdy+d2*Math.sin(grot);
+    line(c, g1x,g1y, g2x,g2y, mut, 3, [7,5]);
+    arrow(c, xB, y-16, g2x, g2y-16, mut, 2.2, 9);          /* 오른쪽 끝이 어디로 가는지 */
+  }
+
+  /* 보 · 지점 기호 */
+  line(c,xA,y,xB,y,ink,6);
+  if(TA==='m') supRoller(c,xA,y+4,ink); else if(TA==='p') supPin(c,xA,y+4,ink); else if(TA==='f') supFixed(c,xA,y,ink,'left');
+  if(TB==='m') supRoller(c,xB,y+4,ink); else if(TB==='p') supPin(c,xB,y+4,ink); else if(TB==='f') supFixed(c,xB,y,ink,'right');
+
+  /* 하중 — P와 H는 같은 점, 보 축선에 작용하므로 H는 모멘트를 만들지 않는다 */
+  if(P>0){ arrow(c,xP,y-58*vu,xP,y-9,comp,2.4,9); txt(c,'P = '+fmt(P,0)+' kN', xP, y-70*vu, comp,11,'center',600); }
+  if(Hl>0){ arrow(c,xP-62*u,y-12,xP-10*u,y-12,comp,2.2,9); txt(c,'H = '+fmt(Hl,0)+' kN', xP-36*u, y-30*vu, comp,10.5,'center',600); }
+  txt(c,'a = '+fmt(a,1)+' m', xP, y+22*vu, mut, 9.5,'center');
+
+  /* 반력 모멘트 호 */
+  function marc(x0,y0,R,ccw){
+    var a0=-2.45, a1=-0.55;
+    c.save(); c.strokeStyle=ten; c.lineWidth=2.4; c.beginPath(); c.arc(x0,y0,R,a0,a1,false); c.stroke(); c.restore();
+    var ae=ccw? a0:a1, ex=x0+R*Math.cos(ae), ey=y0+R*Math.sin(ae), tg=ccw? ae-Math.PI/2 : ae+Math.PI/2;
+    arrow(c, ex-10*Math.cos(tg), ey-10*Math.sin(tg), ex, ey, ten, 2.4, 8);
+  }
+  /* 지점별 반력 — out = 지점 바깥 방향(-1 왼쪽 끝, +1 오른쪽 끝) */
+  function drawR(x,R,h,v,m,out){
+    if(!det) return;
+    if(R[1]){
+      if(Math.abs(v)>0.005){
+        if(v>0) arrow(c,x,y+96*vu,x,y+56*vu,ten,2.4,9); else arrow(c,x,y+56*vu,x,y+96*vu,ten,2.4,9);
+        txt(c, fmt(Math.abs(v),2)+' kN '+(v>0?'↑':'↓'), x, y+108*vu, ten,10.5,'center',600);
+      } else txt(c,'V = 0', x, y+80*vu, mut,10,'center',600);
+    }
+    if(R[0]){
+      var pn=x+out*16*u, pf=x+out*74*u;
+      if(Math.abs(h)>0.005){
+        if(h*out>0) arrow(c,pn,y,pf,y,ten,2.4,9); else arrow(c,pf,y,pn,y,ten,2.4,9);
+        txt(c, fmt(Math.abs(h),2)+' kN '+(h>0?'→':'←'), (pn+pf)/2, y-18*vu, ten,10.5,'center',600);
+      } else txt(c,'H = 0', (pn+pf)/2, y-18*vu, mut,10,'center',600);
+    }
+    if(R[2]){
+      var mx=x-out*40*u;
+      if(Math.abs(m)>0.005){ marc(mx,y,25*u,m>0); txt(c, fmt(Math.abs(m),1)+' kN·m '+(m>0?'↺':'↻'), mx, y-46*vu, ten,10.5,'center',600); }
+      else txt(c,'M = 0', mx, y-36*vu, mut,10,'center',600);
+    }
+  }
+  drawR(xA,RA,HA,VA,MA,-1); drawR(xB,RB,HB,VB,MB,1);
+
+  /* 지점 이름과 구속·허용 표시 */
+  function marks(x,R,nm){
+    txt(c, nm, x, y+124*vu, ink, 10.5,'center',700);
+    var lb=['수평','수직','회전'];
+    for(var i=0;i<3;i++){
+      var px=x+(i-1)*40*u;
+      txt(c, lb[i], px, y+142*vu, mut, 9,'center');
+      txt(c, R[i]?'●':'○', px, y+158*vu, R[i]?ten:mut, 11,'center',600);
+    }
+  }
+  marks(xA,RA,'A · '+TN[TA]); marks(xB,RB,'B · '+TN[TB]);
+
+  /* 판정 배너 */
+  var reason = !okX? '수평 이동을 막는 지점이 없습니다' : (!okR? '회전을 막을 수 없습니다' : '수직 지지가 없습니다');
+  var st = !stable? '불안정 — '+reason
+         : (det? '정정 — 평형식 3개로 모든 반력이 정해집니다' : (r-3)+'차 부정정 — 평형식만으로는 반력을 못 구합니다');
+  txt(c, st, W*0.05, H*0.09, !stable? ten : (det? acc : comp), 12.5,'left',700);
+  txt(c, '미지 반력 r = '+r+' · 평형식 3개'+(!stable?' · 점선 = 움직이는 방향':''), W*0.05, H*0.09+20, mut, 10,'left');
+  txt(c, '● 구속 → 반력 발생   ○ 허용 → 반력 0', W*0.05, H*0.97, mut, 9.5,'left');
+
+  /* 판독값 */
+  function rs(R,h,v,m){
+    if(R[0]+R[1]+R[2]===0) return '없음 (자유단)';
+    if(!stable) return '평형 불가';
+    if(!det) return '평형만으로 불가';
+    var p=[];
+    if(R[0]) p.push('H '+fmt(Math.abs(h),1)+(Math.abs(h)<0.005?'':(h>0?' →':' ←')));
+    if(R[1]) p.push('V '+fmt(Math.abs(v),1)+(Math.abs(v)<0.005?'':(v>0?' ↑':' ↓')));
+    if(R[2]) p.push('M '+fmt(Math.abs(m),1)+(Math.abs(m)<0.005?'':(m>0?' ↺':' ↻')));
+    return p.join(' · ');
+  }
+  set('r1', rs(RA,HA,VA,MA)); set('r2', rs(RB,HB,VB,MB));
+  set('r3', r+'개 (A '+rA+' + B '+rB+')');
+  set('r4', !stable? '불안정 — 구속 부족' : (det? '정정' : (r-3)+'차 부정정'));
 });
-bind(f,{bay:function(v){return v+' 칸';},ht:function(v){return fmt(v,1)+' m';},P:function(v){return fmt(v,0)+' kN';}});
-segment('ty',function(v){TY=v; f.render();});
-toggle('lb',f);
+bind(f,{P:function(v){return fmt(v,0)+' kN';},a:function(v){return fmt(v,1)+' m';},h:function(v){return fmt(v,0)+' kN';}});
+segment('sa',function(v){TA=v; f.render();});
+segment('sb',function(v){TB=v; f.render();});
 
 </script>
 </body>

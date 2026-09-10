@@ -293,28 +293,28 @@ a:hover{color:var(--ui-hover)}
 <header>
   <div class="eyebrow"><span>전남대학교 건축학부</span><span>구조역학 · Structural Analysis</span><span>2026-2</span><span>담당 이방연</span></div>
   <h1>구조역학 개념 실험실</h1>
-  <p class="deck">61개 필수 개념을 <b>하나씩 만져 보는 인터랙티브 앱</b>. 슬라이더를 움직이면 그림과 숫자가 같이 바뀝니다 — 공식을 외우기 전에 손으로 감을 잡는 것이 목적입니다. 카드를 눌러 시작하세요.</p>
-  <div class="prog"><span>열어 본 개념</span><span class="bar"><i id="pbar"></i></span><span id="pnum">0 / 61</span>
+  <p class="deck">62개 개념을 <b>하나씩 만져 보는 인터랙티브 앱</b>. 슬라이더를 움직이면 그림과 숫자가 같이 바뀝니다 — 공식을 외우기 전에 손으로 감을 잡는 것이 목적입니다. 카드를 눌러 시작하세요.</p>
+  <div class="prog"><span>열어 본 개념</span><span class="bar"><i id="pbar"></i></span><span id="pnum">0 / 62</span>
     <button class="hbtn" id="reset" type="button">초기화</button></div>
 </header>
 <div class="tools">
   <input id="q" type="search" placeholder="개념 · 영문명 검색 (예: 모멘트, stress, 처짐)" autocomplete="off">
   <div class="filters" id="tier">
-    <button type="button" data-v="all" aria-pressed="true">전체 61</button>
-    <button type="button" data-v="필수" aria-pressed="false">필수 55</button>
+    <button type="button" data-v="all" aria-pressed="true">전체 62</button>
+    <button type="button" data-v="필수" aria-pressed="false">필수 56</button>
     <button type="button" data-v="선택" aria-pressed="false">선택 6</button>
   </div>
   <div class="filters row2" id="lvf">
     <button type="button" data-v="all" aria-pressed="true">난이도 전체</button>
     <button type="button" data-v="1" aria-pressed="false">기초 17</button>
-    <button type="button" data-v="2" aria-pressed="false">표준 28</button>
+    <button type="button" data-v="2" aria-pressed="false">표준 29</button>
     <button type="button" data-v="3" aria-pressed="false">심화 16</button>
   </div>
   <div class="filters row2" id="kif">
     <button type="button" data-v="all" aria-pressed="true">유형 전체</button>
     <button type="button" data-v="개념" aria-pressed="false">개념 15</button>
     <button type="button" data-v="계산" aria-pressed="false">계산 18</button>
-    <button type="button" data-v="해석" aria-pressed="false">해석 19</button>
+    <button type="button" data-v="해석" aria-pressed="false">해석 20</button>
     <button type="button" data-v="설계" aria-pressed="false">설계 5</button>
     <button type="button" data-v="실험" aria-pressed="false">실험 4</button>
   </div>
@@ -466,7 +466,19 @@ a:hover{color:var(--ui-hover)}
 <h2>세 가지 상태</h2><ul><li><strong>정정 (statically determinate)</strong> — r = n. 평형방정식만으로 풀립니다.</li><li><strong>부정정 (indeterminate)</strong> — r &gt; n. 잉여(과잉) 지지가 있습니다. 변형을 고려한 추가 식이 필요합니다(M1-03, M5-03).</li><li><strong>부적정 (improper)</strong> — 개수가 맞아도 <em>배치</em>가 잘못된 경우. ① 반력이 모두 평행 → 하중이 오면 밀려남 ② 반력의 작용선이 한 점에서 만남 → 그 점에 대해 회전.</li></ul><div class="note why"><h3>설계에서</h3><p><strong>부정정은 나쁜 게 아니라 대부분 좋은 것입니다.</strong> 여분의 지지가 있으면 한 곳이 손상돼도 하중이 다른 경로로 갑니다(여용성, redundancy). 실제 건물은 거의 전부 부정정입니다.</p><p>정말 위험한 것은 <strong>부적정</strong>입니다. 반력 개수는 맞는데 배치가 잘못되면 하중이 걸리는 순간 움직입니다 — 가설 구조물 사고의 전형적 원인.</p></div>
 <div class="note"><h3>자주 하는 오해</h3><p>“반력이 3개면 무조건 정정”이 아닙니다. 위 (e) 경사 롤러 2개는 반력이 2개뿐이라 개수부터 모자라고, 롤러 3개를 나란히 놓으면 개수는 3이어도 모두 평행이라 <strong>수평 하중에 저항하지 못합니다.</strong></p></div>
 <details class="q"><summary>부정정 차수가 2라는 말의 의미는?</summary><div class="a"><p>미지 반력이 평형식보다 <strong>2개 많다</strong>는 뜻입니다. 변형을 고려한 적합조건 식을 2개 더 세워야 풀립니다.</p><p>양단 고정보(r=6, n=3)는 3차 부정정, 위 (c) 고정+롤러(r=4, n=3)는 1차 부정정입니다.</p></div></details>
-<nav class="pager"><a href="#/M2-10">← M2-10 평형방정식과 반력 계산</a><a href="#/M3-01">M3-01 트러스의 정의와 세 가지 가정 →</a></nav></section>
+<nav class="pager"><a href="#/M2-10">← M2-10 평형방정식과 반력 계산</a><a href="#/M2-12">M2-12 지점 조합과 반력 →</a></nav></section>
+<section class="appview hidden" id="view_M2_12" data-id="M2-12" data-mod="M2 힘 · 모멘트 · 평형" data-pills="&lt;span class=&quot;tier-pill&quot;&gt;필수&lt;/span&gt;&lt;span class=&quot;lv lv2&quot;&gt;표준&lt;/span&gt;&lt;span class=&quot;kind k3&quot;&gt;해석&lt;/span&gt;"><h1>지점 조합과 반력</h1><span class="en">Support combinations &amp; reactions</span><p class="lede">이동·회전·고정 세 지점을 양 끝에 자유롭게 조합해 보면, 지점이 막은 방향에만 반력이 생긴다는 사실과 구조가 성립하는 조건이 함께 보입니다.</p><div class="eq">지점이 막는 운동의 수 = 반력 성분의 수<small>이동지점 1 · 회전지점 2 · 고정지점 3 (2차원 기준). 막지 않은 방향에는 하중이 아무리 커도 반력이 0입니다.</small></div><div class="lab">
+<div class="lab-h"><span>지점을 바꿔 가며 반력 읽기</span><span>스팬 L = 6 m · 반력 kN, 모멘트 kN·m</span></div>
+<div class="fig"><canvas id="M2_12__cv"></canvas></div>
+<div class="ctrls"><div class="ctrl"><label>A 지점 (왼쪽)</label><div class="seg" id="M2_12__sa"><button type="button" data-v="n" aria-pressed="false">없음</button><button type="button" data-v="m" aria-pressed="false">이동</button><button type="button" data-v="p" aria-pressed="true">회전</button><button type="button" data-v="f" aria-pressed="false">고정</button></div></div><div class="ctrl"><label>B 지점 (오른쪽)</label><div class="seg" id="M2_12__sb"><button type="button" data-v="n" aria-pressed="false">없음</button><button type="button" data-v="m" aria-pressed="true">이동</button><button type="button" data-v="p" aria-pressed="false">회전</button><button type="button" data-v="f" aria-pressed="false">고정</button></div></div><div class="ctrl"><label for="M2_12__P">수직하중 P<output id="M2_12__Pv">20 kN</output></label><input type="range" id="M2_12__P" min="0" max="40" step="1" value="20"></div><div class="ctrl"><label for="M2_12__a">하중 위치 a<output id="M2_12__av">2.0 m</output></label><input type="range" id="M2_12__a" min="1" max="5" step="0.1" value="2"></div><div class="ctrl"><label for="M2_12__h">수평하중 H<output id="M2_12__hv">6 kN</output></label><input type="range" id="M2_12__h" min="0" max="20" step="1" value="6"></div></div><div class="readout"><div><span class="rk">A 지점 반력</span><span class="rv" id="M2_12__r1">–</span></div><div><span class="rk">B 지점 반력</span><span class="rv" id="M2_12__r2">–</span></div><div><span class="rk">미지 반력 수 r</span><span class="rv" id="M2_12__r3">–</span></div><div><span class="rk">판정</span><span class="rv" id="M2_12__r4">–</span></div></div></div>
+<div class="note why"><h3>설계에서</h3><p>실제 접합은 완전한 회전지점도 완전한 고정지점도 아닙니다. 철골 주각에서 <strong>베이스 플레이트가 얇고 앵커가 기둥 단면 안쪽에 있으면 회전지점에 가깝고</strong>, 두꺼운 플레이트에 앵커를 바깥으로 벌려 배치하면 고정지점에 가깝습니다. 어느 쪽으로 모델링하느냐에 따라 기둥 모멘트와 기초 크기가 달라집니다.</p><p>교량 받침을 한쪽만 회전지점, 다른 쪽을 이동지점으로 두는 이유도 여기 있습니다. 양쪽을 모두 막으면 온도가 오르내릴 때마다 큰 축력이 생깁니다(M5-04). <strong>구속을 늘리는 것이 언제나 안전한 선택은 아닙니다.</strong></p></div>
+<h2>세 지점이 막는 것</h2><ul><li><strong>이동지점 (roller)</strong> — 면에 수직인 이동만 막습니다. 수평 이동과 회전은 허용. 반력 1성분. 교량 받침, 신축이음.</li><li><strong>회전지점 (pin · hinge)</strong> — 수평·수직 이동을 막고 회전은 허용. 반력 2성분. 트러스 절점, 아치의 기초.</li><li><strong>고정지점 (fixed)</strong> — 이동도 회전도 막습니다. 반력 3성분(힘 2 + 모멘트 1). 벽에 묻힌 캔틸레버, 강접합 주각.</li><li><strong>자유단 (free end)</strong> — 아무것도 막지 않으므로 반력이 없습니다. 캔틸레버의 끝.</li></ul>
+<h2>구조가 성립하는 조건</h2><ul><li>세 운동 — <strong>수평이동 · 수직이동 · 회전</strong> — 이 모두 막혀야 합니다. 하나라도 자유로우면 하중이 걸리는 순간 움직입니다.</li><li>회전은 고정지점 하나로도 막히고, <strong>수직 반력 두 개가 서로 다른 위치</strong>에 있어도 막힙니다(둘이 짝힘을 만들기 때문).</li><li>세 운동이 모두 막힌 상태에서 미지 반력이 <code>r = 3</code>이면 정정, <code>r &gt; 3</code>이면 (r − 3)차 부정정입니다(M2-11).</li></ul>
+<div class="note"><h3>자주 하는 오해</h3><p>반력은 지점이 스스로 만들어 내는 힘이 아닙니다. <strong>부재가 움직이려 하는 것을 막았기 때문에 생기는 힘</strong>입니다. 그래서 막지 않은 방향에는 하중이 아무리 커도 반력이 0입니다 — 이동지점에 수평하중을 아무리 크게 걸어도 그 지점의 수평 반력은 생기지 않고, 대신 구조가 밀려납니다.</p></div>
+<details class="q"><summary>이동지점 두 개로는 왜 구조가 성립하지 않는가?</summary><div class="a"><p>이동지점은 구르는 면에 수직인 힘 하나만 만듭니다. 둘 다 이동지점이면 수평 반력이 하나도 없어 <code>ΣFx = 0</code>을 만족시킬 방법이 없고, 아무리 작은 수평하중에도 구조가 통째로 밀려납니다.</p><p>위에서 A·B를 모두 “이동”으로 놓아 보세요 — <strong>r = 2 &lt; 3</strong>이 되고 밀려나는 방향이 점선으로 나타납니다. 수평하중 H를 0으로 놓아도 판정은 여전히 불안정입니다. 지금 하중이 없다는 것과 막을 수단이 없다는 것은 다른 문제이기 때문입니다.</p></div></details>
+<details class="q"><summary>A를 고정지점, B를 없음으로 두면(캔틸레버) 반력은 얼마인가?</summary><div class="a"><p>P = 20 kN이 A에서 a = 2 m 떨어진 곳에 걸릴 때 <code>ΣFy = 0</code>에서 <strong>V_A = 20 kN(↑)</strong>, <code>ΣM_A = 0</code>에서 <strong>M_A = 20 × 2 = 40 kN·m(반시계)</strong>, <code>ΣFx = 0</code>에서 H_A는 H와 크기가 같고 방향이 반대입니다.</p><p>지점 하나가 세 운동을 모두 막으므로 r = 3이고 정정입니다. a를 키워 보면 V_A는 그대로이고 <strong>M_A만 커집니다</strong> — 캔틸레버에서 내밀수록 불리해지는 이유가 이것입니다.</p></div></details>
+<details class="q"><summary>양쪽을 모두 회전지점으로 두면 왜 평형식만으로 못 푸는가?</summary><div class="a"><p>회전지점 두 개는 r = 4인데 독립 평형식은 3개뿐입니다. 수평 반력이 A와 B 두 곳에 생기는데 <code>ΣFx = 0</code> 하나로는 <strong>둘로 나뉘는 비율</strong>을 정할 수 없습니다.</p><p>그 비율은 부재의 강성이 결정하며, 적합조건을 더해야 풀립니다(M5-03). 수직하중만 걸린 경우에도 온도가 변하면 이 여분의 구속이 축력을 만듭니다(M5-04).</p></div></details>
+<nav class="pager"><a href="#/M2-11">← M2-11 정정 · 부정정 · 부적정 지지</a><a href="#/M3-01">M3-01 트러스의 정의와 세 가지 가정 →</a></nav></section>
 <section class="appview hidden" id="view_M3_01" data-id="M3-01" data-mod="M3 트러스와 골조" data-pills="&lt;span class=&quot;tier-pill&quot;&gt;필수&lt;/span&gt;&lt;span class=&quot;lv lv1&quot;&gt;기초&lt;/span&gt;&lt;span class=&quot;kind k1&quot;&gt;개념&lt;/span&gt;"><h1>트러스의 정의와 세 가지 가정</h1><span class="en">Truss: two-force members, joint loads, self-weight neglected</span><p class="lede">막대를 핀으로 결합해 삼각형을 만든 구조. 세 가지 가정 위에서만 “모든 부재가 축력만 받는다”가 성립합니다.</p><div class="eq">가정 ① 모든 절점은 핀 &nbsp;&nbsp; ② 하중은 절점에만 &nbsp;&nbsp; ③ 부재 자중 무시<small>이 셋이 지켜지면 모든 부재는 이력부재(two-force member)가 되어 휨 없이 축력만 받습니다.</small></div><div class="lab">
 <div class="lab-h"><span>형식을 바꿔 보기</span><span>붉은색 인장 · 파란색 압축 · 굵기는 힘의 크기</span></div>
 <div class="fig"><canvas id="M3_01__cv"></canvas></div>
@@ -474,7 +486,7 @@ a:hover{color:var(--ui-hover)}
 <h2>삼각형이어야 하는 이유</h2><p>사각형 틀은 핀 절점만으로는 마름모로 찌그러집니다 — 형상이 결정되지 않습니다. 삼각형은 세 변의 길이가 정해지면 형상이 유일하게 결정되므로, <strong>부재를 늘이거나 줄이지 않고는 변형할 수 없습니다.</strong> 그래서 축력만으로 형태가 유지됩니다.</p><div class="note why"><h3>설계에서</h3><p><strong>트러스 춤 h를 줄여 보세요</strong> — 현재(弦材)의 힘이 급격히 커집니다. 모멘트를 현재의 힘 쌍(우력)으로 받기 때문에 <code>F ≈ M/h</code>이고, 춤이 절반이면 힘은 두 배입니다.</p><p>체육관·공장처럼 큰 스팬에서 트러스 춤을 크게 잡는 이유이자, 천장고를 낮추라는 요구가 곧 부재 증대로 이어지는 이유입니다.</p></div>
 <div class="note"><h3>자주 하는 오해</h3><p>“트러스니까 부재 중간에 하중 좀 걸어도 된다”는 <strong>가정을 깨는 행위</strong>입니다. 절점이 아닌 곳에 하중을 걸면 그 부재에 휨이 생기고, 축력만 계산한 결과는 안전하지 않습니다. 실무에서는 그 지점에 절점을 추가하거나 보-기둥부재로 다시 설계합니다.</p></div>
 <details class="q"><summary>상현재와 하현재 중 어느 쪽이 압축인가? 그 이유는?</summary><div class="a"><p>단순지지 트러스에 아래로 하중이 걸리면 <strong>상현재가 압축, 하현재가 인장</strong>입니다. 트러스 전체가 하나의 큰 보처럼 휘고, 보의 위쪽이 압축·아래쪽이 인장인 것과 같은 이치입니다(M7-02).</p><p>압축재는 좌굴을 검토해야 하므로 같은 힘이라도 더 굵어집니다 — 위 그림에서 파란 부재들입니다.</p></div></details>
-<nav class="pager"><a href="#/M2-11">← M2-11 정정 · 부정정 · 부적정 지지</a><a href="#/M3-02">M3-02 격점법 →</a></nav></section>
+<nav class="pager"><a href="#/M2-12">← M2-12 지점 조합과 반력</a><a href="#/M3-02">M3-02 격점법 →</a></nav></section>
 <section class="appview hidden" id="view_M3_02" data-id="M3-02" data-mod="M3 트러스와 골조" data-pills="&lt;span class=&quot;tier-pill&quot;&gt;필수&lt;/span&gt;&lt;span class=&quot;lv lv2&quot;&gt;표준&lt;/span&gt;&lt;span class=&quot;kind k3&quot;&gt;해석&lt;/span&gt;"><h1>격점법</h1><span class="en">Method of joints</span><p class="lede">절점을 하나씩 떼어 <code>ΣFx = 0</code>, <code>ΣFy = 0</code>을 적용합니다. 절점마다 식이 2개뿐이므로 <strong>미지 부재력이 2개 이하인 절점부터</strong> 풀어 나갑니다.</p><div class="eq">압축력은 절점을 <strong>향하고</strong>, 인장력은 절점에서 <strong>바깥쪽</strong>을 향합니다.</div><div class="lab">
 <div class="lab-h"><span>절점을 하나씩 풀어 가기</span><span>현재 절점의 자유물체도</span></div>
 <div class="fig"><canvas id="M3_02__cv"></canvas></div>
@@ -812,7 +824,7 @@ a:hover{color:var(--ui-hover)}
 <nav class="pager"><a href="#/M9-05">← M9-05 공액보법</a><span>—</span></nav></section>
 
 <script>
-var DATA=[{"id": "M1-01", "t": "하중의 흐름과 구조체 · 구조부재", "e": "Load path / structural system & members", "k": "필수", "v": 1, "y": "개념", "d": "하중은 슬래브 → 보 → 기둥 → 기초 → 지반의 한 방향으로만 흐릅니다. 층수를 늘려 보면 왜 아래층 기둥이 굵어져야 하는지가 한눈에 보입니다."}, {"id": "M1-02", "t": "해석과 설계는 다른 작업이다", "e": "Analysis vs. Design", "k": "필수", "v": 1, "y": "개념", "d": "“구조계산”이라 뭉뚱그려 부르는 것은 사실 두 개의 다른 작업입니다. 7단계 설계 프로세스에서 해석은 6단계 하나뿐이고, 나머지는 전부 설계입니다."}, {"id": "M1-03", "t": "역학의 3대 조건", "e": "Equilibrium · Compatibility · Constitutive law", "k": "필수", "v": 2, "y": "개념", "d": "모든 구조 문제는 세 개의 식으로 풀립니다. 강봉 두 개가 강체 판을 함께 떠받치는 이 문제에서, 평형만으로는 답이 안 나오고 나머지 두 조건이 필요합니다."}, {"id": "M1-04", "t": "강체와 변형체", "e": "Rigid body vs. deformable body", "k": "필수", "v": 1, "y": "개념", "d": "같은 다이빙보드를 정역학은 “안 휘는 막대”로, 재료역학은 “휘는 막대”로 봅니다. 무엇을 물을 수 있는지가 달라집니다."}, {"id": "M1-05", "t": "하중의 종류와 산정", "e": "Dead, live, wind and seismic loads", "k": "필수", "v": 1, "y": "계산", "d": "하중의 크기는 설계자가 “이 정도면 되겠지”로 정하지 않습니다. 용도별로 건축구조기준(KBC)에 숫자가 박혀 있고, 설계자는 그걸 찾아 쓰는 사람입니다."}, {"id": "M1-06", "t": "안전율과 세 가지 설계법", "e": "Factor of safety · ASD, Strength, LSD", "k": "필수", "v": 2, "y": "설계", "d": "안전율은 “불안해서 넉넉히 잡는 것”이 아니라, 재료·하중·해석 세 곳의 불확실성을 정량화한 값입니다. 그래서 재료마다 다릅니다."}, {"id": "M1-07", "t": "단위 · 차원 · 접두어", "e": "SI units, dimensions, prefixes", "k": "필수", "v": 1, "y": "계산", "d": "24 MPa과 24 GPa을 헷갈리면 1000배가 틀립니다. 구조 계산에서 가장 흔한 실점 원인이자, 답이 상식적인지 검토하는 첫 번째 도구입니다."}, {"id": "M2-01", "t": "스칼라와 벡터, 힘의 합성과 분해", "e": "Scalars, vectors, triangle & parallelogram rule", "k": "필수", "v": 1, "y": "계산", "d": "힘은 크기만으로 부족하고 방향이 있어야 하는 양입니다. 두 힘을 합치는 두 가지 작도법 — 삼각형 법칙과 평행사변형 법칙 — 이 같은 답을 준다는 것을 눈으로 확인하세요."}, {"id": "M2-02", "t": "직교좌표 성분과 단위벡터", "e": "Cartesian components, i · j · k", "k": "필수", "v": 2, "y": "계산", "d": "벡터를 x·y·z 방향 성분의 합으로 쓰는 표기 체계. 3차원 구조를 손으로 다루려면 반드시 필요합니다."}, {"id": "M2-03", "t": "힘의 분류와 작용선", "e": "External / internal forces, line of action", "k": "필수", "v": 1, "y": "개념", "d": "“내력”이라는 단어를 정확히 쓰기 위한 정리. 잘라 보기 전에는 보이지 않던 힘이, 자르는 순간 나타납니다."}, {"id": "M2-04", "t": "모멘트", "e": "Moment, M = F · d", "k": "필수", "v": 1, "y": "계산", "d": "힘이 물체를 회전시키려는 경향. 크기는 힘 × 수직거리이며, 거리가 선형으로 들어가기 때문에 조금만 내밀어도 급격히 불리해집니다."}, {"id": "M2-05", "t": "우력(짝힘)과 등가우력", "e": "Couple & equivalent couples", "k": "필수", "v": 2, "y": "개념", "d": "크기가 같고 방향이 반대이며 작용선이 다른 두 힘. 힘의 합은 0인데 회전은 일어나고, 어느 점에 대해서도 모멘트가 같습니다."}, {"id": "M2-06", "t": "합력과 등가 힘–우력계", "e": "Resultant, R·d = M_O", "k": "필수", "v": 2, "y": "계산", "d": "여러 힘과 우력이 걸린 계를 힘 하나 + 모멘트 하나로 줄이는 조작. 복잡한 하중 분포를 손으로 다룰 수 있는 크기로 만듭니다."}, {"id": "M2-07", "t": "벡터의 내적과 외적", "e": "Dot product & cross product", "k": "필수", "v": 3, "y": "계산", "d": "한 방향으로의 성분을 뽑는 연산(내적)과, 두 벡터가 만드는 평면에 수직인 벡터를 만드는 연산(외적). 3차원 모멘트 계산의 도구입니다."}, {"id": "M2-08", "t": "지점의 종류", "e": "Pin, roller and fixed supports", "k": "필수", "v": 1, "y": "개념", "d": "실제 접합 디테일을 어떤 기호로 바꿀 것인가. 도면의 상세와 해석 모델을 잇는 유일한 다리이며, 여기서 틀리면 그 뒤의 모든 계산이 엉뚱해집니다."}, {"id": "M2-09", "t": "자유물체도", "e": "Free-body diagram (FBD)", "k": "필수", "v": 1, "y": "해석", "d": "물체를 지지부에서 떼어내고, 지지부가 주던 힘·우력을 반력으로 그려 넣는 절차. 구조 문제 풀이의 첫 단계이자 가장 자주 틀리는 단계입니다."}, {"id": "M2-10", "t": "평형방정식과 반력 계산", "e": "ΣFx = 0, ΣFy = 0, ΣM = 0", "k": "필수", "v": 1, "y": "해석", "d": "2차원에서 독립한 평형식은 정확히 3개, 3차원에서는 6개입니다. 다른 점에서 모멘트를 잡아도 독립식이 늘지 않는다는 것이 핵심입니다."}, {"id": "M2-11", "t": "정정 · 부정정 · 부적정 지지", "e": "Determinate, indeterminate, improper supports", "k": "필수", "v": 2, "y": "개념", "d": "계산을 시작하기 전에 이 구조가 성립하는가를 판별하는 능력. 미지수와 식의 개수만 세면 됩니다."}, {"id": "M3-01", "t": "트러스의 정의와 세 가지 가정", "e": "Truss: two-force members, joint loads, self-weight neglected", "k": "필수", "v": 1, "y": "개념", "d": "막대를 핀으로 결합해 삼각형을 만든 구조. 세 가지 가정 위에서만 “모든 부재가 축력만 받는다”가 성립합니다."}, {"id": "M3-02", "t": "격점법", "e": "Method of joints", "k": "필수", "v": 2, "y": "해석", "d": "절점을 하나씩 떼어 ΣFx = 0, ΣFy = 0을 적용합니다. 절점마다 식이 2개뿐이므로 미지 부재력이 2개 이하인 절점부터 풀어 나갑니다."}, {"id": "M3-03", "t": "단면법", "e": "Method of sections", "k": "필수", "v": 2, "y": "해석", "d": "트러스를 잘라 분할부에 평형을 적용합니다. 2차원 분할부의 독립식은 3개뿐이므로 미지력이 3개 이하가 되도록 절단선을 골라야 합니다."}, {"id": "M3-04", "t": "영부재", "e": "Zero-force members", "k": "필수", "v": 2, "y": "해석", "d": "하중이 걸리지 않은 절점에서, 계산하지 않고도 힘이 0임을 알 수 있는 부재들. 계산량을 크게 줄여 줍니다."}, {"id": "M3-05", "t": "프레임과 기계의 해석", "e": "Frames & machines", "k": "선택", "v": 3, "y": "해석", "d": "트러스와 달리 부재 중간에 하중이 걸리고 다력부재가 섞인 구조. 전체 FBD로 일부 반력을 구한 뒤 부재별로 분해합니다."}, {"id": "M3-06", "t": "입체트러스", "e": "Space truss", "k": "선택", "v": 3, "y": "해석", "d": "볼–소켓 조인트로 사면체를 구성한 3차원 트러스. 2차원 트러스와 같은 방법(절점법·단면법)으로 풀되, 평형식이 절점당 3개가 됩니다."}, {"id": "M4-01", "t": "수직응력", "e": "Normal stress, σ = P / A", "k": "필수", "v": 1, "y": "계산", "d": "단위 면적당 내력. 재료역학에서 가장 근본적인 개념이며, 파괴를 결정하는 것은 하중이 아니라 응력이라는 사실이 핵심입니다."}, {"id": "M4-02", "t": "수직변형률", "e": "Normal strain, ε = δ / L", "k": "필수", "v": 1, "y": "계산", "d": "원래 길이 대비 늘어난 비율. 절대 길이가 아니라 비율로 이야기해야 서로 다른 재료와 부재를 비교할 수 있습니다."}, {"id": "M4-03", "t": "응력–변형률 선도", "e": "σ–ε curve, yield / ultimate / fracture", "k": "필수", "v": 2, "y": "실험", "d": "인장시험이 그리는 곡선 하나에 재료의 모든 성격이 담깁니다. 강재는 항복 후에도 버티고 콘크리트는 바로 깨진다 — 그 차이가 여기 있습니다."}, {"id": "M4-04", "t": "탄성과 소성", "e": "Elasticity & plasticity", "k": "필수", "v": 2, "y": "실험", "d": "하중을 제거했을 때 원래대로 돌아오면 탄성, 잔류변형이 남으면 비탄성. 지진 후 “서 있는데 못 쓰는 건물”의 정체가 이것입니다."}, {"id": "M4-05", "t": "후크의 법칙과 탄성계수", "e": "Hooke's law, σ = Eε", "k": "필수", "v": 1, "y": "개념", "d": "탄성 영역에서 응력과 변형률은 비례하고, 그 기울기가 탄성계수 E입니다. 강도(strength)와 강성(stiffness)은 전혀 다른 물성이라는 것이 이 개념의 핵심입니다."}, {"id": "M4-06", "t": "포아송비", "e": "Poisson's ratio, ν", "k": "필수", "v": 2, "y": "실험", "d": "축방향으로 늘어날 때 횡방향으로 줄어드는 비율. 콘크리트 약 0.2, 강재 약 0.3, 고무는 0.5에 가깝습니다."}, {"id": "M4-07", "t": "전단응력과 단전단 · 복전단", "e": "Shear stress, τ = P / A, single & double shear", "k": "필수", "v": 2, "y": "계산", "d": "부재를 미끄러뜨리려는 힘이 만드는 응력. 볼트가 한 면에서 잘리면 단전단, 두 면이면 저항 면적이 두 배가 되어 응력은 절반입니다."}, {"id": "M4-08", "t": "전단변형률과 전단탄성계수", "e": "Shear strain γ, modulus G, τ = Gγ", "k": "필수", "v": 2, "y": "실험", "d": "직각이 얼마나 틀어졌는가(rad)로 정의되는 변형률과, 전단에서의 후크의 법칙."}, {"id": "M4-09", "t": "지압응력", "e": "Bearing stress", "k": "선택", "v": 2, "y": "설계", "d": "하중이 한 부재에서 다른 부재로 전달될 때 접촉면에 직각으로 생기는 응력. 볼트가 멀쩡해도 판재의 구멍이 찢어지는 파괴 모드입니다."}, {"id": "M4-10", "t": "허용응력 · 허용하중과 단면 설계", "e": "Allowable stress & load, A_req = P / σ_allow", "k": "필수", "v": 2, "y": "설계", "d": "재료 강도(극한강도 또는 항복강도)를 안전율로 나눈 허용응력으로 필요 단면적을 역산합니다. 학생이 처음으로 “설계”를 해 보는 지점입니다."}, {"id": "M5-01", "t": "축부재의 신장량과 강성", "e": "δ = PL / EA, stiffness EA/L", "k": "필수", "v": 1, "y": "계산", "d": "응력·변형률·후크의 법칙을 합치면 나오는 결론. 재료(E)·단면(A)·길이(L) 중 무엇을 바꿔야 얼마나 덜 늘어나는지를 정량적으로 판단하는 첫 도구입니다."}, {"id": "M5-02", "t": "불균일 조건에서의 변형", "e": "Nonuniform conditions, Σ and ∫", "k": "필수", "v": 2, "y": "계산", "d": "단면이나 축력이 구간마다 달라지면 구간별로 더하고, 연속적으로 변하면 적분합니다. 자중을 받는 긴 기둥이 대표 사례입니다."}, {"id": "M5-03", "t": "부정정 축부재의 해석", "e": "Statically indeterminate axial members", "k": "필수", "v": 3, "y": "해석", "d": "미지수 2개, 평형식 1개인 상황. 적합조건과 구성방정식을 더해 식을 하나 더 만드는 절차 — 부정정 구조 해석 전체의 축소판입니다."}, {"id": "M5-04", "t": "온도변화와 열응력", "e": "Thermal effects, δ_T = α(ΔT)L", "k": "필수", "v": 2, "y": "계산", "d": "자유롭게 늘어날 수 있으면 변형만 생기고 응력은 0. 구속되면 변형이 막히면서 응력이 생깁니다 — 하중이 하나도 없어도 부재가 파괴될 수 있습니다."}, {"id": "M5-05", "t": "경사단면의 응력", "e": "Stresses on inclined sections", "k": "필수", "v": 3, "y": "계산", "d": "순수 축인장 상태에서도 45° 경사면에서는 전단응력이 최대가 됩니다. 인장을 걸었는데 파괴면이 비스듬히 나오는 이유입니다."}, {"id": "M6-01", "t": "보의 종류 · 하중 · 반력", "e": "Types of beams, loads and reactions", "k": "필수", "v": 1, "y": "해석", "d": "같은 스팬·같은 하중이라도 지지 방식에 따라 모멘트가 완전히 달라집니다. 평면 계획이 곧 구조 조건인 이유입니다."}, {"id": "M6-02", "t": "전단력과 휨모멘트, 그리고 부호규약", "e": "Shear force V, bending moment M, sign convention", "k": "필수", "v": 2, "y": "해석", "d": "보를 임의의 위치에서 잘랐을 때 단면에 작용하는 내력. 부호규약이 흔들리면 이후 모든 그림이 무너집니다."}, {"id": "M6-03", "t": "하중 · 전단력 · 휨모멘트의 관계", "e": "dV/dx = −w, dM/dx = V", "k": "필수", "v": 2, "y": "해석", "d": "하중을 적분하면 전단력, 전단력을 적분하면 휨모멘트. 전단력이 0이 되는 곳에서 휨모멘트가 최대가 된다는 사실이 실용적 핵심입니다."}, {"id": "M6-04", "t": "SFD · BMD 작도", "e": "Shear-force & bending-moment diagrams", "k": "필수", "v": 2, "y": "해석", "d": "보 전 길이에 걸친 V(x)와 M(x)를 그림으로 그리는 절차. 이 과목의 대표 결과물이며, 최대 모멘트의 위치와 크기가 곧 보 춤과 철근량입니다."}, {"id": "M6-05", "t": "골조의 축력 · 전단력 · 모멘트도", "e": "Axial force, V and M for frames", "k": "필수", "v": 3, "y": "해석", "d": "보와 기둥이 강접합된 골조에서 각 부재별 내력도를 그리는 방법. 절점에서 모멘트가 어떻게 전달되는지가 핵심입니다."}, {"id": "M7-01", "t": "순수휨과 곡률", "e": "Pure & nonuniform bending, curvature κ = 1/ρ", "k": "필수", "v": 2, "y": "개념", "d": "전단력 없이 일정한 모멘트만 받는 구간이 순수휨. 곡률은 보가 얼마나 급하게 휘었는지의 국소적 척도이며, 곡률반경의 역수입니다."}, {"id": "M7-02", "t": "보의 종방향 변형률과 중립축", "e": "Longitudinal strains, neutral axis", "k": "필수", "v": 2, "y": "개념", "d": "평면 유지 가정 아래 변형률은 중립축으로부터의 거리 y에 선형 비례합니다 — 위는 압축, 아래는 인장, 중립축에서 0."}, {"id": "M7-03", "t": "도심 · 단면2차모멘트 · 단면계수", "e": "Centroid, moment of inertia I, section modulus S", "k": "필수", "v": 2, "y": "계산", "d": "단면의 기하학적 성질. 직사각형은 I = bh³/12 — 춤 h가 세제곱으로 들어갑니다. 이 사실 하나가 보 단면 형상의 거의 모든 것을 설명합니다."}, {"id": "M7-04", "t": "휨응력 공식", "e": "Flexure formula, σ = My / I", "k": "필수", "v": 2, "y": "계산", "d": "휨모멘트가 단면 안에서 응력으로 바뀌는 식. M6의 BMD와 M7의 단면 성질이 만나 “이 보가 버티는가”라는 판정으로 이어지는 지점입니다."}, {"id": "M7-05", "t": "휨에 대한 보의 설계", "e": "Design of beams for bending, S_req = M_max / σ_allow", "k": "필수", "v": 3, "y": "설계", "d": "최대모멘트와 허용응력에서 필요 단면계수를 구하고 단면을 확정하는 절차. 스팬이 주어졌을 때 보 춤을 스스로 정할 수 있게 됩니다."}, {"id": "M7-06", "t": "보의 전단응력", "e": "Shear stress in beams, τ = VQ / Ib", "k": "필수", "v": 3, "y": "계산", "d": "휨을 받는 보 안에서 전단응력은 중립축에서 최대, 최외단에서 0 — 휨응력과 정확히 반대 분포입니다."}, {"id": "M8-01", "t": "평면응력과 응력요소", "e": "Plane stress, stress element", "k": "필수", "v": 2, "y": "개념", "d": "한 점의 응력 상태를 σx, σy, τxy 세 성분을 가진 미소 사각형으로 표현하는 방법. 응력은 스칼라도 벡터도 아닙니다."}, {"id": "M8-02", "t": "응력의 변환식", "e": "Transformation equations", "k": "필수", "v": 3, "y": "계산", "d": "좌표축을 θ만큼 돌렸을 때 응력 성분이 어떻게 바뀌는지를 주는 식. 같은 점, 같은 상태, 다른 표현입니다."}, {"id": "M8-03", "t": "주응력과 최대전단응력", "e": "Principal stresses & maximum shear stress", "k": "필수", "v": 3, "y": "해석", "d": "전단응력이 0이 되는 면에서의 수직응력이 주응력. 콘크리트 균열이 왜 그 방향으로 나는지가 이 개념으로 설명됩니다."}, {"id": "M8-04", "t": "모어원", "e": "Mohr's circle", "k": "필수", "v": 3, "y": "해석", "d": "응력 변환을 원 하나로 그려 내는 도해법. 공식을 외우지 않고 주응력·최대전단응력·임의 각도의 응력을 읽어 냅니다."}, {"id": "M8-05", "t": "평면변형률과 3축응력", "e": "Plane strain, Hooke's law for plane stress, triaxial stress", "k": "선택", "v": 3, "y": "개념", "d": "평면응력과 평면변형률의 구분, 2·3차원으로 확장된 후크의 법칙. 어떤 가정을 쓸지가 해석 모델 선택을 좌우합니다."}, {"id": "M9-01", "t": "처짐곡선과 사용성", "e": "Deflection curve, slope, serviceability", "k": "필수", "v": 2, "y": "설계", "d": "강도는 만족하는데 처짐 때문에 탈락하는 설계가 실무에서 훨씬 흔합니다. 안 무너지는데 문이 안 닫히고 천장이 갈라지는 세계."}, {"id": "M9-02", "t": "모멘트–곡률 관계", "e": "EI v″ = M, elastic beam theory", "k": "필수", "v": 2, "y": "개념", "d": "보의 곡률이 M/EI와 같다는 관계. 여기서 하중–전단–모멘트–처짐각–처짐이 미분·적분으로 한 줄에 꿰집니다."}, {"id": "M9-03", "t": "이중적분법", "e": "Double integration method", "k": "필수", "v": 3, "y": "해석", "d": "M(x)를 두 번 적분해 v(x)를 얻고, 적분상수는 경계조건·연속조건·대칭조건으로 결정합니다. 강의자료의 6단계 절차를 그대로 따르는 것이 핵심입니다."}, {"id": "M9-04", "t": "모멘트면적법", "e": "Moment-area method", "k": "선택", "v": 3, "y": "해석", "d": "M/EI 선도의 면적과 도심 위치로 처짐각과 처짐을 구하는 기하학적 방법. 적분 없이 BMD 그림만으로 답을 냅니다."}, {"id": "M9-05", "t": "공액보법", "e": "Conjugate-beam method", "k": "필수", "v": 3, "y": "해석", "d": "M/EI를 가상의 하중으로 얹은 “공액보”를 만들면, 그 보의 전단력이 처짐각이고 휨모멘트가 처짐이 됩니다."}, {"id": "M9-06", "t": "에너지법 — 가상일과 카스티야노 정리", "e": "Virtual work & Castigliano's theorem", "k": "선택", "v": 3, "y": "해석", "d": "힘의 평형 대신 에너지 보존으로 처짐을 구하는 접근. 트러스·골조처럼 기하가 복잡한 구조에서 특히 강력합니다."}]; var MODS={"M1": "구조와 역학의 큰 그림", "M2": "힘 · 모멘트 · 평형", "M3": "트러스와 골조", "M4": "응력과 변형률", "M5": "축하중 부재", "M6": "보의 내력", "M7": "보의 응력", "M8": "응력 · 변형률 해석", "M9": "처짐"};
+var DATA=[{"id": "M1-01", "t": "하중의 흐름과 구조체 · 구조부재", "e": "Load path / structural system & members", "k": "필수", "v": 1, "y": "개념", "d": "하중은 슬래브 → 보 → 기둥 → 기초 → 지반의 한 방향으로만 흐릅니다. 층수를 늘려 보면 왜 아래층 기둥이 굵어져야 하는지가 한눈에 보입니다."}, {"id": "M1-02", "t": "해석과 설계는 다른 작업이다", "e": "Analysis vs. Design", "k": "필수", "v": 1, "y": "개념", "d": "“구조계산”이라 뭉뚱그려 부르는 것은 사실 두 개의 다른 작업입니다. 7단계 설계 프로세스에서 해석은 6단계 하나뿐이고, 나머지는 전부 설계입니다."}, {"id": "M1-03", "t": "역학의 3대 조건", "e": "Equilibrium · Compatibility · Constitutive law", "k": "필수", "v": 2, "y": "개념", "d": "모든 구조 문제는 세 개의 식으로 풀립니다. 강봉 두 개가 강체 판을 함께 떠받치는 이 문제에서, 평형만으로는 답이 안 나오고 나머지 두 조건이 필요합니다."}, {"id": "M1-04", "t": "강체와 변형체", "e": "Rigid body vs. deformable body", "k": "필수", "v": 1, "y": "개념", "d": "같은 다이빙보드를 정역학은 “안 휘는 막대”로, 재료역학은 “휘는 막대”로 봅니다. 무엇을 물을 수 있는지가 달라집니다."}, {"id": "M1-05", "t": "하중의 종류와 산정", "e": "Dead, live, wind and seismic loads", "k": "필수", "v": 1, "y": "계산", "d": "하중의 크기는 설계자가 “이 정도면 되겠지”로 정하지 않습니다. 용도별로 건축구조기준(KBC)에 숫자가 박혀 있고, 설계자는 그걸 찾아 쓰는 사람입니다."}, {"id": "M1-06", "t": "안전율과 세 가지 설계법", "e": "Factor of safety · ASD, Strength, LSD", "k": "필수", "v": 2, "y": "설계", "d": "안전율은 “불안해서 넉넉히 잡는 것”이 아니라, 재료·하중·해석 세 곳의 불확실성을 정량화한 값입니다. 그래서 재료마다 다릅니다."}, {"id": "M1-07", "t": "단위 · 차원 · 접두어", "e": "SI units, dimensions, prefixes", "k": "필수", "v": 1, "y": "계산", "d": "24 MPa과 24 GPa을 헷갈리면 1000배가 틀립니다. 구조 계산에서 가장 흔한 실점 원인이자, 답이 상식적인지 검토하는 첫 번째 도구입니다."}, {"id": "M2-01", "t": "스칼라와 벡터, 힘의 합성과 분해", "e": "Scalars, vectors, triangle & parallelogram rule", "k": "필수", "v": 1, "y": "계산", "d": "힘은 크기만으로 부족하고 방향이 있어야 하는 양입니다. 두 힘을 합치는 두 가지 작도법 — 삼각형 법칙과 평행사변형 법칙 — 이 같은 답을 준다는 것을 눈으로 확인하세요."}, {"id": "M2-02", "t": "직교좌표 성분과 단위벡터", "e": "Cartesian components, i · j · k", "k": "필수", "v": 2, "y": "계산", "d": "벡터를 x·y·z 방향 성분의 합으로 쓰는 표기 체계. 3차원 구조를 손으로 다루려면 반드시 필요합니다."}, {"id": "M2-03", "t": "힘의 분류와 작용선", "e": "External / internal forces, line of action", "k": "필수", "v": 1, "y": "개념", "d": "“내력”이라는 단어를 정확히 쓰기 위한 정리. 잘라 보기 전에는 보이지 않던 힘이, 자르는 순간 나타납니다."}, {"id": "M2-04", "t": "모멘트", "e": "Moment, M = F · d", "k": "필수", "v": 1, "y": "계산", "d": "힘이 물체를 회전시키려는 경향. 크기는 힘 × 수직거리이며, 거리가 선형으로 들어가기 때문에 조금만 내밀어도 급격히 불리해집니다."}, {"id": "M2-05", "t": "우력(짝힘)과 등가우력", "e": "Couple & equivalent couples", "k": "필수", "v": 2, "y": "개념", "d": "크기가 같고 방향이 반대이며 작용선이 다른 두 힘. 힘의 합은 0인데 회전은 일어나고, 어느 점에 대해서도 모멘트가 같습니다."}, {"id": "M2-06", "t": "합력과 등가 힘–우력계", "e": "Resultant, R·d = M_O", "k": "필수", "v": 2, "y": "계산", "d": "여러 힘과 우력이 걸린 계를 힘 하나 + 모멘트 하나로 줄이는 조작. 복잡한 하중 분포를 손으로 다룰 수 있는 크기로 만듭니다."}, {"id": "M2-07", "t": "벡터의 내적과 외적", "e": "Dot product & cross product", "k": "필수", "v": 3, "y": "계산", "d": "한 방향으로의 성분을 뽑는 연산(내적)과, 두 벡터가 만드는 평면에 수직인 벡터를 만드는 연산(외적). 3차원 모멘트 계산의 도구입니다."}, {"id": "M2-08", "t": "지점의 종류", "e": "Pin, roller and fixed supports", "k": "필수", "v": 1, "y": "개념", "d": "실제 접합 디테일을 어떤 기호로 바꿀 것인가. 도면의 상세와 해석 모델을 잇는 유일한 다리이며, 여기서 틀리면 그 뒤의 모든 계산이 엉뚱해집니다."}, {"id": "M2-09", "t": "자유물체도", "e": "Free-body diagram (FBD)", "k": "필수", "v": 1, "y": "해석", "d": "물체를 지지부에서 떼어내고, 지지부가 주던 힘·우력을 반력으로 그려 넣는 절차. 구조 문제 풀이의 첫 단계이자 가장 자주 틀리는 단계입니다."}, {"id": "M2-10", "t": "평형방정식과 반력 계산", "e": "ΣFx = 0, ΣFy = 0, ΣM = 0", "k": "필수", "v": 1, "y": "해석", "d": "2차원에서 독립한 평형식은 정확히 3개, 3차원에서는 6개입니다. 다른 점에서 모멘트를 잡아도 독립식이 늘지 않는다는 것이 핵심입니다."}, {"id": "M2-11", "t": "정정 · 부정정 · 부적정 지지", "e": "Determinate, indeterminate, improper supports", "k": "필수", "v": 2, "y": "개념", "d": "계산을 시작하기 전에 이 구조가 성립하는가를 판별하는 능력. 미지수와 식의 개수만 세면 됩니다."}, {"id": "M2-12", "t": "지점 조합과 반력", "e": "Support combinations & reactions", "k": "필수", "v": 2, "y": "해석", "d": "이동·회전·고정 세 지점을 양 끝에 자유롭게 조합해 보면, 지점이 막은 방향에만 반력이 생긴다는 사실과 구조가 성립하는 조건이 함께 보입니다."}, {"id": "M3-01", "t": "트러스의 정의와 세 가지 가정", "e": "Truss: two-force members, joint loads, self-weight neglected", "k": "필수", "v": 1, "y": "개념", "d": "막대를 핀으로 결합해 삼각형을 만든 구조. 세 가지 가정 위에서만 “모든 부재가 축력만 받는다”가 성립합니다."}, {"id": "M3-02", "t": "격점법", "e": "Method of joints", "k": "필수", "v": 2, "y": "해석", "d": "절점을 하나씩 떼어 ΣFx = 0, ΣFy = 0을 적용합니다. 절점마다 식이 2개뿐이므로 미지 부재력이 2개 이하인 절점부터 풀어 나갑니다."}, {"id": "M3-03", "t": "단면법", "e": "Method of sections", "k": "필수", "v": 2, "y": "해석", "d": "트러스를 잘라 분할부에 평형을 적용합니다. 2차원 분할부의 독립식은 3개뿐이므로 미지력이 3개 이하가 되도록 절단선을 골라야 합니다."}, {"id": "M3-04", "t": "영부재", "e": "Zero-force members", "k": "필수", "v": 2, "y": "해석", "d": "하중이 걸리지 않은 절점에서, 계산하지 않고도 힘이 0임을 알 수 있는 부재들. 계산량을 크게 줄여 줍니다."}, {"id": "M3-05", "t": "프레임과 기계의 해석", "e": "Frames & machines", "k": "선택", "v": 3, "y": "해석", "d": "트러스와 달리 부재 중간에 하중이 걸리고 다력부재가 섞인 구조. 전체 FBD로 일부 반력을 구한 뒤 부재별로 분해합니다."}, {"id": "M3-06", "t": "입체트러스", "e": "Space truss", "k": "선택", "v": 3, "y": "해석", "d": "볼–소켓 조인트로 사면체를 구성한 3차원 트러스. 2차원 트러스와 같은 방법(절점법·단면법)으로 풀되, 평형식이 절점당 3개가 됩니다."}, {"id": "M4-01", "t": "수직응력", "e": "Normal stress, σ = P / A", "k": "필수", "v": 1, "y": "계산", "d": "단위 면적당 내력. 재료역학에서 가장 근본적인 개념이며, 파괴를 결정하는 것은 하중이 아니라 응력이라는 사실이 핵심입니다."}, {"id": "M4-02", "t": "수직변형률", "e": "Normal strain, ε = δ / L", "k": "필수", "v": 1, "y": "계산", "d": "원래 길이 대비 늘어난 비율. 절대 길이가 아니라 비율로 이야기해야 서로 다른 재료와 부재를 비교할 수 있습니다."}, {"id": "M4-03", "t": "응력–변형률 선도", "e": "σ–ε curve, yield / ultimate / fracture", "k": "필수", "v": 2, "y": "실험", "d": "인장시험이 그리는 곡선 하나에 재료의 모든 성격이 담깁니다. 강재는 항복 후에도 버티고 콘크리트는 바로 깨진다 — 그 차이가 여기 있습니다."}, {"id": "M4-04", "t": "탄성과 소성", "e": "Elasticity & plasticity", "k": "필수", "v": 2, "y": "실험", "d": "하중을 제거했을 때 원래대로 돌아오면 탄성, 잔류변형이 남으면 비탄성. 지진 후 “서 있는데 못 쓰는 건물”의 정체가 이것입니다."}, {"id": "M4-05", "t": "후크의 법칙과 탄성계수", "e": "Hooke's law, σ = Eε", "k": "필수", "v": 1, "y": "개념", "d": "탄성 영역에서 응력과 변형률은 비례하고, 그 기울기가 탄성계수 E입니다. 강도(strength)와 강성(stiffness)은 전혀 다른 물성이라는 것이 이 개념의 핵심입니다."}, {"id": "M4-06", "t": "포아송비", "e": "Poisson's ratio, ν", "k": "필수", "v": 2, "y": "실험", "d": "축방향으로 늘어날 때 횡방향으로 줄어드는 비율. 콘크리트 약 0.2, 강재 약 0.3, 고무는 0.5에 가깝습니다."}, {"id": "M4-07", "t": "전단응력과 단전단 · 복전단", "e": "Shear stress, τ = P / A, single & double shear", "k": "필수", "v": 2, "y": "계산", "d": "부재를 미끄러뜨리려는 힘이 만드는 응력. 볼트가 한 면에서 잘리면 단전단, 두 면이면 저항 면적이 두 배가 되어 응력은 절반입니다."}, {"id": "M4-08", "t": "전단변형률과 전단탄성계수", "e": "Shear strain γ, modulus G, τ = Gγ", "k": "필수", "v": 2, "y": "실험", "d": "직각이 얼마나 틀어졌는가(rad)로 정의되는 변형률과, 전단에서의 후크의 법칙."}, {"id": "M4-09", "t": "지압응력", "e": "Bearing stress", "k": "선택", "v": 2, "y": "설계", "d": "하중이 한 부재에서 다른 부재로 전달될 때 접촉면에 직각으로 생기는 응력. 볼트가 멀쩡해도 판재의 구멍이 찢어지는 파괴 모드입니다."}, {"id": "M4-10", "t": "허용응력 · 허용하중과 단면 설계", "e": "Allowable stress & load, A_req = P / σ_allow", "k": "필수", "v": 2, "y": "설계", "d": "재료 강도(극한강도 또는 항복강도)를 안전율로 나눈 허용응력으로 필요 단면적을 역산합니다. 학생이 처음으로 “설계”를 해 보는 지점입니다."}, {"id": "M5-01", "t": "축부재의 신장량과 강성", "e": "δ = PL / EA, stiffness EA/L", "k": "필수", "v": 1, "y": "계산", "d": "응력·변형률·후크의 법칙을 합치면 나오는 결론. 재료(E)·단면(A)·길이(L) 중 무엇을 바꿔야 얼마나 덜 늘어나는지를 정량적으로 판단하는 첫 도구입니다."}, {"id": "M5-02", "t": "불균일 조건에서의 변형", "e": "Nonuniform conditions, Σ and ∫", "k": "필수", "v": 2, "y": "계산", "d": "단면이나 축력이 구간마다 달라지면 구간별로 더하고, 연속적으로 변하면 적분합니다. 자중을 받는 긴 기둥이 대표 사례입니다."}, {"id": "M5-03", "t": "부정정 축부재의 해석", "e": "Statically indeterminate axial members", "k": "필수", "v": 3, "y": "해석", "d": "미지수 2개, 평형식 1개인 상황. 적합조건과 구성방정식을 더해 식을 하나 더 만드는 절차 — 부정정 구조 해석 전체의 축소판입니다."}, {"id": "M5-04", "t": "온도변화와 열응력", "e": "Thermal effects, δ_T = α(ΔT)L", "k": "필수", "v": 2, "y": "계산", "d": "자유롭게 늘어날 수 있으면 변형만 생기고 응력은 0. 구속되면 변형이 막히면서 응력이 생깁니다 — 하중이 하나도 없어도 부재가 파괴될 수 있습니다."}, {"id": "M5-05", "t": "경사단면의 응력", "e": "Stresses on inclined sections", "k": "필수", "v": 3, "y": "계산", "d": "순수 축인장 상태에서도 45° 경사면에서는 전단응력이 최대가 됩니다. 인장을 걸었는데 파괴면이 비스듬히 나오는 이유입니다."}, {"id": "M6-01", "t": "보의 종류 · 하중 · 반력", "e": "Types of beams, loads and reactions", "k": "필수", "v": 1, "y": "해석", "d": "같은 스팬·같은 하중이라도 지지 방식에 따라 모멘트가 완전히 달라집니다. 평면 계획이 곧 구조 조건인 이유입니다."}, {"id": "M6-02", "t": "전단력과 휨모멘트, 그리고 부호규약", "e": "Shear force V, bending moment M, sign convention", "k": "필수", "v": 2, "y": "해석", "d": "보를 임의의 위치에서 잘랐을 때 단면에 작용하는 내력. 부호규약이 흔들리면 이후 모든 그림이 무너집니다."}, {"id": "M6-03", "t": "하중 · 전단력 · 휨모멘트의 관계", "e": "dV/dx = −w, dM/dx = V", "k": "필수", "v": 2, "y": "해석", "d": "하중을 적분하면 전단력, 전단력을 적분하면 휨모멘트. 전단력이 0이 되는 곳에서 휨모멘트가 최대가 된다는 사실이 실용적 핵심입니다."}, {"id": "M6-04", "t": "SFD · BMD 작도", "e": "Shear-force & bending-moment diagrams", "k": "필수", "v": 2, "y": "해석", "d": "보 전 길이에 걸친 V(x)와 M(x)를 그림으로 그리는 절차. 이 과목의 대표 결과물이며, 최대 모멘트의 위치와 크기가 곧 보 춤과 철근량입니다."}, {"id": "M6-05", "t": "골조의 축력 · 전단력 · 모멘트도", "e": "Axial force, V and M for frames", "k": "필수", "v": 3, "y": "해석", "d": "보와 기둥이 강접합된 골조에서 각 부재별 내력도를 그리는 방법. 절점에서 모멘트가 어떻게 전달되는지가 핵심입니다."}, {"id": "M7-01", "t": "순수휨과 곡률", "e": "Pure & nonuniform bending, curvature κ = 1/ρ", "k": "필수", "v": 2, "y": "개념", "d": "전단력 없이 일정한 모멘트만 받는 구간이 순수휨. 곡률은 보가 얼마나 급하게 휘었는지의 국소적 척도이며, 곡률반경의 역수입니다."}, {"id": "M7-02", "t": "보의 종방향 변형률과 중립축", "e": "Longitudinal strains, neutral axis", "k": "필수", "v": 2, "y": "개념", "d": "평면 유지 가정 아래 변형률은 중립축으로부터의 거리 y에 선형 비례합니다 — 위는 압축, 아래는 인장, 중립축에서 0."}, {"id": "M7-03", "t": "도심 · 단면2차모멘트 · 단면계수", "e": "Centroid, moment of inertia I, section modulus S", "k": "필수", "v": 2, "y": "계산", "d": "단면의 기하학적 성질. 직사각형은 I = bh³/12 — 춤 h가 세제곱으로 들어갑니다. 이 사실 하나가 보 단면 형상의 거의 모든 것을 설명합니다."}, {"id": "M7-04", "t": "휨응력 공식", "e": "Flexure formula, σ = My / I", "k": "필수", "v": 2, "y": "계산", "d": "휨모멘트가 단면 안에서 응력으로 바뀌는 식. M6의 BMD와 M7의 단면 성질이 만나 “이 보가 버티는가”라는 판정으로 이어지는 지점입니다."}, {"id": "M7-05", "t": "휨에 대한 보의 설계", "e": "Design of beams for bending, S_req = M_max / σ_allow", "k": "필수", "v": 3, "y": "설계", "d": "최대모멘트와 허용응력에서 필요 단면계수를 구하고 단면을 확정하는 절차. 스팬이 주어졌을 때 보 춤을 스스로 정할 수 있게 됩니다."}, {"id": "M7-06", "t": "보의 전단응력", "e": "Shear stress in beams, τ = VQ / Ib", "k": "필수", "v": 3, "y": "계산", "d": "휨을 받는 보 안에서 전단응력은 중립축에서 최대, 최외단에서 0 — 휨응력과 정확히 반대 분포입니다."}, {"id": "M8-01", "t": "평면응력과 응력요소", "e": "Plane stress, stress element", "k": "필수", "v": 2, "y": "개념", "d": "한 점의 응력 상태를 σx, σy, τxy 세 성분을 가진 미소 사각형으로 표현하는 방법. 응력은 스칼라도 벡터도 아닙니다."}, {"id": "M8-02", "t": "응력의 변환식", "e": "Transformation equations", "k": "필수", "v": 3, "y": "계산", "d": "좌표축을 θ만큼 돌렸을 때 응력 성분이 어떻게 바뀌는지를 주는 식. 같은 점, 같은 상태, 다른 표현입니다."}, {"id": "M8-03", "t": "주응력과 최대전단응력", "e": "Principal stresses & maximum shear stress", "k": "필수", "v": 3, "y": "해석", "d": "전단응력이 0이 되는 면에서의 수직응력이 주응력. 콘크리트 균열이 왜 그 방향으로 나는지가 이 개념으로 설명됩니다."}, {"id": "M8-04", "t": "모어원", "e": "Mohr's circle", "k": "필수", "v": 3, "y": "해석", "d": "응력 변환을 원 하나로 그려 내는 도해법. 공식을 외우지 않고 주응력·최대전단응력·임의 각도의 응력을 읽어 냅니다."}, {"id": "M8-05", "t": "평면변형률과 3축응력", "e": "Plane strain, Hooke's law for plane stress, triaxial stress", "k": "선택", "v": 3, "y": "개념", "d": "평면응력과 평면변형률의 구분, 2·3차원으로 확장된 후크의 법칙. 어떤 가정을 쓸지가 해석 모델 선택을 좌우합니다."}, {"id": "M9-01", "t": "처짐곡선과 사용성", "e": "Deflection curve, slope, serviceability", "k": "필수", "v": 2, "y": "설계", "d": "강도는 만족하는데 처짐 때문에 탈락하는 설계가 실무에서 훨씬 흔합니다. 안 무너지는데 문이 안 닫히고 천장이 갈라지는 세계."}, {"id": "M9-02", "t": "모멘트–곡률 관계", "e": "EI v″ = M, elastic beam theory", "k": "필수", "v": 2, "y": "개념", "d": "보의 곡률이 M/EI와 같다는 관계. 여기서 하중–전단–모멘트–처짐각–처짐이 미분·적분으로 한 줄에 꿰집니다."}, {"id": "M9-03", "t": "이중적분법", "e": "Double integration method", "k": "필수", "v": 3, "y": "해석", "d": "M(x)를 두 번 적분해 v(x)를 얻고, 적분상수는 경계조건·연속조건·대칭조건으로 결정합니다. 강의자료의 6단계 절차를 그대로 따르는 것이 핵심입니다."}, {"id": "M9-04", "t": "모멘트면적법", "e": "Moment-area method", "k": "선택", "v": 3, "y": "해석", "d": "M/EI 선도의 면적과 도심 위치로 처짐각과 처짐을 구하는 기하학적 방법. 적분 없이 BMD 그림만으로 답을 냅니다."}, {"id": "M9-05", "t": "공액보법", "e": "Conjugate-beam method", "k": "필수", "v": 3, "y": "해석", "d": "M/EI를 가상의 하중으로 얹은 “공액보”를 만들면, 그 보의 전단력이 처짐각이고 휨모멘트가 처짐이 됩니다."}, {"id": "M9-06", "t": "에너지법 — 가상일과 카스티야노 정리", "e": "Virtual work & Castigliano's theorem", "k": "선택", "v": 3, "y": "해석", "d": "힘의 평형 대신 에너지 보존으로 처짐을 구하는 접근. 트러스·골조처럼 기하가 복잡한 구조에서 특히 강력합니다."}]; var MODS={"M1": "구조와 역학의 큰 그림", "M2": "힘 · 모멘트 · 평형", "M3": "트러스와 골조", "M4": "응력과 변형률", "M5": "축하중 부재", "M6": "보의 내력", "M7": "보의 응력", "M8": "응력 · 변형률 해석", "M9": "처짐"};
 (function(){var K='sm-theme';
  try{var t=localStorage.getItem(K); if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
  document.getElementById('themeBtn').addEventListener('click',function(){
@@ -1632,6 +1644,128 @@ var f=sketch('cv',function(c,W,H){
 });
 segment('cs',function(v){CS=v; f.render();});
 f.render();
+
+};
+INIT['M2-12']=function(){var P='M2_12__';function el(i){return document.getElementById(P+i);}function val(i){return parseFloat(el(i).value);}function set(i,t){var e=el(i);if(e)e.textContent=t;}function on(i){var e=el(i);return e?e.checked:false;}function sketch(i,d){return _sketch(P+i,d);}function bind(f,m){var n={};for(var k in m)n[P+k]=m[k];_bind(f,n);}function segment(i,cb){_segment(P+i,cb);}function toggle(i,f){_toggle(P+i,f);}
+
+/* ── 지점 조합과 반력 ── */
+var TA='p', TB='m';                                   /* n 없음 · m 이동 · p 회전 · f 고정 */
+var TN={n:'자유단', m:'이동지점', p:'회전지점', f:'고정지점'};
+function res(t){ return t==='n'?[0,0,0] : t==='m'?[0,1,0] : t==='p'?[1,1,0] : [1,1,1]; }  /* [수평, 수직, 회전] 구속 */
+
+var f=sketch('cv',function(c,W,H){
+  var P=val('P'), a=val('a'), Hl=val('h'), L=6;
+  var ink=C('--ink'), ten=C('--tension'), comp=C('--compression'), mut=C('--muted'), acc=C('--accent');
+  var u=Math.min(1,Math.max(0.72,W/820)), vu=Math.min(1,Math.max(0.70,H/470));   /* 좁은 화면에서 여백을 함께 줄인다 */
+  var sc=(W*0.56)/L, xA=W*0.21, xB=xA+L*sc, y=H*0.46, xP=xA+a*sc;
+
+  var RA=res(TA), RB=res(TB);
+  var rA=RA[0]+RA[1]+RA[2], rB=RB[0]+RB[1]+RB[2], r=rA+rB;
+  /* 세 운동이 모두 막혀야 구조가 성립한다. 회전은 고정지점 하나 또는 서로 다른 위치의 수직 반력 두 개로 막힌다 */
+  var okX=!!(RA[0]||RB[0]), okY=!!(RA[1]||RB[1]), okR=!!(RA[2]||RB[2]||(RA[1]&&RB[1]));
+  var stable=okX&&okY&&okR, det=stable&&r===3;
+
+  /* 반력 — 정정인 네 조합만 평형식으로 풀린다. 모멘트는 반시계 + */
+  var HA=0,VA=0,MA=0,HB=0,VB=0,MB=0;
+  if(det){
+    if(TA==='p'&&TB==='m'){ HA=-Hl; VB=P*a/L; VA=P-VB; }              /* 회전 + 이동 */
+    else if(TA==='m'&&TB==='p'){ HB=-Hl; VA=P*(L-a)/L; VB=P-VA; }     /* 이동 + 회전 */
+    else if(TA==='f'){ HA=-Hl; VA=P; MA=P*a; }                        /* 고정 + 자유단: M_A = P·a (반시계) */
+    else { HB=-Hl; VB=P; MB=-P*(L-a); }                               /* 자유단 + 고정: M_B = −P(L−a) (시계) */
+  }
+
+  /* 불안정 — 하중이 걸리면 어디로 움직이는지 점선으로 */
+  if(!stable){
+    var gdx=0, gdy=0, grot=0, pv=xA;
+    if(!okX) gdx=34*u;
+    else if(!okR){ pv = RA[1]? xA : xB; grot=(xP>pv?1:-1)*0.18; }
+    else gdy=34*vu;
+    var d1=xA-pv, d2=xB-pv;
+    var g1x=pv+gdx+d1*Math.cos(grot), g1y=y+gdy+d1*Math.sin(grot);
+    var g2x=pv+gdx+d2*Math.cos(grot), g2y=y+gdy+d2*Math.sin(grot);
+    line(c, g1x,g1y, g2x,g2y, mut, 3, [7,5]);
+    arrow(c, xB, y-16, g2x, g2y-16, mut, 2.2, 9);          /* 오른쪽 끝이 어디로 가는지 */
+  }
+
+  /* 보 · 지점 기호 */
+  line(c,xA,y,xB,y,ink,6);
+  if(TA==='m') supRoller(c,xA,y+4,ink); else if(TA==='p') supPin(c,xA,y+4,ink); else if(TA==='f') supFixed(c,xA,y,ink,'left');
+  if(TB==='m') supRoller(c,xB,y+4,ink); else if(TB==='p') supPin(c,xB,y+4,ink); else if(TB==='f') supFixed(c,xB,y,ink,'right');
+
+  /* 하중 — P와 H는 같은 점, 보 축선에 작용하므로 H는 모멘트를 만들지 않는다 */
+  if(P>0){ arrow(c,xP,y-58*vu,xP,y-9,comp,2.4,9); txt(c,'P = '+fmt(P,0)+' kN', xP, y-70*vu, comp,11,'center',600); }
+  if(Hl>0){ arrow(c,xP-62*u,y-12,xP-10*u,y-12,comp,2.2,9); txt(c,'H = '+fmt(Hl,0)+' kN', xP-36*u, y-30*vu, comp,10.5,'center',600); }
+  txt(c,'a = '+fmt(a,1)+' m', xP, y+22*vu, mut, 9.5,'center');
+
+  /* 반력 모멘트 호 */
+  function marc(x0,y0,R,ccw){
+    var a0=-2.45, a1=-0.55;
+    c.save(); c.strokeStyle=ten; c.lineWidth=2.4; c.beginPath(); c.arc(x0,y0,R,a0,a1,false); c.stroke(); c.restore();
+    var ae=ccw? a0:a1, ex=x0+R*Math.cos(ae), ey=y0+R*Math.sin(ae), tg=ccw? ae-Math.PI/2 : ae+Math.PI/2;
+    arrow(c, ex-10*Math.cos(tg), ey-10*Math.sin(tg), ex, ey, ten, 2.4, 8);
+  }
+  /* 지점별 반력 — out = 지점 바깥 방향(-1 왼쪽 끝, +1 오른쪽 끝) */
+  function drawR(x,R,h,v,m,out){
+    if(!det) return;
+    if(R[1]){
+      if(Math.abs(v)>0.005){
+        if(v>0) arrow(c,x,y+96*vu,x,y+56*vu,ten,2.4,9); else arrow(c,x,y+56*vu,x,y+96*vu,ten,2.4,9);
+        txt(c, fmt(Math.abs(v),2)+' kN '+(v>0?'↑':'↓'), x, y+108*vu, ten,10.5,'center',600);
+      } else txt(c,'V = 0', x, y+80*vu, mut,10,'center',600);
+    }
+    if(R[0]){
+      var pn=x+out*16*u, pf=x+out*74*u;
+      if(Math.abs(h)>0.005){
+        if(h*out>0) arrow(c,pn,y,pf,y,ten,2.4,9); else arrow(c,pf,y,pn,y,ten,2.4,9);
+        txt(c, fmt(Math.abs(h),2)+' kN '+(h>0?'→':'←'), (pn+pf)/2, y-18*vu, ten,10.5,'center',600);
+      } else txt(c,'H = 0', (pn+pf)/2, y-18*vu, mut,10,'center',600);
+    }
+    if(R[2]){
+      var mx=x-out*40*u;
+      if(Math.abs(m)>0.005){ marc(mx,y,25*u,m>0); txt(c, fmt(Math.abs(m),1)+' kN·m '+(m>0?'↺':'↻'), mx, y-46*vu, ten,10.5,'center',600); }
+      else txt(c,'M = 0', mx, y-36*vu, mut,10,'center',600);
+    }
+  }
+  drawR(xA,RA,HA,VA,MA,-1); drawR(xB,RB,HB,VB,MB,1);
+
+  /* 지점 이름과 구속·허용 표시 */
+  function marks(x,R,nm){
+    txt(c, nm, x, y+124*vu, ink, 10.5,'center',700);
+    var lb=['수평','수직','회전'];
+    for(var i=0;i<3;i++){
+      var px=x+(i-1)*40*u;
+      txt(c, lb[i], px, y+142*vu, mut, 9,'center');
+      txt(c, R[i]?'●':'○', px, y+158*vu, R[i]?ten:mut, 11,'center',600);
+    }
+  }
+  marks(xA,RA,'A · '+TN[TA]); marks(xB,RB,'B · '+TN[TB]);
+
+  /* 판정 배너 */
+  var reason = !okX? '수평 이동을 막는 지점이 없습니다' : (!okR? '회전을 막을 수 없습니다' : '수직 지지가 없습니다');
+  var st = !stable? '불안정 — '+reason
+         : (det? '정정 — 평형식 3개로 모든 반력이 정해집니다' : (r-3)+'차 부정정 — 평형식만으로는 반력을 못 구합니다');
+  txt(c, st, W*0.05, H*0.09, !stable? ten : (det? acc : comp), 12.5,'left',700);
+  txt(c, '미지 반력 r = '+r+' · 평형식 3개'+(!stable?' · 점선 = 움직이는 방향':''), W*0.05, H*0.09+20, mut, 10,'left');
+  txt(c, '● 구속 → 반력 발생   ○ 허용 → 반력 0', W*0.05, H*0.97, mut, 9.5,'left');
+
+  /* 판독값 */
+  function rs(R,h,v,m){
+    if(R[0]+R[1]+R[2]===0) return '없음 (자유단)';
+    if(!stable) return '평형 불가';
+    if(!det) return '평형만으로 불가';
+    var p=[];
+    if(R[0]) p.push('H '+fmt(Math.abs(h),1)+(Math.abs(h)<0.005?'':(h>0?' →':' ←')));
+    if(R[1]) p.push('V '+fmt(Math.abs(v),1)+(Math.abs(v)<0.005?'':(v>0?' ↑':' ↓')));
+    if(R[2]) p.push('M '+fmt(Math.abs(m),1)+(Math.abs(m)<0.005?'':(m>0?' ↺':' ↻')));
+    return p.join(' · ');
+  }
+  set('r1', rs(RA,HA,VA,MA)); set('r2', rs(RB,HB,VB,MB));
+  set('r3', r+'개 (A '+rA+' + B '+rB+')');
+  set('r4', !stable? '불안정 — 구속 부족' : (det? '정정' : (r-3)+'차 부정정'));
+});
+bind(f,{P:function(v){return fmt(v,0)+' kN';},a:function(v){return fmt(v,1)+' m';},h:function(v){return fmt(v,0)+' kN';}});
+segment('sa',function(v){TA=v; f.render();});
+segment('sb',function(v){TB=v; f.render();});
 
 };
 INIT['M3-01']=function(){var P='M3_01__';function el(i){return document.getElementById(P+i);}function val(i){return parseFloat(el(i).value);}function set(i,t){var e=el(i);if(e)e.textContent=t;}function on(i){var e=el(i);return e?e.checked:false;}function sketch(i,d){return _sketch(P+i,d);}function bind(f,m){var n={};for(var k in m)n[P+k]=m[k];_bind(f,n);}function segment(i,cb){_segment(P+i,cb);}function toggle(i,f){_toggle(P+i,f);}
@@ -4636,6 +4770,21 @@ function bindFilter(id,set){ document.getElementById(id).addEventListener('click
   Array.prototype.forEach.call(this.querySelectorAll('button'),function(x){x.setAttribute('aria-pressed',x===b?'true':'false');});
   set(b.dataset.v); draw();});}
 bindFilter('tier',function(v){tier=v;}); bindFilter('lvf',function(v){lvf=v;}); bindFilter('kif',function(v){kif=v;});
+/* 필터 버튼의 개수 라벨은 DATA에서 계산한다 — 개념을 추가해도 숫자가 어긋나지 않는다 */
+(function(){
+  function label(box,fn,showAll){
+    var el=document.getElementById(box); if(!el) return;
+    Array.prototype.forEach.call(el.querySelectorAll('button'),function(b){
+      var w=b.textContent.trim().split(' ');
+      var base=(w.length>1 && /^[0-9]+$/.test(w[w.length-1]))? w.slice(0,-1).join(' ') : w.join(' ');
+      b.textContent = b.dataset.v==='all' ? (showAll? base+' '+DATA.length : base)
+                    : base+' '+DATA.filter(function(c){return fn(c,b.dataset.v);}).length;
+    });
+  }
+  label('tier',function(c,v){return c.k===v;},true);
+  label('lvf', function(c,v){return String(c.v)===v;},false);
+  label('kif', function(c,v){return c.y===v;},false);
+})();
 document.getElementById('reset').addEventListener('click',function(){
   try{localStorage.removeItem('sm-seen');}catch(e){} draw();});
 
