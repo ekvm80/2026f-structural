@@ -384,7 +384,7 @@ input[type=range]::-moz-range-thumb{background:var(--ui); width:15px; height:15p
 
 <!-- M1 -->
 <section class="module" id="m1">
-  <div class="mod-head"><div class="mod-code"><span>MODULE 01</span><span>7 개념 · 필수 7 / 선택 0</span></div>
+  <div class="mod-head"><div class="mod-code"><span>MODULE 01</span><span>8 개념 · 필수 8 / 선택 0</span></div>
   <h2>구조와 역학의 큰 그림</h2>
   <p class="mod-note">계산에 들어가기 전에 잡아야 할 프레임. 설계 스튜디오에서 구조를 “나중에 구조과가 봐주는 것”이 아니라 형태를 결정하는 조건으로 다루게 만드는 개념들입니다.</p></div>
 
@@ -459,11 +459,20 @@ input[type=range]::-moz-range-thumb{background:var(--ui); width:15px; height:15p
     </div>
     <div class="forms"><span class="chip hot">단위 변환 앱</span><span class="chip">퀴즈</span></div>
   </div>
+  <div class="item">
+    <div class="mark"><div class="bar a"></div><div class="id">M1-08</div><div class="tier">필수</div></div>
+    <div>
+      <p class="name">지점의 종류</p><span class="en">Pin, roller and fixed supports</span><div class="cmeta"><span class="lv lv1">기초</span><span class="kind k1">개념</span></div>
+      <p class="def">핀지지 — 힘 2성분, 우력 없음(회전 허용). 롤러지지 — 표면 법선 방향 힘 1성분. 고정지지 — 힘 2성분 + 우력. 교량 받침이 롤러인 이유는 열팽창·수축 허용.</p>
+      <p class="why"><span class="tag">설계</span>실제 접합 디테일을 어떤 기호로 이상화할지 판단하는 능력. 도면의 접합 상세와 해석 모델을 잇는 유일한 다리.</p>
+    </div>
+    <div class="forms"><span class="chip hot">실물↔기호 매칭 앱</span><span class="chip">사진 영상</span></div>
+  </div>
 </section>
 
 <!-- M2 -->
 <section class="module" id="m2">
-  <div class="mod-head"><div class="mod-code"><span>MODULE 02</span><span>12 개념 · 필수 12 / 선택 0</span></div>
+  <div class="mod-head"><div class="mod-code"><span>MODULE 02</span><span>11 개념 · 필수 11 / 선택 0</span></div>
   <h2>힘 · 모멘트 · 평형</h2>
   <p class="mod-note">정역학의 본체. 실제 접합부를 기호로 바꾸고, 그 기호에서 반력을 뽑아내는 절차 전체가 여기 들어 있습니다.</p></div>
 
@@ -542,15 +551,6 @@ input[type=range]::-moz-range-thumb{background:var(--ui); width:15px; height:15p
     <div class="forms"><span class="chip">3D 시각화</span></div>
   </div>
 
-  <div class="item">
-    <div class="mark"><div class="bar a"></div><div class="id">M2-08</div><div class="tier">필수</div></div>
-    <div>
-      <p class="name">지점의 종류</p><span class="en">Pin, roller and fixed supports</span><div class="cmeta"><span class="lv lv1">기초</span><span class="kind k1">개념</span></div>
-      <p class="def">핀지지 — 힘 2성분, 우력 없음(회전 허용). 롤러지지 — 표면 법선 방향 힘 1성분. 고정지지 — 힘 2성분 + 우력. 교량 받침이 롤러인 이유는 열팽창·수축 허용.</p>
-      <p class="why"><span class="tag">설계</span>실제 접합 디테일을 어떤 기호로 이상화할지 판단하는 능력. 도면의 접합 상세와 해석 모델을 잇는 유일한 다리.</p>
-    </div>
-    <div class="forms"><span class="chip hot">실물↔기호 매칭 앱</span><span class="chip">사진 영상</span></div>
-  </div>
 
   <div class="item">
     <div class="mark"><div class="bar a"></div><div class="id">M2-09</div><div class="tier">필수</div></div>
@@ -558,7 +558,7 @@ input[type=range]::-moz-range-thumb{background:var(--ui); width:15px; height:15p
       <p class="name">자유물체도</p><span class="en">Free-body diagram (FBD)</span><div class="cmeta"><span class="lv lv1">기초</span><span class="kind k3">해석</span></div>
       <p class="def">물체를 지지부에서 떼어내고, 지지부가 주던 힘·우력을 반력으로 그려 넣는 절차. 구조 문제 풀이의 첫 단계이자 가장 자주 틀리는 단계.</p>
       <p class="why"><span class="tag">설계</span>이것을 못 그리면 뒤의 모든 계산이 무의미합니다. 강의 전반에 걸쳐 반복 출제되는 기본기.</p>
-      <p class="pre">선수 M2-08</p>
+      <p class="pre">선수 M1-08</p>
     </div>
     <div class="forms"><span class="chip hot">단계별 연습 앱</span><span class="chip">영상</span></div>
   </div>
@@ -591,7 +591,7 @@ input[type=range]::-moz-range-thumb{background:var(--ui); width:15px; height:15p
       <p class="name">지점 조합과 반력</p><span class="en">Support combinations &amp; reactions</span><div class="cmeta"><span class="lv lv2">표준</span><span class="kind k3">해석</span></div>
       <p class="def">이동지점(1성분) · 회전지점(2성분) · 고정지점(3성분)을 양 끝에 조합해 반력을 직접 읽습니다. 지점이 막은 방향에만 반력이 생기고, 수평이동·수직이동·회전 세 가지가 모두 막혀야 구조가 성립합니다.</p>
       <p class="why"><span class="tag">설계</span>주각을 핀으로 볼지 고정으로 볼지가 기둥 모멘트와 기초 크기를 바꿉니다. 구속을 늘리는 것이 늘 안전한 선택은 아니라는 감각까지.</p>
-      <p class="pre">선수 M2-08 · M2-10 · M2-11</p>
+      <p class="pre">선수 M1-08 · M2-10 · M2-11</p>
     </div>
     <div class="forms"><span class="chip hot">인터랙티브</span><span class="chip">애니메이션</span></div>
   </div>
